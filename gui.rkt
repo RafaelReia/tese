@@ -1,3 +1,4 @@
+
 #lang racket/base
 #|
 
@@ -816,6 +817,24 @@ If the namespace does not, they are colored the unbound color.
                   [(is-a? menu menu-item<%>) (loop (send menu get-parent))]
                   [else #f])))
             
+            ;;;;; CHANGES ;;;;;
+            (define/private (what-is? menu)
+               (let loop ([menu menu])
+                (cond
+                  [(is-a? menu menu-bar%) (display "menu-bar")]
+                  [(is-a? menu popup-menu%)
+                   (let ([target (send menu get-popup-target)])
+                     (cond
+                       [(is-a? target editor<%>) 
+                        (display "edirtor")]
+                       [(is-a? target window<%>) 
+                        (display "window")]
+                       [else #f]))]
+                  [(is-a? menu menu-item<%>) (display "menu-item")]
+                  [else #f])))
+            
+            ;;;;; End Changes ;;;;;;;;
+            
             (define/private (syncheck:add-menu text start-pos end-pos key make-menu)
               (when arrow-records
                 (when (<= 0 start-pos end-pos (last-position))
@@ -1214,21 +1233,7 @@ If the namespace does not, they are colored the unbound color.
                   (define add-menus (append (map cdr (filter pair? vec-ents))
                                             (filter procedure? vec-ents)))
                   
-                  ;; Start Changes
-                  ;;Add conditions before!
-                  ;I have access to the binding-identifiers and the make-identifiers-hash
-                  (unless (null? binding-identifiers)
-                    (define name-to-offer (find-name-to-offer binding-identifiers))
-                    (make-object menu-item%
-                      "Extract Method"
-                      menu
-                      (λ (item evt)
-                        (let ([frame-parent (find-menu-parent menu)])
-                          (extract-method make-identifiers-hash name-to-offer 
-                                          binding-identifiers frame-parent)))))
-                  
-                  ;; End Changes
-                  
+                 
                   (unless (null? arrows)
                     (add-sep)
                     (make-object menu-item%
@@ -1295,6 +1300,23 @@ If the namespace does not, they are colored the unbound color.
                   
                   (define-values (binding-identifiers make-identifiers-hash)
                     (position->matching-identifiers-hash text pos (+ pos 1) #t))
+                  
+                   ;; Start Changes
+                  ;;Add conditions before!
+                  ;I have access to the binding-identifiers and the make-identifiers-hash
+                  (unless (null? binding-identifiers)
+                    (define name-to-offer (find-name-to-offer binding-identifiers))
+                    (make-object menu-item%
+                      "Extract Method"
+                      menu
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                         ; (what-is? menu) is an editor
+                          (extract-method make-identifiers-hash name-to-offer 
+                                          binding-identifiers frame-parent start-selection end-selection)))))
+                  
+                  ;; End Changes
+                  
                   (unless (null? binding-identifiers)
                     (define name-to-offer (find-name-to-offer binding-identifiers))
                     (new menu-item%
@@ -1529,42 +1551,9 @@ If the namespace does not, they are colored the unbound color.
             
             ;;;; ############### CHANGES ################
             ;;
-            #| (define/private (rename-menu-callback make-identifiers-hash name-to-offer
-                                                  binding-identifiers parent)
-              (define (name-dup? x) 
-                (for/or ([var-arrow (in-list binding-identifiers)])
-                  ((var-arrow-name-dup? var-arrow) x)))
-              (define new-str
-                (fw:keymap:call/text-keymap-initializer
-                 (λ ()
-                   (get-text-from-user
-                    (string-constant cs-rename-id)
-                    (fw:gui-utils:format-literal-label (string-constant cs-rename-var-to) 
-                                                       name-to-offer)
-                    parent
-                    name-to-offer
-                    #:dialog-mixin frame:focus-table-mixin))))
-              (when new-str
-                (define new-sym (format "~s" (string->symbol new-str)))
-                (define dup-name? (name-dup? new-sym))
-                
-                (define do-renaming?
-                  (or (not dup-name?)
-                      (equal?
-                       (message-box/custom
-                        (string-constant check-syntax)
-                        (fw:gui-utils:format-literal-label
-                         (string-constant cs-name-duplication-error) 
-                         new-sym)
-                        (string-constant cs-rename-anyway)
-                        (string-constant cancel)
-                        #f
-                        parent
-                        '(stop default=2)
-                        #:dialog-mixin frame:focus-table-mixin)
-                       1)))|#
+           
             ;; callback for the Added-menu Extract Method
-            (define/private (extract-method make-identifiers-hash name-to-offer binding-identifiers parent)
+            (define/private (extract-method make-identifiers-hash name-to-offer binding-identifiers parent start-selection end-selection)
               (define (name-dup? x) 
                 (for/or ([var-arrow (in-list binding-identifiers)])
                   ((var-arrow-name-dup? var-arrow) x)))
@@ -1586,10 +1575,13 @@ If the namespace does not, they are colored the unbound color.
               ;;;   Go to new location
               ;;;   Rewrite there
               ;;; Test algorithm
+              (displayln start-selection)
+              (displayln end-selection)
               (when new-str
                 (define new-sym (format "~s" (string->symbol new-str)))
                 (define dup-name? (name-dup? new-sym))
                 
+                ;;check if the rename will be done
                 (define do-renaming?
                   (or (not dup-name?)
                       (equal?
@@ -1606,6 +1598,7 @@ If the namespace does not, they are colored the unbound color.
                         #:dialog-mixin frame:focus-table-mixin)
                        1)))
                 
+                ;;actual rename
                 (when do-renaming?
                   (define edit-sequence-txts (list this))
                   (define per-txt-positions (make-hash))
@@ -1621,11 +1614,37 @@ If the namespace does not, they are colored the unbound color.
                       (for ([start+end (in-list (reverse merged-positions))])
                         (define start (car start+end))
                         (define end (cdr start+end))
+                        ;teste
+                        ;(displayln "passou" )
+                        ;(displayln (send source-txt get-text start end #f))
+                        ;(display "start ")
+                        ;(displayln start)
+                        ;(display " end ")
+                        ;(displayln end)
+                        ;(displayln edit-sequence-txts)
+                        
+                        ;(displayln edit-sequence-txts)
+                        ;teste
                         (unless (memq source-txt edit-sequence-txts)
                           (send source-txt begin-edit-sequence)
                           (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
                         (send source-txt delete start end #f)
-                        (send source-txt insert new-sym start start #f))))
+                        (send source-txt insert new-sym start start #f)
+                        ;changes
+                        ;(define brincando "bla bla")
+                        ;(send source-txt insert brincando (+ start (string-length new-sym)) (+ start (string-length new-sym)) #t) 
+                        ; Create fuction to create function calls.
+                        
+                        ;Call it, change the function to the function call.
+                        
+                        ; Write the function in the end of the file
+                        (send source-txt insert "teste" (send source-txt last-position) (send source-txt last-position))  ;write this string in the end of the file
+                        
+                        ;(send source-txt delete (+ start (string-length new-sym)) (+ end (string-length brincando) (string-length new-sym)) #f)
+                        ;(send source-txt delete start end #f)  be careful because this counts characters and all have to be taken into account
+                        ;(send source-txt insert new-sym start start #f)
+                        ;end changes
+                        )))
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))))
               (displayln "you rule")
