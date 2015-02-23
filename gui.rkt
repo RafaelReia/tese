@@ -1,4 +1,3 @@
-
 #lang racket/base
 #|
 
@@ -728,8 +727,56 @@ If the namespace does not, they are colored the unbound color.
             ;;; Changes
             ;; Check Arrows boundaries
             (define/private (examine-identifiers make-identifiers-aux binding-aux)
+              (define (travel-args) 
+                (for ([var-arrow (in-list binding-aux)])
+                  (begin
+                    (if (eq? (var-arrow-level var-arrow) 'lexical)
+                        (begin 
+                          (display "Arrow lexical ")
+                          (displayln  (var-arrow-level var-arrow))
+                          )
+                        (begin
+                          (display "Arrow fail ")
+                          (displayln var-arrow)))
+                    
+                    )))
+              (travel-args)
+              #|(define new-str
+                (fw:keymap:call/text-keymap-initializer
+                 (λ ()
+                   (get-text-from-user
+                    (string-constant cs-rename-id)
+                    (fw:gui-utils:format-literal-label (string-constant cs-rename-var-to) 
+                                                       name-to-offer)
+                    parent
+                    name-to-offer
+                    #:dialog-mixin frame:focus-table-mixin))))
               
-              (void) ;TODO!!!
+              (when new-str
+                (define new-sym (format "~s" (string->symbol new-str)))
+                (define dup-name? (name-dup? new-sym))
+                (define edit-sequence-txts (list this))
+                (define per-txt-positions (make-hash))
+                (for ([(k _) (in-hash (make-identifiers-aux))])
+                  (define-values (txt start-pos end-pos) (apply values k))
+                  (hash-set! per-txt-positions txt 
+                             (cons (cons start-pos end-pos)
+                                   (hash-ref per-txt-positions txt '()))))
+                (for ([(source-txt start+ends) (in-hash per-txt-positions)])
+                  (when (is-a? source-txt text%)
+                    (define merged-positions (sort-and-merge start+ends))
+                    (begin-edit-sequence)
+                    (for ([start+end (in-list (reverse merged-positions))])
+                      (define start (car start+end))
+                      (define end (cdr start+end))
+                      (unless (memq source-txt edit-sequence-txts)
+                        ;(send source-txt begin-edit-sequence)
+                        (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
+                      ;(send source-txt delete start end #f)
+                      (display (send source-txt get-text start end))
+                      ;(send source-txt insert new-sym start start #f)
+                      (displayln new-sym)
+                      ))))|#
               )
             #|(define (name-dup? x) 
                 (for/or ([var-arrow (in-list binding-identifiers)])
@@ -1343,6 +1390,8 @@ If the namespace does not, they are colored the unbound color.
                   (define-values (binding-aux make-identifiers-aux)
                     (position->matching-identifiers-hash text start-selection end-selection #t))
                   
+                  ;(examine-identifiers make-identifiers-aux binding-aux)
+                  
                   (unless (null? binding-identifiers)
                     (define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
@@ -1351,8 +1400,9 @@ If the namespace does not, they are colored the unbound color.
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           ; (what-is? menu) is an editor
+                          (examine-identifiers make-identifiers-aux binding-aux)
                           (extract-method make-identifiers-hash name-to-offer 
-                                          binding-identifiers frame-parent text start-selection end-selection)))))
+                                          binding-identifiers frame-parent text start-selection end-selection binding-aux)))))
                   
                   ;; End Changes
                   
@@ -1597,7 +1647,7 @@ If the namespace does not, they are colored the unbound color.
             ;;
             
             ;; callback for the Added-menu Extract Method
-            (define/private (extract-method make-identifiers-hash name-to-offer binding-identifiers parent text start-selection end-selection)
+            (define/private (extract-method make-identifiers-hash name-to-offer binding-identifiers parent text start-selection end-selection binding-aux)
               (define (name-dup? x) 
                 (for/or ([var-arrow (in-list binding-identifiers)])
                   ((var-arrow-name-dup? var-arrow) x)))
@@ -1611,15 +1661,7 @@ If the namespace does not, they are colored the unbound color.
                     parent
                     name-to-offer
                     #:dialog-mixin frame:focus-table-mixin))))
-              ;;; $$$ TODO $$$
-              ;;; Check the Rename
-              ;;; Modify the Do-rename and change to rewrite Method
-              ;;;   Check location
-              ;;;   Add call to new function
-              ;;;   Go to new location
-              ;;;   Rewrite there
-              ;;; Test algorithm
-              ;(displayln start-selection) (displayln end-selection)
+              
               (when new-str
                 (define new-sym (format "~s" (string->symbol new-str)))
                 (define dup-name? (name-dup? new-sym))
@@ -1646,31 +1688,57 @@ If the namespace does not, they are colored the unbound color.
                   (define edit-sequence-txts (list this))
                   (define per-txt-positions (make-hash))
                   (define (create-call-method method-name)
-                    (string-append "(" method-name ")")
+                    (string-append "(" method-name " " (get-args) ")")
                     )
                   (define (get-args)
-                    ""
+                    (define args-pos (list))
+                    (define args "")
+                    (define (travel-args) 
+                      (for ([var-arrow (in-list binding-aux)])
+                        (begin
+                          (if (eq? (var-arrow-level var-arrow) 'lexical)
+                              (begin 
+                                (display "Arrow lexical ")
+                                (displayln  (var-arrow-level var-arrow))
+                                (set! args-pos (cons var-arrow args-pos))
+                                )
+                              (begin
+                                (display "Arrow fail ")
+                                (displayln var-arrow)))
+                          
+                          )))
+                      (travel-args)
+                      (for ([var-arrow (in-list args-pos)])
+                        (begin
+                          (set! args (string-append args " " (send text get-text (var-arrow-start-pos-left var-arrow) (var-arrow-start-pos-right var-arrow))))
+                          )
+                        )
+                    (set! args (substring args 1))
+                    (display "args ")
+                    (displayln args)
+                    args
+                    
                     )
                   
                   (define (create-method method-body method-name)
-                    (string-append "\n(define (" method-name (get-args) ")" "\n  " method-body ")" )
+                    (string-append "\n(define (" method-name " "(get-args) ")" "\n  " method-body ")" )
                     )
                   
                   (displayln "define method-definition")
                   (define method-definition (send text get-text start-selection end-selection #t #t))
                   
                   (begin-edit-sequence)
-                  (displayln "begin")
+                  ;(displayln "begin")
                   (unless (memq text edit-sequence-txts)
                     (send text begin-edit-sequence)
                     (set! edit-sequence-txts (cons text edit-sequence-txts)))
-                  (displayln "before delete")
+                  ;(displayln "before delete")
                   (send text delete start-selection end-selection)
-                  (displayln "before insert")
+                  ;(displayln "before insert")
                   (send text insert (create-call-method new-str) start-selection)
-                  (displayln "before move")
+                  ;(displayln "before move")
                   (send text insert (create-method method-definition new-str) (send text last-position) (send text last-position))
-                  (displayln "end")
+                  ;(displayln "end")
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))
                   
