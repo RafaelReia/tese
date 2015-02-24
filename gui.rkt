@@ -25,6 +25,8 @@ If the namespace does not, they are colored the unbound color.
          racket/class
          racket/dict
          racket/set
+         racket/string
+         racket/list
          racket/runtime-path
          racket/place
          data/interval-map
@@ -1395,14 +1397,14 @@ If the namespace does not, they are colored the unbound color.
                   (unless (null? binding-identifiers)
                     (define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
-                      "Extract Method"
+                      "Extract Function"
                       menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           ; (what-is? menu) is an editor
                           (examine-identifiers make-identifiers-aux binding-aux)
-                          (extract-method make-identifiers-hash name-to-offer 
-                                          binding-identifiers frame-parent text start-selection end-selection binding-aux)))))
+                          (extract-function make-identifiers-hash name-to-offer 
+                                            binding-identifiers frame-parent text start-selection end-selection binding-aux)))))
                   
                   ;; End Changes
                   
@@ -1647,7 +1649,7 @@ If the namespace does not, they are colored the unbound color.
             ;;
             
             ;; callback for the Added-menu Extract Method
-            (define/private (extract-method make-identifiers-hash name-to-offer binding-identifiers parent text start-selection end-selection binding-aux)
+            (define/private (extract-function make-identifiers-hash name-to-offer binding-identifiers parent text start-selection end-selection binding-aux)
               (define (name-dup? x) 
                 (for/or ([var-arrow (in-list binding-identifiers)])
                   ((var-arrow-name-dup? var-arrow) x)))
@@ -1655,12 +1657,12 @@ If the namespace does not, they are colored the unbound color.
                 (fw:keymap:call/text-keymap-initializer
                  (λ ()
                    (get-text-from-user
-                    (string-constant cs-rename-id)
-                    (fw:gui-utils:format-literal-label (string-constant cs-rename-var-to) 
-                                                       name-to-offer)
+                    (fw:gui-utils:format-literal-label "Extract Function")
+                    (fw:gui-utils:format-literal-label "Name of the new function")
                     parent
-                    name-to-offer
+                     (fw:gui-utils:format-literal-label "name") ;check if name colides?? 
                     #:dialog-mixin frame:focus-table-mixin))))
+              
               
               (when new-str
                 (define new-sym (format "~s" (string->symbol new-str)))
@@ -1694,26 +1696,32 @@ If the namespace does not, they are colored the unbound color.
                     (define args-pos (list))
                     (define args "")
                     (define (travel-args) 
-                      (for ([var-arrow (in-list binding-aux)])
+                      (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
                         (begin
-                          (if (eq? (var-arrow-level var-arrow) 'lexical)
+                          (if (eq? (var-arrow-level var-arrow) 'lexical) ; check if add args.
                               (begin 
                                 (display "Arrow lexical ")
                                 (displayln  (var-arrow-level var-arrow))
+                                (displayln (send text get-text  (var-arrow-start-pos-left var-arrow) (var-arrow-start-pos-right var-arrow)))
                                 (set! args-pos (cons var-arrow args-pos))
                                 )
                               (begin
-                                (display "Arrow fail ")
-                                (displayln var-arrow)))
+                                (void)
+                                ;(display "Arrow fail ")
+                                ;(displayln var-arrow))
+                                )
+                              )
                           
                           )))
-                      (travel-args)
-                      (for ([var-arrow (in-list args-pos)])
-                        (begin
-                          (set! args (string-append args " " (send text get-text (var-arrow-start-pos-left var-arrow) (var-arrow-start-pos-right var-arrow))))
-                          )
+                    (travel-args)
+                    (for ([var-arrow (in-list args-pos)])
+                      (begin
+                        (set! args (string-append args " " (send text get-text (var-arrow-start-pos-left var-arrow) (var-arrow-start-pos-right var-arrow))))
                         )
-                    (set! args (substring args 1))
+                      )
+                    
+                    (set! args (string-join (remove-duplicates (string-split args)))) ;remove duplicates
+                    (string-normalize-spaces args)
                     (display "args ")
                     (displayln args)
                     args
@@ -1737,8 +1745,25 @@ If the namespace does not, they are colored the unbound color.
                   ;(displayln "before insert")
                   (send text insert (create-call-method new-str) start-selection)
                   ;(displayln "before move")
-                  (send text insert (create-method method-definition new-str) (send text last-position) (send text last-position))
+                  
+                  ;In order to put the new changes in the clipboard
+                  ;write the text in the last position of the file, then "cut" it
+                  (let ([last-pos (send text last-position)])
+                    (send text insert (create-method method-definition new-str) last-pos last-pos)
+                    (send text cut #f 0 last-pos (send text last-position)) ; time stamp might fail really hard.
+                    
+                    (message-box/custom
+                        (fw:gui-utils:format-literal-label "Title Extract-Function End")
+                        (fw:gui-utils:format-literal-label "The Extracted Function is now on your Clipboard")
+                        (fw:gui-utils:format-literal-label "Ok")
+                        ;(string-constant cancel)
+                        #f ;#f means that we are not using this button, maximum is 3 button
+                        #f
+                        parent
+                        '(caution default=1)
+                        #:dialog-mixin frame:focus-table-mixin)
                   ;(displayln "end")
+                    )
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))
                   
