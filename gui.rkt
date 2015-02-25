@@ -729,81 +729,14 @@ If the namespace does not, they are colored the unbound color.
             ;;; Changes
             ;; Check Arrows boundaries
             (define/private (examine-identifiers make-identifiers-aux binding-aux)
-              (define (travel-args) 
-                (for ([var-arrow (in-list binding-aux)])
-                  (begin
-                    (if (eq? (var-arrow-level var-arrow) 'lexical)
-                        (begin 
-                          (display "Arrow lexical ")
-                          (displayln  (var-arrow-level var-arrow))
-                          )
-                        (begin
-                          (display "Arrow fail ")
-                          (displayln var-arrow)))
-                    
-                    )))
-              (travel-args)
-              #|(define new-str
-                (fw:keymap:call/text-keymap-initializer
-                 (λ ()
-                   (get-text-from-user
-                    (string-constant cs-rename-id)
-                    (fw:gui-utils:format-literal-label (string-constant cs-rename-var-to) 
-                                                       name-to-offer)
-                    parent
-                    name-to-offer
-                    #:dialog-mixin frame:focus-table-mixin))))
+              (for ([var-arrow (in-list binding-aux)])
+                (if (eq? (var-arrow-level var-arrow) 'lexical)
+                    (void)
+                    (void))
+                )
               
-              (when new-str
-                (define new-sym (format "~s" (string->symbol new-str)))
-                (define dup-name? (name-dup? new-sym))
-                (define edit-sequence-txts (list this))
-                (define per-txt-positions (make-hash))
-                (for ([(k _) (in-hash (make-identifiers-aux))])
-                  (define-values (txt start-pos end-pos) (apply values k))
-                  (hash-set! per-txt-positions txt 
-                             (cons (cons start-pos end-pos)
-                                   (hash-ref per-txt-positions txt '()))))
-                (for ([(source-txt start+ends) (in-hash per-txt-positions)])
-                  (when (is-a? source-txt text%)
-                    (define merged-positions (sort-and-merge start+ends))
-                    (begin-edit-sequence)
-                    (for ([start+end (in-list (reverse merged-positions))])
-                      (define start (car start+end))
-                      (define end (cdr start+end))
-                      (unless (memq source-txt edit-sequence-txts)
-                        ;(send source-txt begin-edit-sequence)
-                        (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
-                      ;(send source-txt delete start end #f)
-                      (display (send source-txt get-text start end))
-                      ;(send source-txt insert new-sym start start #f)
-                      (displayln new-sym)
-                      ))))|#
+              
               )
-            #|(define (name-dup? x) 
-                (for/or ([var-arrow (in-list binding-identifiers)])
-                  ((var-arrow-name-dup? var-arrow) x)))
- 
-                  (for ([(k _) (in-hash (make-identifiers-hash))])
-                    (define-values (txt start-pos end-pos) (apply values k))
-                    (hash-set! per-txt-positions txt 
-                               (cons (cons start-pos end-pos)
-                                     (hash-ref per-txt-positions txt '()))))
-                  (for ([(source-txt start+ends) (in-hash per-txt-positions)])
-                    (when (is-a? source-txt text%)
-                      (define merged-positions (sort-and-merge start+ends))
-                      (begin-edit-sequence)
-                      (for ([start+end (in-list (reverse merged-positions))])
-                        (define start (car start+end))
-                        (define end (cdr start+end))
-                        (unless (memq source-txt edit-sequence-txts)
-                          (send source-txt begin-edit-sequence)
-                          (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
-                        (send source-txt delete start end #f)
-                        (send source-txt insert new-sym start start #f))))
-
-|#
-            
             
             ;;;; End Changes
             
@@ -1394,17 +1327,27 @@ If the namespace does not, they are colored the unbound color.
                   
                   ;(examine-identifiers make-identifiers-aux binding-aux)
                   
-                  (unless (null? binding-identifiers)
-                    (define name-to-offer (find-name-to-offer binding-identifiers))
+                  (unless (null? binding-aux)
+                    ;(define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
                       "Extract Function"
                       menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           ; (what-is? menu) is an editor
-                          (examine-identifiers make-identifiers-aux binding-aux)
-                          (extract-function make-identifiers-hash name-to-offer 
-                                            binding-identifiers frame-parent text start-selection end-selection binding-aux)))))
+                          
+                          (extract-function make-identifiers-hash binding-identifiers
+                                            frame-parent text start-selection end-selection binding-aux)))))
+                  (unless (null? binding-aux)
+                    ;(define name-to-offer (find-name-to-offer binding-identifiers))
+                    (make-object menu-item%
+                      "Eta Reduction"
+                      menu
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                          ; (what-is? menu) THIS IS (an) EDITOR
+                          
+                          (eta-reduction frame-parent text start-selection end-selection binding-aux)))))
                   
                   ;; End Changes
                   
@@ -1648,8 +1591,35 @@ If the namespace does not, they are colored the unbound color.
             ;;;; ############### CHANGES ################
             ;;
             
+            ;; callback for the Added-menu Eta Reduction
+            (define/private (eta-reduction parent text start-selection end-selection binding-aux)
+              (displayln "THIS IS ETA-REDUCTION!!")
+              (define result (list))
+              (let ([counter 0])
+                (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
+                  
+                  (begin
+                    (when (and (eq? (var-arrow-level var-arrow) 'lexical) 
+                               (or (> (var-arrow-start-pos-left var-arrow) start-selection)
+                                   (< (var-arrow-start-pos-right var-arrow) end-selection))) ; check if add args.
+                      (begin
+                        (displayln "An Arg was found")
+                        (displayln (var-arrow-start-pos-left var-arrow))
+                        (set! counter (+ counter 1))
+                        (set! result (cons var-arrow result))
+                        )
+                      )
+                    ))
+                
+                (set! result (remove-duplicates result = #:key(lambda (x) (var-arrow-start-pos-left x))))
+                (display counter)
+                (display " after removing duplicates ")
+                (display (length result))
+                (displayln " args found") 
+                )
+              )
             ;; callback for the Added-menu Extract Method
-            (define/private (extract-function make-identifiers-hash name-to-offer binding-identifiers parent text start-selection end-selection binding-aux)
+            (define/private (extract-function make-identifiers-hash binding-identifiers parent text start-selection end-selection binding-aux)
               (define (name-dup? x) 
                 (for/or ([var-arrow (in-list binding-identifiers)])
                   ((var-arrow-name-dup? var-arrow) x)))
@@ -1660,7 +1630,7 @@ If the namespace does not, they are colored the unbound color.
                     (fw:gui-utils:format-literal-label "Extract Function")
                     (fw:gui-utils:format-literal-label "Name of the new function")
                     parent
-                     (fw:gui-utils:format-literal-label "name") ;check if name colides?? 
+                    (fw:gui-utils:format-literal-label "name") ;check if name colides?? 
                     #:dialog-mixin frame:focus-table-mixin))))
               
               
@@ -1668,7 +1638,7 @@ If the namespace does not, they are colored the unbound color.
                 (define new-sym (format "~s" (string->symbol new-str)))
                 (define dup-name? (name-dup? new-sym))
                 
-                ;;check if the rename will be done
+                ;;check the name of the new function
                 (define do-extraction?
                   (or (not dup-name?)
                       (equal?
@@ -1698,11 +1668,23 @@ If the namespace does not, they are colored the unbound color.
                     (define (travel-args) 
                       (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
                         (begin
-                          (if (eq? (var-arrow-level var-arrow) 'lexical) ; check if add args.
+                          (if (and (eq? (var-arrow-level var-arrow) 'lexical) 
+                                   (or (< (var-arrow-start-pos-left var-arrow) start-selection)
+                                       (> (var-arrow-start-pos-right var-arrow) end-selection))) ; check if add args.
                               (begin 
-                                (display "Arrow lexical ")
-                                (displayln  (var-arrow-level var-arrow))
+                                ;(display "Arrow lexical")
+                                ;(displayln  (var-arrow-level var-arrow))
+                                ;(display "begin position ")
+                                ;(display start-selection)
+                                ;(display " end position")
+                                ;(displayln end-selection)
+                                ;(display "positions: Left ")
+                                ;(display (var-arrow-start-pos-left var-arrow))
+                                ;(display " right ")
+                                ;(displayln (var-arrow-start-pos-right var-arrow))
+                                (display "get-text value: ")
                                 (displayln (send text get-text  (var-arrow-start-pos-left var-arrow) (var-arrow-start-pos-right var-arrow)))
+                                
                                 (set! args-pos (cons var-arrow args-pos))
                                 )
                               (begin
@@ -1732,7 +1714,7 @@ If the namespace does not, they are colored the unbound color.
                     (string-append "\n(define (" method-name " "(get-args) ")" "\n  " method-body ")" )
                     )
                   
-                  (displayln "define method-definition")
+                  ;(displayln "define method-definition")
                   (define method-definition (send text get-text start-selection end-selection #t #t))
                   
                   (begin-edit-sequence)
@@ -1753,16 +1735,16 @@ If the namespace does not, they are colored the unbound color.
                     (send text cut #f 0 last-pos (send text last-position)) ; time stamp might fail really hard.
                     
                     (message-box/custom
-                        (fw:gui-utils:format-literal-label "Title Extract-Function End")
-                        (fw:gui-utils:format-literal-label "The Extracted Function is now on your Clipboard")
-                        (fw:gui-utils:format-literal-label "Ok")
-                        ;(string-constant cancel)
-                        #f ;#f means that we are not using this button, maximum is 3 button
-                        #f
-                        parent
-                        '(caution default=1)
-                        #:dialog-mixin frame:focus-table-mixin)
-                  ;(displayln "end")
+                     (fw:gui-utils:format-literal-label "Title Extract-Function End")
+                     (fw:gui-utils:format-literal-label "The Extracted Function is now on your Clipboard")
+                     (fw:gui-utils:format-literal-label "Ok")
+                     ;(string-constant cancel)
+                     #f ;#f means that we are not using this button, maximum is 3 button
+                     #f
+                     parent
+                     '(caution default=1)
+                     #:dialog-mixin frame:focus-table-mixin)
+                    ;(displayln "end")
                     )
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))
