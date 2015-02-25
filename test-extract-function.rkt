@@ -1,13 +1,17 @@
 #lang racket
 
+
+(define (soma a b)
+  (+ a b))
 ;easy test
 (define (fun a b)
-  (+ a b)
+  (soma a b)
   )
+
 
 ;test let
 (define (teste a b)
-  (let ([a 7]
+ (let ([a 7]
         [d 6])
     (+ a b d)))
 
