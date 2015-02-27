@@ -1595,6 +1595,36 @@ If the namespace does not, they are colored the unbound color.
             (define/private (eta-reduction parent text start-selection end-selection binding-aux)
               (displayln "THIS IS ETA-REDUCTION!!")
               (define result (list))
+              (define calls (list))
+              (define (eta-one arg-pos-begin arg-pos-end)
+                (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
+                  
+                  (begin ;Check if it's the end of the arg or the selection
+                
+                    ;(display arg-pos-begin)
+                    ;(display  "  begin comparison " )
+                    ;(displayln (var-arrow-end-pos-left var-arrow))
+
+                    ;(display (var-arrow-end-pos-right var-arrow))
+                    ;(display  "  end comparison " )
+                    ;(displayln arg-pos-end)
+                            
+                    (when (and (> (var-arrow-end-pos-left var-arrow) arg-pos-begin)
+                                (< (var-arrow-end-pos-right var-arrow) arg-pos-end)) ; check if add func. 
+                      (begin
+                        ;(displayln "An call was found")
+                        (displayln (var-arrow-start-pos-left var-arrow))
+                        (set! calls (cons var-arrow calls))
+                        )
+                      )
+                    ))
+                (displayln "end for")
+                (set! calls (remove-duplicates calls = #:key(lambda (x) (var-arrow-end-pos-left x))))
+                (displayln (length calls))
+                )
+              
+              
+            
               (let ([counter 0])
                 (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
                   
@@ -1609,14 +1639,16 @@ If the namespace does not, they are colored the unbound color.
                         (set! result (cons var-arrow result))
                         )
                       )
-                    ))
-                
-                (set! result (remove-duplicates result = #:key(lambda (x) (var-arrow-start-pos-left x))))
-                (display counter)
-                (display " after removing duplicates ")
-                (display (length result))
-                (displayln " args found") 
-                )
+                    )))
+              
+              (set! result (remove-duplicates result = #:key(lambda (x) (var-arrow-start-pos-left x))))
+              (display (length result))
+              (displayln " args found") 
+              (if (= (length result) 1 )
+                  (eta-one (var-arrow-start-pos-left (car result)) (var-arrow-end-pos-left (car result)))
+                  (displayln " !! Sorry not Ready yet :( !! ")
+                  )
+              
               )
             ;; callback for the Added-menu Extract Method
             (define/private (extract-function make-identifiers-hash binding-identifiers parent text start-selection end-selection binding-aux)

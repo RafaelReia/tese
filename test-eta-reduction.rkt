@@ -4,7 +4,7 @@
 
 
 ;; by applying eta reduction on this
-(lambda (x) (soma x)) 
+(lambda (x) (car x)) 
 
 ;; it should get this
 soma

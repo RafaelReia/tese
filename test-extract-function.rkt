@@ -47,3 +47,15 @@
 (let ([g 6])
   (let ([h 8])
     (+ g h)))
+
+
+(define x (make-parameter 1))
+(x)
+(parameterize  ((x 10))
+ (x))
+
+
+(let fac ([n 10])
+ (if (zero? n)
+     1
+     (fac (sub1 n))))
