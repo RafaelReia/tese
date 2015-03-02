@@ -1593,6 +1593,9 @@ If the namespace does not, they are colored the unbound color.
             
             ;; callback for the Added-menu Eta Reduction
             (define/private (eta-reduction parent text start-selection end-selection binding-aux)
+              ;(define ip (open-input-string (send text get-text start-selection end-selection)))
+              ;(set! ip (open-input-string (send text get-text 13 (send text get-end-position))))
+              ;(displayln (syntax-e (read-syntax (send text get-text) ip)))
               (displayln "THIS IS ETA-REDUCTION!!")
               (define result (list))
               (define calls (list))
@@ -1600,15 +1603,6 @@ If the namespace does not, they are colored the unbound color.
                 (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
                   
                   (begin ;Check if it's the end of the arg or the selection
-                
-                    ;(display arg-pos-begin)
-                    ;(display  "  begin comparison " )
-                    ;(displayln (var-arrow-end-pos-left var-arrow))
-
-                    ;(display (var-arrow-end-pos-right var-arrow))
-                    ;(display  "  end comparison " )
-                    ;(displayln arg-pos-end)
-                            
                     (when (and (> (var-arrow-end-pos-left var-arrow) arg-pos-begin)
                                 (< (var-arrow-end-pos-right var-arrow) arg-pos-end)) ; check if add func. 
                       (begin
@@ -1621,10 +1615,43 @@ If the namespace does not, they are colored the unbound color.
                 (displayln "end for")
                 (set! calls (remove-duplicates calls = #:key(lambda (x) (var-arrow-end-pos-left x))))
                 (displayln (length calls))
+                ;; write the reduction
+                
+                ;;get call
+                (let ([call (send text get-text  (var-arrow-end-pos-left (car calls)) (var-arrow-end-pos-right (car calls)))]
+                      [edit-sequence-txts (list this)])
+                  (displayln call)
+                  ;;start editiing
+                  (begin-edit-sequence)
+                  ;(displayln "begin")
+                  (send text begin-edit-sequence)
+                  (set! edit-sequence-txts (cons text edit-sequence-txts))
+                  
+               
+                  ;;Delete the text
+                  (send text delete start-selection end-selection)
+                  
+                  
+                  ;;write call
+                  (send text insert call start-selection)
+                  
+                  ;; end Editing
+                  
+                  (for ([txt (in-list edit-sequence-txts)])
+                    (send txt end-edit-sequence))
+                  )
+                )
+              (define (eta-two var-pos-lst)
+                ;;this is done for only two args, might change.
+                (let ([arg1 (caar var-pos-lst)]
+                      [arg2 (cadr var-pos-lst)])
+                  
+                  (void))
+                
+                
                 )
               
               
-            
               (let ([counter 0])
                 (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
                   
@@ -1646,8 +1673,10 @@ If the namespace does not, they are colored the unbound color.
               (displayln " args found") 
               (if (= (length result) 1 )
                   (eta-one (var-arrow-start-pos-left (car result)) (var-arrow-end-pos-left (car result)))
-                  (displayln " !! Sorry not Ready yet :( !! ")
+                  (eta-two result)
                   )
+              (display "read-syntax test")
+              
               
               )
             ;; callback for the Added-menu Extract Method
