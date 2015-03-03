@@ -7,7 +7,7 @@
 (lambda (x) (car x)) 
 
 ;; it should get this
-soma
+;soma
 
 ;; should be possible to use eta reduction here.
 (map (lambda (x) (abs x))
@@ -16,4 +16,4 @@ soma
 
 ;;teste
 
-(lambda (x y) (soma x y))
+(lambda (x y) (+ x y))

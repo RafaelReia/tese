@@ -1603,20 +1603,18 @@ If the namespace does not, they are colored the unbound color.
                 (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
                   
                   (begin ;Check if it's the end of the arg or the selection
-                    (when (and (> (var-arrow-end-pos-left var-arrow) arg-pos-begin)
-                                (< (var-arrow-end-pos-right var-arrow) arg-pos-end)) ; check if add func. 
+                    (when (and (> (var-arrow-end-pos-left var-arrow) arg-pos-begin) ;it's end because it is a function, the start is somewhere or is Racket
+                               (< (var-arrow-end-pos-right var-arrow) arg-pos-end)) ; check if add func. 
                       (begin
                         ;(displayln "An call was found")
-                        (displayln (var-arrow-start-pos-left var-arrow))
+                        ;(displayln (var-arrow-start-pos-left var-arrow))
                         (set! calls (cons var-arrow calls))
                         )
                       )
                     ))
-                (displayln "end for")
                 (set! calls (remove-duplicates calls = #:key(lambda (x) (var-arrow-end-pos-left x))))
-                (displayln (length calls))
-                ;; write the reduction
-                
+                ;(displayln (length calls))
+                ;; write the reduction 
                 ;;get call
                 (let ([call (send text get-text  (var-arrow-end-pos-left (car calls)) (var-arrow-end-pos-right (car calls)))]
                       [edit-sequence-txts (list this)])
@@ -1626,27 +1624,65 @@ If the namespace does not, they are colored the unbound color.
                   ;(displayln "begin")
                   (send text begin-edit-sequence)
                   (set! edit-sequence-txts (cons text edit-sequence-txts))
-                  
-               
                   ;;Delete the text
                   (send text delete start-selection end-selection)
-                  
-                  
                   ;;write call
                   (send text insert call start-selection)
-                  
                   ;; end Editing
-                  
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))
                   )
                 )
               (define (eta-two var-pos-lst)
-                ;;this is done for only two args, might change.
-                (let ([arg1 (caar var-pos-lst)]
-                      [arg2 (cadr var-pos-lst)])
+                ;;this is done for only two args, for several do somehow a loop that for the nth element does cdr n-1 times and then car
+                (define anCall? #f)
+                (let* ([arg1 (car var-pos-lst)]
+                       [arg2 (cadr var-pos-lst)]
+                       [arg-pos-begin1 (var-arrow-start-pos-left arg1)]
+                       [arg-pos-begin2 (var-arrow-start-pos-left arg2)]
+                       [arg-pos-end1 (var-arrow-end-pos-right arg1)]
+                       [arg-pos-end2 (var-arrow-end-pos-right arg2)])
+                 
+                  (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
+                    (begin ;Check if it's a call, to be a cal it need to be after all args once and before all args
+                      ;because the arrows received (aka the args) are increasing order by the first part of the arrow 
+                      ;it is possible to do the (> arg1 arg2) like this
+                      (when (and (> (var-arrow-end-pos-left var-arrow)  arg-pos-begin2 arg-pos-begin1) ;order changed because how > works.
+                                 (< (var-arrow-end-pos-right var-arrow) arg-pos-end1 arg-pos-end2)) ; check if add func. 
+                        (begin
+                          ;(displayln "An call was found")
+                          ;(displayln (var-arrow-start-pos-left var-arrow))
+                          (set! anCall? #t)
+                          (set! calls (cons var-arrow calls))
+                          )
+                        )
+                      ))
+                  (set! calls (remove-duplicates calls = #:key(lambda (x) (var-arrow-end-pos-left x))))
+                  ;(displayln (length calls))
+                  ;; write the reduction 
+                  ;;get call
+                  (if anCall?
+                      (let ([call (send text get-text  (var-arrow-end-pos-left (car calls)) (var-arrow-end-pos-right (car calls)))]
+                            [edit-sequence-txts (list this)])
+                        (displayln call)
+                        ;;start editiing
+                        (begin-edit-sequence)
+                        ;(displayln "begin")
+                        (send text begin-edit-sequence)
+                        (set! edit-sequence-txts (cons text edit-sequence-txts))
+                        ;;Delete the text
+                        (send text delete start-selection end-selection)
+                        ;;write call
+                        (send text insert call start-selection)
+                        ;; end Editing
+                        (for ([txt (in-list edit-sequence-txts)])
+                          (send txt end-edit-sequence))
+                        )
+                      (void))
                   
-                  (void))
+                  
+                  
+                  )
                 
                 
                 )
@@ -1675,7 +1711,7 @@ If the namespace does not, they are colored the unbound color.
                   (eta-one (var-arrow-start-pos-left (car result)) (var-arrow-end-pos-left (car result)))
                   (eta-two result)
                   )
-              (display "read-syntax test")
+              
               
               
               )
