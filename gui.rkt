@@ -1590,35 +1590,25 @@ If the namespace does not, they are colored the unbound color.
             
             ;;;; ############### CHANGES ################
             ;;
+            ;; callback for the Added-menu Eta abstraction
+            
+            (define/private (eta-abstraction parent text start-selection end-selection binding-aux)
+              (void)
+              
+              
+              )
+            
             
             ;; callback for the Added-menu Eta Reduction
             (define/private (eta-reduction parent text start-selection end-selection binding-aux)
               ;(define ip (open-input-string (send text get-text start-selection end-selection)))
               ;(set! ip (open-input-string (send text get-text 13 (send text get-end-position))))
               ;(displayln (syntax-e (read-syntax (send text get-text) ip)))
-              (displayln "THIS IS ETA-REDUCTION!!")
-              (define result (list))
-              (define calls (list))
-              (define (eta-one arg-pos-begin arg-pos-end)
-                (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
-                  
-                  (begin ;Check if it's the end of the arg or the selection
-                    (when (and (> (var-arrow-end-pos-left var-arrow) arg-pos-begin) ;it's end because it is a function, the start is somewhere or is Racket
-                               (< (var-arrow-end-pos-right var-arrow) arg-pos-end)) ; check if add func. 
-                      (begin
-                        ;(displayln "An call was found")
-                        ;(displayln (var-arrow-start-pos-left var-arrow))
-                        (set! calls (cons var-arrow calls))
-                        )
-                      )
-                    ))
-                (set! calls (remove-duplicates calls = #:key(lambda (x) (var-arrow-end-pos-left x))))
-                ;(displayln (length calls))
-                ;; write the reduction 
-                ;;get call
+              
+              (define (eta-write-reduction text calls start-selection end-selection)
                 (let ([call (send text get-text  (var-arrow-end-pos-left (car calls)) (var-arrow-end-pos-right (car calls)))]
                       [edit-sequence-txts (list this)])
-                  (displayln call)
+                  ;(displayln call)
                   ;;start editiing
                   (begin-edit-sequence)
                   ;(displayln "begin")
@@ -1631,24 +1621,46 @@ If the namespace does not, they are colored the unbound color.
                   ;; end Editing
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))
-                  )
+                  ))
+              (define result (list))
+              (define calls (list))
+              (define (eta-one arg-pos-begin arg-pos-end)
+                (define anCall? #f)
+                (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
+                  
+                  (begin ;Check if it's the end of the arg or the selection
+                    (when (and (> (var-arrow-end-pos-left var-arrow) arg-pos-begin) ;it's end because it is a function, the start is somewhere or is Racket
+                               (< (var-arrow-end-pos-right var-arrow) arg-pos-end)) ; check if add func. 
+                      (begin
+                        ;(displayln "An call was found")
+                        ;(displayln (var-arrow-start-pos-left var-arrow))
+                        (set! anCall? #t)
+                        (set! calls (cons var-arrow calls))
+                        )
+                      )
+                    ))
+                (set! calls (remove-duplicates calls = #:key(lambda (x) (var-arrow-end-pos-left x))))
+                ;(displayln (length calls))
+                ;; write the reduction 
+                ;;get call
+                (if anCall?
+                    (eta-write-reduction text calls start-selection end-selection)
+                    (void))
                 )
               (define (eta-two var-pos-lst)
                 ;;this is done for only two args, for several do somehow a loop that for the nth element does cdr n-1 times and then car
                 (define anCall? #f)
-                (let* ([arg1 (car var-pos-lst)]
-                       [arg2 (cadr var-pos-lst)]
-                       [arg-pos-begin1 (var-arrow-start-pos-left arg1)]
-                       [arg-pos-begin2 (var-arrow-start-pos-left arg2)]
-                       [arg-pos-end1 (var-arrow-end-pos-right arg1)]
-                       [arg-pos-end2 (var-arrow-end-pos-right arg2)])
-                 
+                ;create list with all the begin pos
+                (define startList (map (lambda (var-arrow) (var-arrow-start-pos-left var-arrow)) var-pos-lst))  
+                (set! startList (reverse startList))  
+                ;create list with all the end pos
+                (define endList (map (lambda (var-arrow) (var-arrow-end-pos-left var-arrow)) var-pos-lst))
                   (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
                     (begin ;Check if it's a call, to be a cal it need to be after all args once and before all args
                       ;because the arrows received (aka the args) are increasing order by the first part of the arrow 
                       ;it is possible to do the (> arg1 arg2) like this
-                      (when (and (> (var-arrow-end-pos-left var-arrow)  arg-pos-begin2 arg-pos-begin1) ;order changed because how > works.
-                                 (< (var-arrow-end-pos-right var-arrow) arg-pos-end1 arg-pos-end2)) ; check if add func. 
+                      (when (and (apply > (cons (var-arrow-end-pos-left var-arrow)  startList)) ;order changed because how > works.
+                                 (apply < (cons (var-arrow-end-pos-right var-arrow) endList))) ; check if add func. 
                         (begin
                           ;(displayln "An call was found")
                           ;(displayln (var-arrow-start-pos-left var-arrow))
@@ -1662,35 +1674,14 @@ If the namespace does not, they are colored the unbound color.
                   ;; write the reduction 
                   ;;get call
                   (if anCall?
-                      (let ([call (send text get-text  (var-arrow-end-pos-left (car calls)) (var-arrow-end-pos-right (car calls)))]
-                            [edit-sequence-txts (list this)])
-                        (displayln call)
-                        ;;start editiing
-                        (begin-edit-sequence)
-                        ;(displayln "begin")
-                        (send text begin-edit-sequence)
-                        (set! edit-sequence-txts (cons text edit-sequence-txts))
-                        ;;Delete the text
-                        (send text delete start-selection end-selection)
-                        ;;write call
-                        (send text insert call start-selection)
-                        ;; end Editing
-                        (for ([txt (in-list edit-sequence-txts)])
-                          (send txt end-edit-sequence))
-                        )
+                      (eta-write-reduction text calls start-selection end-selection)
                       (void))
-                  
-                  
-                  
                   )
                 
-                
-                )
               
               
               (let ([counter 0])
                 (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
-                  
                   (begin
                     (when (and (eq? (var-arrow-level var-arrow) 'lexical) 
                                (or (> (var-arrow-start-pos-left var-arrow) start-selection)
@@ -1701,8 +1692,7 @@ If the namespace does not, they are colored the unbound color.
                         (set! counter (+ counter 1))
                         (set! result (cons var-arrow result))
                         )
-                      )
-                    )))
+                      ))))
               
               (set! result (remove-duplicates result = #:key(lambda (x) (var-arrow-start-pos-left x))))
               (display (length result))
@@ -1711,9 +1701,6 @@ If the namespace does not, they are colored the unbound color.
                   (eta-one (var-arrow-start-pos-left (car result)) (var-arrow-end-pos-left (car result)))
                   (eta-two result)
                   )
-              
-              
-              
               )
             ;; callback for the Added-menu Extract Method
             (define/private (extract-function make-identifiers-hash binding-identifiers parent text start-selection end-selection binding-aux)

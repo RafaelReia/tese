@@ -17,3 +17,6 @@
 ;;teste
 
 (lambda (x y) (+ x y))
+(lambda (x y) (soma x y))
+(lambda (x y) (+ y x))
+(lambda (x y z) (+ x y z))
