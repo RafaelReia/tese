@@ -9,6 +9,20 @@
 %create history
 
 %Griswold
+Griswold \cite{griswold1991program} proved that meaning preseerving restructuring can substantively lower the cost of the maintenance of a system and improved the concept of restructuring by creating restructuring operations for the Scheme programming language implemented in Common Lisp. Scheme was chosen because of it's imperative features, simple syntax and it was available a PDG for scheme implemented in Common Lisp.
+
+
+He starts by comparing with manual restructuring by doing an experiment in which each subject was presented with an initial program and a description of the 4 goals of the modification and it was also asked to the subjects to ensure that the modifications were correct, that means that the transformations did not changed the meaning of the program. Even though that they tested with a really small number of subjects, only 6, they managed to get several conclusions on how people manually restructure the programs.
+People use the Copy/Paste or Cut/Paste paradigm to do the restructurings, they copy and paste the code in the desired location.
+The Cut/Paste paradigm is more dangerous because if it was made any error it is more difficult to see how it was before. 
+This study also managed to conclude that people make mistakes even with simple and small programs and the cost of making mistakes is the time to do the restructuring.
+Manual restructuring is haphazard (kinda random) when compared to the computer-assisted process.
+
+
+It was implement simple restructuring operations to prove the concept such as: Moving an expression, renaming a variable, in-lining/abstraction an expression, extracting a function, scope-wide function replacement, adding a reference indirection and adding looping to list references.
+
+
+In order to be able to implement correctly this operations it was used an AST and a PDG
 
 %JunGL
 
@@ -21,3 +35,5 @@
 %Smaltalk
 
 %more dynamic stuff.
+
+%tabel comparing stuff.
