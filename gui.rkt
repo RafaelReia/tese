@@ -1348,6 +1348,16 @@ If the namespace does not, they are colored the unbound color.
                           ; (what-is? menu) THIS IS (an) EDITOR
                           
                           (eta-reduction frame-parent text start-selection end-selection binding-aux)))))
+                  (unless (null? binding-aux)
+                    ;(define name-to-offer (find-name-to-offer binding-identifiers))
+                    (make-object menu-item%
+                      "Eta Abstraction"
+                      menu
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                          ; (what-is? menu) THIS IS (an) EDITOR
+                          
+                          (eta-abstraction frame-parent text start-selection end-selection binding-aux)))))
                   
                   ;; End Changes
                   
@@ -1593,8 +1603,66 @@ If the namespace does not, they are colored the unbound color.
             ;; callback for the Added-menu Eta abstraction
             
             (define/private (eta-abstraction parent text start-selection end-selection binding-aux)
-              (void)
+              (define args (list))
+              (define call (list))
+              (define anything #f)
+              (define (get-special-args call)
+                ;Remove text of call. get literals
+                (string-append "")
+                )
+              (define (write-abstraction call args args-value)
+                (if (> (length args) 0)
+                    (let ([args (send text get-text  (var-arrow-end-pos-left (car args)) (var-arrow-end-pos-right (car args)))]
+                          [args-value (send text get-text  (var-arrow-end-pos-left (car args)) (var-arrow-end-pos-right (car args)))]
+                          [call (send text get-text  (var-arrow-end-pos-left call) (var-arrow-end-pos-right call))])
+                      (string-append "((lambda (" args ")" "(" call " " args ")" ")" args-value ")" ))
+                    (let ([call (send text get-text  (var-arrow-end-pos-left call) (var-arrow-end-pos-right call))])
+                      (string-append "((lambda ("(get-special-args call)")" "(" call " " (get-special-args call) ")" ") " ")" ))))
               
+              ;extract function
+              (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
+                (begin ;Check if it's the end of the arg or the selection
+                  (when (and (> (var-arrow-end-pos-left var-arrow) start-selection) ;it's end because it is a function, the start is somewhere or is Racket
+                             (< (var-arrow-end-pos-right var-arrow) end-selection)) ; check if add func. 
+                    (begin
+                      ;(displayln "something")
+                      (set! anything #t)
+                      (set! args (cons var-arrow args))
+                      )
+                    )
+                  ))
+              (set! args (remove-duplicates args = #:key(lambda (x) (var-arrow-end-pos-left x))))
+              (if anything
+                  (begin
+                    ;(displayln args)
+                    ;(displayln (sort args #:key(lambda (x) (var-arrow-end-pos-left x)) <))
+                    (set! call (first (sort args #:key(lambda (x) (var-arrow-end-pos-left x)) <)))
+                    ;extract args that have arrow. I don't know how to extract the others for now.
+                    (set! args (rest (sort args < #:key(lambda (x) (var-arrow-end-pos-left x))))))
+                  (displayln "nothing"))
+              
+              ;args might be 0 or literals.
+              
+              
+              
+              ;write
+              (let ([call (send text get-text  (var-arrow-end-pos-left call) (var-arrow-end-pos-right call))]
+                    [edit-sequence-txts (list this)]
+                    [abstraction (write-abstraction call args args)])
+                ;(displayln call)
+                ;;start editiing
+                (begin-edit-sequence)
+                ;(displayln "begin")
+                (send text begin-edit-sequence)
+                (set! edit-sequence-txts (cons text edit-sequence-txts))
+                ;;Delete the text
+                (send text delete start-selection end-selection)
+                ;;write call
+                (send text insert abstraction start-selection)
+                ;; end Editing
+                (for ([txt (in-list edit-sequence-txts)])
+                  (send txt end-edit-sequence))
+                )
               
               )
             
@@ -1655,29 +1723,29 @@ If the namespace does not, they are colored the unbound color.
                 (set! startList (reverse startList))  
                 ;create list with all the end pos
                 (define endList (map (lambda (var-arrow) (var-arrow-end-pos-left var-arrow)) var-pos-lst))
-                  (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
-                    (begin ;Check if it's a call, to be a cal it need to be after all args once and before all args
-                      ;because the arrows received (aka the args) are increasing order by the first part of the arrow 
-                      ;it is possible to do the (> arg1 arg2) like this
-                      (when (and (apply > (cons (var-arrow-end-pos-left var-arrow)  startList)) ;order changed because how > works.
-                                 (apply < (cons (var-arrow-end-pos-right var-arrow) endList))) ; check if add func. 
-                        (begin
-                          ;(displayln "An call was found")
-                          ;(displayln (var-arrow-start-pos-left var-arrow))
-                          (set! anCall? #t)
-                          (set! calls (cons var-arrow calls))
-                          )
+                (for ([var-arrow (in-list binding-aux)]) ;check if the arrow counts, 
+                  (begin ;Check if it's a call, to be a cal it need to be after all args once and before all args
+                    ;because the arrows received (aka the args) are increasing order by the first part of the arrow 
+                    ;it is possible to do the (> arg1 arg2) like this
+                    (when (and (apply > (cons (var-arrow-end-pos-left var-arrow)  startList)) ;order changed because how > works.
+                               (apply < (cons (var-arrow-end-pos-right var-arrow) endList))) ; check if add func. 
+                      (begin
+                        ;(displayln "An call was found")
+                        ;(displayln (var-arrow-start-pos-left var-arrow))
+                        (set! anCall? #t)
+                        (set! calls (cons var-arrow calls))
                         )
-                      ))
-                  (set! calls (remove-duplicates calls = #:key(lambda (x) (var-arrow-end-pos-left x))))
-                  ;(displayln (length calls))
-                  ;; write the reduction 
-                  ;;get call
-                  (if anCall?
-                      (eta-write-reduction text calls start-selection end-selection)
-                      (void))
-                  )
-                
+                      )
+                    ))
+                (set! calls (remove-duplicates calls = #:key(lambda (x) (var-arrow-end-pos-left x))))
+                ;(displayln (length calls))
+                ;; write the reduction 
+                ;;get call
+                (if anCall?
+                    (eta-write-reduction text calls start-selection end-selection)
+                    (void))
+                )
+              
               
               
               (let ([counter 0])

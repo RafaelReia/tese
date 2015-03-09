@@ -11,3 +11,11 @@
 
 (quote 1)
 
+(define soma +)
+
+(+ 1 2)
+
+
+(soma 1 2)
+((lambda (x y) (soma x y)) 1 2)
+
