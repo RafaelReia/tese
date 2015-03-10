@@ -1,0 +1,54 @@
+TODO-LIST:
+
+finish this: https://docs.google.com/document/d/1Q784bOBfcq19yht6yBZIju-_KJGf0VrPa9vnOKoEJX0/edit 
+
+Find Papers python
+-Check bicycle repair, refactoring tool python
+-Rope python refactoring tool
+-Tool-supported refactoring for javascript
+-What eclise, netbeans, itelij and visualstudio have for static object oriented languages
+-fix issues github
+-https://github.com/greghendershott/racket-mode check API checksyntax
+-Refactorings: cascata de ifs to cond e defives to/from let
+-Paper
+
+
+
+Paper structure:
+Abstract
+Introduction
+Related work
+	tables
+Architecture/idea/why
+Conclusion
+
+
+
+Talk about meta-programming (i don't want to solve)
+Create simple refactoring to beginner users
+create to a simple IDE like DrRacket
+
+Related work
+Talk about what exist for static and object oriented languages such as Java/C# and the functionalities their IDE's have, eclipse, netbeans, inteliJ and visual studio
+
+Talk about stuff related to dynamic languages, what exist and is done, what is missing.
+Griswold (scheme/drracket)
+Smaltalk
+python
+Javascript
+
+And check what is helpful to the user and is missing for the dynamic languages.
+
+Table ( 1 or 2 tables)
+Compare dynamic vs Static and between dynamic languages
+
+Comment what is missing to dynamic languages.
+
+comparing keys, dynamic/static, multi-languages, simple?, how it's done, number of refactoring/ refactoring coverage, possibility to create new?, etc
+
+Architecture:
+
+Explain the idea that is create a DrRacket prototype and use the functionalities that DrRacket gives and are useful to create refactoring that are interesting to the user, especially the beginner user.
+
+Conclusion:
+Wrap up everything and say that I'm awesome.

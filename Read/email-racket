@@ -1,0 +1,19 @@
+to: Robert Bruce Findler
+
+Subject:
+
+body:
+
+Hi,
+
+I'm trying to do some refactoring operations for DrRacket such as eta-abstraction, 
+for the eta-abstraction I need to know where is the function, and the arguments. I can find the function and the arguments if they are variables using the arrows, however if the arguments are literals I do not have any way to find them without manipulating strings.
+
+I would like a mechanism to know what syntax object exist in the position X, for example to know if it is a literal or not.
+It is possible to access the information that the check-syntax produces? Can you point me to some documentation or file?
+
+I looked how renaming was implemented and Accessing Check Syntax Programmatically but I did not saw anything related to this.
+
+
+Best regards,
+Rafael Reia

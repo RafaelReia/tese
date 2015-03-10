@@ -1,0 +1,4 @@
+Bicycle Repair Man, a Refactoring Tool for Python
+
+
+It is an attempt to create refactoring browser functionality for python. It is a library that can be added to IDEs and editors to provide refactoring capabilities. 
