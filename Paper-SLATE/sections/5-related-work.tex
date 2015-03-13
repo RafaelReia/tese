@@ -5,39 +5,16 @@
 % 
 
 \section{Related Work}
-
+ 
 %create history
 
-%Griswold
-%Characteristics Dynamic language, Simple refactoring operations, Only One language, AST?, PDG?, Easy to create new operations?
-Griswold \cite{griswold1991program} proved that meaning preseerving restructuring can substantively lower the cost of the maintenance of a system and improved the concept of restructuring by creating restructuring operations for the Scheme programming language implemented in Common Lisp. Scheme was chosen because of it's imperative features, simple syntax and it was available a PDG for scheme implemented in Common Lisp.
+\input{sections/related-work/griswold.tex}
+%\input{sections/related-work/jungl.tex}
+\input{sections/related-work/refactoring-javascript.tex} 
+%\input{sections/related-work/smalltalk.tex}
+%\input{sections/related-work/bicycle-python-tool.tex}
+%\input{sections/related-work/rope-python-tool.tex}
 
-
-Griswold starts comparing automated restructuring with manual restructuring by doing an experiment in which each subject was presented with an initial program and a description of the 4 goals of the modification and it was also asked to the subjects to ensure that the modifications were correct, that means that the transformations did not changed the meaning of the program. Even though that they tested with a really small number of subjects, only 6, they managed to get several conclusions on how people manually restructure the programs.
-People used a lot the Copy/Paste or Cut/Paste paradigm to do the restructuring, they copy and paste the code in the desired location. The Cut/Paste paradigm was also used a lot but is more dangerous because if the user made any error it would be more difficult to correct that error. 
-This study also managed to conclude that people make mistakes even with simple and small programs and the cost of making mistakes is the time to do the restructuring.
-Manual restructuring is haphazard (kinda random) when compared to the computer-assisted process.
-
-
-It was implement simple restructuring operations to prove the concept such as: Moving an expression, renaming a variable, in-lining/abstraction an expression, extracting a function, scope-wide function replacement, adding a reference indirection and adding looping to list references.
-
-
-In order to be able to implement correctly this operations it was used contours and a PDG. The main representation of the program is the contours that are an abstraction of the essential semantic properties that the AST represents in an efficient and complete form, but the PDG does not.
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.95\textwidth]{img/Griswold1.png}
-  \caption{Transformation diagrams (dotted arrows are implied mappings)}
-  \label{fig:Griswold}
-\end{figure}
-
-$P$ represents the program in its core format (AST), while $G$ represents the PDG of the program.
-$\delta$p is a function from source program to source programs P' using $\delta$p. 
-({\bf Fig.~\ref{fig:Griswold} b}) shows the PDG G' being reconstructed from P' after $\delta$p is performed. 
-This approach will be unacceptably time-consuming if $\delta$g is not performed. 
-If both $\delta$p and $\delta$g exist then each representation can be updated by its own transformation procedures, yielding efficient updating for both the AST and the PDG. ({\bf Fig.~\ref{fig:Griswold} c})
-
-One way to use the PDG is to translate the program into it’s PDG form, perform the transformation and then convert it back to it’s program form ({\bf Fig.~\ref{fig:Griswold} a}). this allows the use of the nice mathematical properties of the PDG for reasoning about the correctness of the implementation of the transformation function, as well as for the efficient application of semantically-oriented algorithms. However this approach would be unacceptably time-consuming if $\delta$g is not performed. 
-With contours and a way to relate components in the PDG and the AST it is possible to combine then and have a single formalism to reason effectively about flow dependencies and scope structure.
 
 
 %JunGL

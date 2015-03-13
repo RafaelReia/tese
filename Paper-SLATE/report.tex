@@ -3,6 +3,15 @@
 \usepackage{fixltx2e}
 \usepackage{mathtools}
 \usepackage[nolist,nohyperlinks]{acronym}
+%added
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{epstopdf}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{url}
+\usepackage{lipsum}
 % Maintain images and tables within their respective sections
 \usepackage[section]{placeins}
 \usepackage{multicol}
@@ -13,12 +22,15 @@
 
 \begin{document}
 %\begin{multicols}{2}
-\title{Your Thesis title}
+\mainmatter
+\title{Refactoring for dynamic languages}
 
-\subtitle{Your Thesis subtitle}
-\author{your name, your email}
-\institute{your University}
-
+%\subtitle{Your Thesis subtitle}
+\author{Rafael Reia}
+\institute{Instituto Superior Técnico, Universidade de Lisboa
+\path|rafael.reia@tecnico.ulisboa.pt|
+%\url{http://tecnico.ulisboa.pt/}
+}
 \maketitle
 
 \input{sections/1-abstract.tex}

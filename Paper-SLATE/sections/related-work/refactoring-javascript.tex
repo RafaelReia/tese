@@ -1,0 +1,10 @@
+\subsection{Refactoring JavaScript}
+
+The motivation for this work is because there are very few refactoring tools for Javascript, one problem mentioned is the difficulty that the refactoring tools have to deal when compared with refactoring tools for static languages, because when refactoring Javascript they do not have information about the bindings in compile time.
+
+%(DrRacket helps with this by giving an access to the bindings for a correct program, I do not have to compute that, which is awesome!)
+
+The framework uses pointer analysis to help them to define a set of general analysis queries and uses under-approximations and over-approximations of sets and preconditions that are expressed in terms of the analyses queries to be able to create a correct and behavior preserving refactoring operation. If it is not possible for the framework to guarantee behavior preservations, the refactorings are prevented.
+
+
+Because it uses approximations to check whether a refactoring is or is not possible there is a percentage of refactorings that the framework will have unjustified rejections that a manual programmer doing that refactoring would be able to do whereas able to do. However the overall unjustified rejections was 6.2\%. The rejection due to imprecise preconditions was 8.2\% in encapsulate property and it was because of due to rigid preconditions. For imprecise pointer analysis the percentage of unjustified rejections was 5.9\% for the rename and 7.0\% for the encapsulate property.

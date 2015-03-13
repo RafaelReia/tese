@@ -1,0 +1,17 @@
+\subsection{Jungl}
+The JunGL \cite{verbaere2006jungl} is a domain-specific language for refactoring, it is a hybrid of a functional language and a logic query language. The goal is to create a scripting language that allows the user to create their owns refactoring without errors.
+
+\subsubsection{Architecture}
+The JunGL has a Program Graph as main data structure that is composed by nodes and edges and both nodes and edges can have a type. Eg: “cgsucc” - control flow successor. This graph have all the relevant information about the program, including the ASTs, variable binding and control flow.
+
+It defines the Program Dependence Graph using path queries, this allows the correct application of many transformations that need to reorder statements.
+The language has lazy edges that initially are only composed by the ASTs of the program, the rest of the information will be added later to the edges as it may be necessary, like lazy evaluation but for the Program Graph.
+
+One big advantage of the tool is that the tool can handle incomplete programs, when the branch information of the graph is non existent (null branches).
+
+\subsubsection{Performance}
+
+
+The Lazy edges used allows a better performance of the refactoring because the tool will not need to compute unnecessary information and then save computations.
+
+
