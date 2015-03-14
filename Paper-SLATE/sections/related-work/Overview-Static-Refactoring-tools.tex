@@ -1,0 +1,30 @@
+%How we Refactor, and how we know it.
+
+%User data set: collected by Murphy and colleagues [7] in 2005 41 volunteer programmers using eclipse. 95% programmed in java. => Refactoring tools are underused [10]
+
+ 
+%Everyone data set: Is from Eclipse Usage Collector [16] the data used aggregates activity from over 13000 Java developers between 04/08 to 01/09 but also include non-Java developers.
+
+%Toolsmiths data set: 4 developers who primarily maintain eclipse's refactoring tools. 12/05 to 08/07 not publicly available and not described... similar study Robbes [14] that uses data from robbes itself and another developer.
+
+%Eclipse CVS data set: version history of the eclipse and JUnit code bases extracted from their CVS.
+%CVS does not maintain records showing which file revisions were commited as a single transaction (like 1 commit in git or something) => the approach to solve this problem is to find revisions commited by the same developer within a small time window [20] it was used 60 seconds. The word revision is used to refer to a particular version of a file and the word commit to refer to one of these commit transactions. to simplify commit to CVS branches were excluded.
+
+%Many other authors have mined software repositories automatically for refactorings (WeiBgerber and Diehl [18]) they did not know of other reseach that compares refactoring tool logs with code histories.
+
+%Refactoring Behavior, findings:
+
+%=> toolsmith and Users differ.
+% People who develop eclipse refactoring tools have different uses of the refactoring tools than the users.  
+% The most used refactoring was Rename, however users and everyone data set used WAY more that toolsmiths, 62%, 75% and 29% respectivaly. This might happen because the users are not so frequent users of the other refactoring operations. However this analysis might be limited because each data set was gathered in different times and the tools themsleves might be changed in those different times. Another fact that might limit this analysis is that Users included Java and non-Java developers when the others only had Java developers and this might increase the usage of Rename and Move refactorings.
+
+%Programmers often don't configure refactoring tools:
+%It was hypothesized that programmers do not often configure refactoring tools, and to validate this hypothesis it was analyzed the 5 most popular refactoring in the toolsmith set that had configuration options. The average of the configuration is just under 10%. Although different refactoring operations have different configuration percentages. However this analysis have some limitations. The only set that was detailed enough was the toolsmith set, they could not count how often certain configuration options were changed (how often the parameters are reordered when Extract method is performed) and it only examine the 5 most common refactoring, the others could have a different configuration frequency.
+
+%Refactorings are frequent, by using the data sets of users and toolsmiths it was possible to define that refactorings are frequent. in users set, 41% of programming sessions contained refactoring activities, and the sessions that did not have refactoring activities were the sessions where less edits where made, in fact the sessions that contained refactoring activities represent 71% of the total edits by the programmer. and that was consistent over the population. 22 of 31 had an average greater than 72% the remaining 9 had 0 to 63%. 
+%In toolsmith only 2 weeks of the year 2006 did not had any refactoring, and one of them was a winter holidays week. it had 30 refactorings per week in average. in 2007 every week had refactoring activities and the average was 47 refactorings a week.
+
+%Refactoring tools are underused! :( They tried to correlate refactoring activities with tool support to check whether the refactoring is manual or tool assisted, however they where unable to link to 89% of the refactorings to a tool supported refactoring. Ignoring some commits that may have some problems in identifying the refactoring. 73% refactorings were unable to be linked with a tool usage. and all this numbers are computed from the toolsmiths that in theory should be the better group using refactoring tools.
+
+%The refactorings done manually are different to those refactorings done with a tool. Extract method tool is underused only 1/10 was done via tool, all the other 9 were done manually. Remove parameter is performed 8/9 manually. However there are some refactorings that do not have a tool assisted such as modify entity property.
+
