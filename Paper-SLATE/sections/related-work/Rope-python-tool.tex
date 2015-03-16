@@ -1,2 +1,48 @@
 %Rope
 \subsection{Rope}
+
+Rope is a python refactoring tool written in Python, which works like a python library, it is necessary to import it to the your program, and add the project correctly.
+In order to make it easier Rope makes some assumptions about a python program, it assumes that it only has assignments and functions calls %(can this be a bad thing?)
+for the assignments it is simple, because `PyName` objects can handle that. However for functions calls it is necessary to have other approaches in order to obtain the necessary information. 
+
+It uses a Static Object Analysis which analyses the modules or scope to get information about functions. It only analysis the scopes when they changed and only analyses the modules when asked by the user because this approach is time consuming. The other approach is the Dynamic Object Analysis that starts working when a module is running, then it collects information about parameters passed to and returned from functions in order to get all the information needed. The main problem with this approach is that this it is slow while collecting information however it isn't slow while accessing the information.
+
+It stores the information in a `objectdb.ObjectDB`. If it needs the information, and there is nothing on the ObjectDB the Static object inference starts trying to infer the object that is returned from it.
+
+Rope uses an AST in order to store the syntax information about the programs.
+
+Rope features are: 
+	Rename (functions, modules)
+	Extract method/local variable
+	Move class/function/module/package/method
+	inline method/local variable/parameter
+	Restructuring (like converting "${a}.f(${b})" to "${b}.g(${a})" where "a: type=mymod.A") 
+	Introduce factory
+	Change method signature
+	Transform module to package
+	Encapsulate field
+	Replace method with method object
+
+It also can:
+
+    Extract similar statements in extract refactorings
+    Fix imports when needed
+    Preview refactorings
+    Undo/redo refactorings
+    Interrupt refactorings
+    Perform cross-project refactorings
+    Handle basic implicit interfaces in rename and change signature
+    Support Mercurial, GIT, Darcs and SVN in refactorings
+
+And helps IDE's with:
+
+    Auto-completion
+    Finding definition location
+    Getting pydoc
+    Finding occurrences
+    Organizing imports (removing unused and duplicate imports and sorting them)
+    Generating python elements
+
+ %(the PyRefactor a plugin for sublime text 3 that uses Rope https://packagecontrol.io/packages/PyRefactor)
+
+ %It has a module that tries to support build-in types and functions.

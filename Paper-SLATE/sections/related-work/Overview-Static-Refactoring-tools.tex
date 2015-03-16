@@ -1,22 +1,13 @@
 %How we Refactor, and how we know it.
-
-%User data set: collected by Murphy and colleagues [7] in 2005 41 volunteer programmers using eclipse. 95% programmed in java. => Refactoring tools are underused [10]
-
- 
-%Everyone data set: Is from Eclipse Usage Collector [16] the data used aggregates activity from over 13000 Java developers between 04/08 to 01/09 but also include non-Java developers.
-
-%Toolsmiths data set: 4 developers who primarily maintain eclipse's refactoring tools. 12/05 to 08/07 not publicly available and not described... similar study Robbes [14] that uses data from robbes itself and another developer.
-
-%Eclipse CVS data set: version history of the eclipse and JUnit code bases extracted from their CVS.
-%CVS does not maintain records showing which file revisions were commited as a single transaction (like 1 commit in git or something) => the approach to solve this problem is to find revisions commited by the same developer within a small time window [20] it was used 60 seconds. The word revision is used to refer to a particular version of a file and the word commit to refer to one of these commit transactions. to simplify commit to CVS branches were excluded.
+\subsection{Overview of static refactoring tools}
+This used four data sets in order to be able to classify how we refactor. The User data set was collected by Murphy and colleagues [7] in 2005 41 volunteer programmers using eclipse and 95\% programmed in java. %Whit this we impplied that Refactoring tools are underused [10]
+The Everyone data set was collected from Eclipse Usage Collector [16] the data used aggregates activity from over 13000 Java developers between 04/08 to 01/09 but also include non-Java developers. The Toolsmiths data set that consists in information about 4 developers who primarily maintain eclipse's refactoring tools. 12/05 to 08/07 however it is not publicly available and not described in other papers, there only is a similar study Robbes [14] that uses data from Robbes itself and another developer. Finally the Eclipse CVS data set is a collection of the version history of the eclipse and JUnit code bases extracted from their CVS and because CVS does not maintain the records showing which file revisions were committed as a single transaction (like one commit in git) it was necessary a way to find what was done each programming session and the approach used to solve this problem is to find revisions committed by the same developer within a small time window [20] it was used 60 seconds. The word revision is used to refer to a particular version of a file and the word commit to refer to one of these commit transactions. to simplify commit to CVS branches were excluded.
 
 %Many other authors have mined software repositories automatically for refactorings (WeiBgerber and Diehl [18]) they did not know of other reseach that compares refactoring tool logs with code histories.
 
-%Refactoring Behavior, findings:
+Regarding the refactoring Behavior it find out that the toolsmith and Users differ which basically means that the people who develop eclipse refactoring tools have different uses of the refactoring tools than the users. However the most used refactoring was Rename in every data set but users and everyone data set used way more that toolsmiths, 62\%, 75\% and 29\% respectively. This might happen because the users are not so frequent users of the other refactoring operations. This analysis might be limited because each data set was gathered in different times and the tools themselves might be changed in those different times. Another fact that might limit this analysis is that Users included Java and non-Java developers when the others only had Java developers and this might increase the usage of Rename and Move refactoring operations.
 
-%=> toolsmith and Users differ.
-% People who develop eclipse refactoring tools have different uses of the refactoring tools than the users.  
-% The most used refactoring was Rename, however users and everyone data set used WAY more that toolsmiths, 62%, 75% and 29% respectivaly. This might happen because the users are not so frequent users of the other refactoring operations. However this analysis might be limited because each data set was gathered in different times and the tools themsleves might be changed in those different times. Another fact that might limit this analysis is that Users included Java and non-Java developers when the others only had Java developers and this might increase the usage of Rename and Move refactorings.
+An important information that we can get from this paper is the most common refactoring operations used by the users with some importance and they are: 
 
 %Programmers often don't configure refactoring tools:
 %It was hypothesized that programmers do not often configure refactoring tools, and to validate this hypothesis it was analyzed the 5 most popular refactoring in the toolsmith set that had configuration options. The average of the configuration is just under 10%. Although different refactoring operations have different configuration percentages. However this analysis have some limitations. The only set that was detailed enough was the toolsmith set, they could not count how often certain configuration options were changed (how often the parameters are reordered when Extract method is performed) and it only examine the 5 most common refactoring, the others could have a different configuration frequency.
@@ -28,3 +19,19 @@
 
 %The refactorings done manually are different to those refactorings done with a tool. Extract method tool is underused only 1/10 was done via tool, all the other 9 were done manually. Remove parameter is performed 8/9 manually. However there are some refactorings that do not have a tool assisted such as modify entity property.
 
+\subsection{Refactoring Operations in IDE's}
+
+Refactorings in eclipse \footnote{http://help.eclipse.org/luna/index.jsp?topic=\%2Forg.eclipse.jdt.doc.user\%2Freference\%2Fref-menu-refactor.htm}
+Eclipse has this refactoring operations: Rename, Move, change method signature, extract method, extract local variable, extract constant, inline, Convert anonymous class to nested, move type to new file, convert local variable to field, extract superclass, extract interface, Use supertype where possible, push down, pull up, extract class, introduce parameter object, introduce indirection, introduce factory, introduce parameter, Encapsulate field, generalize declared type, infer generic type arguments, migrate JAR File, create script, apply script, history.
+
+
+Refactorings in IntelliJ \footnote{https://www.jetbrains.com/idea/features/refactoring.html} IntelliJ has this refactoring operations: Extract Method Object, Type Migration, Extract Class, Inline Superclass, Introduce Parameter Object, Remove Middleman, Wrap Return Value, XML-aware dedicated refactoring (Rename tags and attributes, wrap and unwrap tags, replace attributes with tags and vice versa, convert tags to attributes, safely add and remove subtags and attributes, etc) Drag-and-drop items in the project view bar (??), Invert Boolean, Safe Delete, Move instance method, inline constant, extract subclass, Replace Method code duplicates, convert to instance method, renaming of packages, classes, methods, fields, method parameters and local variables with reference correction , moving classes and packages with reference correction, moving static members with reference correction, Move Inner Class to Upper Level, Change Method Signature, Make Method Static, copy/clone class, extract method, introduce variable, introduce field, introduce constant, introduce parameter, extract interface, extract superclass, use interface where possible, pull members up, push members down, replace inheritance with delegation, inline local variable, inline method, convert anonymous class to inner, encapsulate fields, replace temp with query, replace constructor with factory method. [more: http://jetbrains.dzone.com/articles/top-20-refactoring-features ]
+
+Refactorings in Visual studio: for c\# it has this refactoring operations \footnote{https://msdn.microsoft.com/en-us/library/719exd8s.aspx} Extract method, rename, encapsulate field, extract interface, remove parameters, reorder parameters,and for c++, \footnote{http://blogs.msdn.com/b/vcblog/archive/2014/11/14/all-about-c-refactoring-in-visual-studio-2015-preview.aspx}    Rename;  Extract Function;  Implement Pure Virtuals; Create Declaration/Definition; Move Function Definition; Convert to Raw-String Literal
+
+
+When comparing this 3 tools with each other it is easy to see that IntelliJ has the most number of refactoring operations followed by eclipse and Visual Studio. However, the Visual Studio, even having significantly less refactoring operations than the others it has the essential ones and the most used ones as showed above.
+
+
+%Making Program Refactoring Safer:
+%todo

@@ -2,7 +2,7 @@ Rope, a python refactoring library...
 
 Features:
 
-	Rename
+	Rename (functions, modules)
 	Extract method/local variable
 	Move class/function/module/package/method
 	inline method/local variable/parameter
@@ -36,3 +36,19 @@ And helps IDE's with:
     Generating python elements
 
 (the PyRefactor a plugin for sublime text 3 that uses Rope https://packagecontrol.io/packages/PyRefactor )
+
+Built in python.
+
+it "Stores object information  It uses an instance of `objectdb.ObjectDB` for storing information.
+Uses PyObjects (transforms them to textual form)
+
+It makes some assumptions about a python program, it assumes that it only has assignments and functions calls (can this be a bad thing?) for the assignemnts it is simple, because `PyName` objects handle that. However for functions calls it is necessary to do more to obtain information and it is done in this 2 approaches:
+
+	Static Object Analysis: It analyses modules or scope to get information about functions. It analysis the scopes when they changed or when the user ask to analyse the module because it is time consuming.
+
+	Dynamic Object Analysis: when a module is running this collects information about parameters passed to and returned from functions. The main problem is that this approach is slow while collecting information.
+
+	It stores the info in a `objectdb.ObjectDB` if it needs the information, and there is nothing on the DB Static object inference starts trying to infer the object that is returned from it. 
+
+It uses an AST.
+It has a module that tries to support build-in types and functions.
