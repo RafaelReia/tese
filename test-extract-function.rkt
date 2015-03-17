@@ -1,11 +1,10 @@
 #lang racket
 
 
-(define (soma a b)
-  (+ a b))
+
 ;easy test
 (define (fun a b)
-  (soma a b)
+  (+ a b)
   )
 
 
