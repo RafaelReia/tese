@@ -2,10 +2,20 @@ TODO-LIST:
 
 finish this: https://docs.google.com/document/d/1Q784bOBfcq19yht6yBZIju-_KJGf0VrPa9vnOKoEJX0/edit 
 
-Find Papers python
--Check bicycle repair, refactoring tool python
--Rope python refactoring tool (Done??)
+
 -What eclise, netbeans, itelij and visualstudio have for static object oriented languages
+-Review Griswold
+-Smalltalk
+-Refactoring JavaScript
+-Bicycle
+-Rope
+-Refactoring Safer
+-Jungl
+-Abstract
+-Architecture
+-Conclusions
+-Tables
+-Finish Intro
 -fix issues github
 -https://github.com/greghendershott/racket-mode check API checksyntax
 -Refactorings: cascata de ifs to cond e defives to/from let

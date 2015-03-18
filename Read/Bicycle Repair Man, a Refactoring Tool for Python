@@ -1,4 +1,46 @@
-Bicycle Repair Man, a Refactoring Tool for Python
+(This project seams dead, however there is a version adapted for sublime)
+
+Bicycle Repair Man, a Refactoring Tool for Python it was based on Don Roberts PhD thesis. "Some of the key ideas are that you need an abstract syntax tree representation of a program and you need a database that can let you answer questions like what is inherited by a particular class"
 
 
 It is an attempt to create refactoring browser functionality for python. It is a library that can be added to IDEs and editors to provide refactoring capabilities. 
+It does its parse and it has an AST
+
+It has this refactorings:
+extract method
+extract variuable
+inline variable
+move to module
+rename
+
+Bicycle Repair man integrates with emacs, vi and eclipse, and it also has a version for sublime. However this project did not improved since 2003 and seems dead.
+It replaces the Python's parser with its own wrapper to be easier to develop the refactoring operations.
+
+"For example, the Python refactoring tool
+Bicycle Repair Man
+(see 3.3) is
+built on a framework which replaces python's own parser module with its own
+wrapper, giving a set of higher level tools to the programmer who wants to
+implement refactorings. To change the name of a variable local to a module, one
+calls the parser function to evaluate the module, then walks the parse tree to nd
+and rename all instances of the identier, and re-emits the source code from the
+parse tree. All of this requires only a few dozen lines of code. Although native
+python does provide basic access to its own parser, the functions in the above
+example which rename identiers and re-emit source code were implemented in
+the wrapper code. It's not hard to imagine that structured support for these
+types of operations in other languages could make both refactoring and smell
+detection more easily and widely implemented" in http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.100.6425&rep=rep1&type=pdf
+
+
+
+ "For Python, there
+is Bicycle Repair Man [1] which integrates with emacs, vi and Eclipse. Examples of some typical automated
+refactors include rename, remove or add member methods and variables as well as move member methods
+or variables up or down in class hierarchy" in http://www.softerhardware.com/pdf/ip08a.pdf
+
+
+
+[1] “Bicycle Repair Man, a Refactoring Tool for Python”, [Online] Available
+http://bicyclerepair.
+sourceforge.net
+, September 2008.

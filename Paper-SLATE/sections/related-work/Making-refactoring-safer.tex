@@ -1,0 +1,12 @@
+Usually each refactoring contains a number of preconditions in order to preserve the behavior of the program, however most refactoring tools do not implement all preconditions because formally establishing all of them is not simple and because of that refactoring tools allow wrong transformations with no warnings to the user.
+
+One way to guarantee the preservation of the program behavior is using tests, but often tests suits do not catch the behavior changes and they might also be refactored by the tools since they use the program structure that is being transformed.
+
+So InsertMembersHere created a tool for eclipse that receives the source code that a refactroring is applied to, generates unit tests to the code being refactored and in the end it reports if the refactoring is safe to apply or not.
+
+It uses a static analysis that identifies methods in common, a method to be considered that needs to have exactly the same modifier, return type, qualified name, parameters types and exceptions thrown in source and target programmers.
+
+After identifying those methods it uses Randoop %ADD CITATION
+that generates unit tests for classes within a time limit.
+
+Some dynamic refactoring tools such as Smalltalk refactoring browser and similar ones would improve and remove the test suit limitation by being paired with a tool like this one. However that level of static analysis is not that trivial to achieve and that is a big problem. %throwback 
