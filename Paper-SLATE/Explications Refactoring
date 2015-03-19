@@ -1,0 +1,81 @@
+{Eclipse}
+Rename: Renames the selected element and (if enabled) corrects all references to the elements (also in other files). (Methods, method parameters, fields, local Variables, types, type parameters, enum constants, compilation units, packages, source folders, projects and on a text selection resolving to one of these element types) 
+
+Move: Moves the selected elements and (if enabled) corrects all references to the elements (also in other files).  For Instance method (which can be moved to a component), one or more static methods, static fields, types, compilation units, packages, source folders and projects and on a text selection resolving to one of these element types
+
+change method signature: Changes parameter names, parameter types, parameter order and updates all references to the corresponding method. Additionally, parameters and thrown exceptions can be removed or added and method return type and method visibility can be changed. 
+
+extract method: Creates a new method containing the statements or expression currently selected and replaces the selection with a reference to the new method. This feature is useful for cleaning up lengthy, cluttered, or overly-complicated methods
+extract local variable: Creates a new variable assigned to the expression currently selected and replaces the selection with a reference to the new variable. 
+
+extract constant:Creates a static final field from the selected expression and substitutes a field reference, and optionally rewrites other places where the same expression occurs. 
+
+inline -local variables, methods or constants. 
+
+Convert anonymous class to nested:  Converts an anonymous inner class to a member class. 
+move type to new file: Creates a new Java compilation unit for the selected member type or the selected secondary type, updating all references as needed. For non-static member types, a field is added to allow access to the former enclosing instance, if necessary. 
+
+convert local variable to field: Turn a local variable into a field. If the variable is initialized on creation, then the operation moves the initialization to the new field's declaration or to the class's constructors. 
+
+extract superclass: Creates a new abstract class, changes the current class to extend the new class, and moves the selected methods and fields to the new class.
+	Extracts a common superclass from a set of sibling types. The selected sibling types become direct subclasses of the extracted superclass after applying the refactoring. 
+extract interface: Creates a new interface with a set of methods and makes the selected class implement the interface. 
+Use supertype where possible: Replaces occurrences of a type with one of its supertypes after identifying all places where this replacement is possible. 
+push down: Moves a set of methods and fields from a class to its subclasses. 
+pull up: Moves a field or method to a superclass of its declaring class or (in the case of methods) declares the method as abstract in the superclass. 
+extract class: Replaces a set of fields with new container object. All references to the fields are updated to access the new container object.
+introduce indirection: Creates a static indirection method delegating to the selected method. 
+introduce factory: Creates a new factory method, which will call a selected constructor and return the created object. All references to the constructor will be replaced 	by calls to the new factory method
+introduce parameter: Replaces an expression with a reference to a new method parameter, and updates all callers of the method to pass the expression as the value of that 	parameter. 
+Encapsulate field: Replaces all references to a field with getter and setter methods. 
+generalize declared type: Allows the user to choose a supertype of the reference's current type. If the reference can be safely changed to the new type, it is.  
+	infer generic type arguments: Replaces raw type occurrences of generic types by parameterized types after identifying all places where this replacement is possible.  
+migrate JAR File: Migrates a JAR File on the build path of a project in your workspace to a newer version, possibly using refactoring information stored in the new JAR 	File to avoid breaking changes. 
+
+
+{IntelliJ}
+Extract Method Object: When you are extracting methods with multiple return values, IntelliJ IDEA automatically offers you to invoke the Extract Method Object refactoring, instead of giving up and resorting to manual refactoring. This new refactoring moves method into an ad-hoc created new class, converting all the local variables to its fields, so letting you further decompose the method into other methods on the same object.
+
+Type Migration: Type Migration refactoring allows you to automatically change a member type (e.g. from integer to string), and data flow dependent type entries, like method return types, local variables, parameters etc. across the entire project. It also lets automatically convert variable or method return type between arrays and collections.
+
+Inline Superclass: Introduce Parameter Object: When you have a large group of parameters, which go a long way being passed through a chain of delegating method calls, use the Introduce Parameter Object refactoring. It will create a wrapper class for those parameters, which you can then use instead.
+
+Remove Middleman: The Remove Middleman refactoring replaces all calls to delegating methods with the equivalent direct calls. It also includes the option to automatically remove the delegating methods, which are so becoming obsolete.
+
+Wrap Return Value: If you need to append some data to a method return value, use the Wrap Return Value refactoring. It creates a wrapper class, which already includes current method return value. You can modify the class to include the extra data you need.
+
+Invert Boolean: The Invert Boolean refactoring allows you to quickly change the sense of the Boolean method or variable to the opposite one.
+
+Safe Delete: You can safely remove classes, interfaces, methods, fields, and parameters, keeping the code working and error-free. The Safe Delete Refactoring finds all the usages of the selected symbol within the open project or simply delete the symbol if no usages found.
+
+extract subclass: The option Rename original class and use superclass where possible in Extract Superclass refactoring allows you to rename the original class and make it an implementation of the newly created superclass. IntelliJ IDEA will alter all original class usages to the usages of the implementing class only where it is still necessary.
+
+Replace Method code duplicates: When this refactoring is called on a method, IntelliJ IDEA will locate all places in the current file where the selected method code is fully repeated and turn all such code blocks into the corresponding method calls.
+
+convert to instance method: This refactoring is used to convert a static method into an instance method with an initial method call argument being a prototype of newly created instance method call qualifier.
+
+Make Method Static: This refactoring is used to convert a non-static method into a static one to make such method functionality available to other classes without creating a class instance. Also it is useful as a preparatory step for the Move Members refactoring to move this method to another class. After refactoring, the target method will be declared as static and necessary parameters, if any, will be added to its call sites.
+
+copy/clone class: This refactoring allows you to copy an entire class from one package to another or to clone such class within the same package. The package statement and the class name are adjusted automatically.
+
+use interface where possible: Invoke Extract Interface on a class or interface. Then select methods and/or static final fields. A new interface, containing the selected members will be created and the class will be changed to implement this interface. During the second stage of the refactoring there is an option to search for all places where the interface can be used instead of the original class. When all such places are found, you may review them and approve the suggested changes for all places or just for selected ones.
+
+
+replace inheritance with delegation: This refactoring allows you to delegate the execution of specified methods derived from the base class/interface to an instance of the ancestor class or an inner class implementing the same interface.
+
+
+{C# VS}
+reorder parameters
+
+{C++ VS}
+
+Extract Function;  
+Implement Pure Virtuals; 
+Create Declaration/Definition; 
+Move Function Definition; 
+Convert to Raw-String Literal
+
+{NetBeans}
+
+{JBuilder}
+

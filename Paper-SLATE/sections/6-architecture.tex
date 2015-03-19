@@ -4,6 +4,17 @@
 % Architecture
 % 
 
-\section{Architecture (2/3pgs)}
+\section{Architecture}
 
-Your proposed architecture. Can have lots of pictures and bullet points so it is easy to understand.
+There is a lack of refactoring tools for dynamic languages, and some dynamic languages such as Racket are good to start learning how to program.
+The idea is to create a refactoring tool that would suit an unexperienced programmer that is starting to learn how to program. That is a tool that is simple to use and that the programmer is not afraid to use the refactoring tool.
+Because of this concerns, the choice of IDE is important, and that is why the DrRacket IDE was chosen.
+
+%it is not an intention to care about refactorings regardint meta-programming or reflection calls. Even the Static object oriented refactoring tools with all their refactoring operations, developers do not try to solve that problem.
+
+Besides being a simple and a good IDE to learn how to program, DrRacket gives some functionalities that are helpful to the programmer of the refactoring tool. DrRacket knows all the bindings of each variable and represents that binding with arrows. Each arrow knows where is pointing to and where is the beginning of itself. This is rather helpful for the refactoring operations that need semantics, for example for the extract-function it makes it very easy to know what variables will be arguments of the extracted function and what variables are not needed to be passed as arguments.
+
+DrRacket also have syntax objects, these objects have all the information regarding the syntactic information and their location. Basically they represent an AST annotated with the location of each object.
+
+By having this features it is possible to create a tool that helps the unexperienced users and it is useful for more experienced users.
+
