@@ -1,36 +1,33 @@
 %How we Refactor, and how we know it.
-\subsection{Overview of static refactoring tools}
-\cite{murphy2012we}
-This used four data sets in order to be able to classify how we refactor. The User data set was collected by Murphy and colleagues [7] in 2005 41 volunteer programmers using eclipse and 95\% programmed in java. %Whit this we impplied that Refactoring tools are underused [10]
-The Everyone data set was collected from Eclipse Usage Collector [16] the data used aggregates activity from over 13000 Java developers between 04/08 to 01/09 but also include non-Java developers. The Toolsmiths data set that consists in information about 4 developers who primarily maintain eclipse's refactoring tools. 12/05 to 08/07 however it is not publicly available and not described in other papers, there only is a similar study Robbes [14] that uses data from Robbes itself and another developer. Finally the Eclipse CVS data set is a collection of the version history of the eclipse and JUnit code bases extracted from their CVS and because CVS does not maintain the records showing which file revisions were committed as a single transaction (like one commit in git) it was necessary a way to find what was done each programming session and the approach used to solve this problem is to find revisions committed by the same developer within a small time window [20] it was used 60 seconds. The word revision is used to refer to a particular version of a file and the word commit to refer to one of these commit transactions. to simplify commit to CVS branches were excluded.
+\subsection{Use of static refactoring tools}
+
+Murphy et al \cite{murphy2012we} collected some data sets in order to understand how the users refactor.
+The first data set that was called User data set was collected by Murphy and colleagues \cite{murphy2006java} in 2005, it has records of 41 volunteer programmers using eclipse which 95\% of them programmed in java. %Whit this we impplied that Refactoring tools are underused [10]
+
+The Everyone data set was collected from the Eclipse Usage Collector, the data used aggregates activity from over 13000 Java developers between 04/08 to 01/09 but also include non-Java developers.
+
+The Toolsmiths data set that consists in information about 4 developers who primarily maintain eclipse's refactoring tools. From 12/05 to 08/07 however it is not publicly available and not described in other papers, there is only a similar study by Robbes \cite{robbes2007mining} that uses data from Robbes itself and another developer. 
+
 
 %Many other authors have mined software repositories automatically for refactorings (WeiBgerber and Diehl [18]) they did not know of other reseach that compares refactoring tool logs with code histories.
+There were some important informations that could get from this paper.
 
-Regarding the refactoring behavior it find out that the toolsmith and Users differ which basically means that the people who develop eclipse refactoring tools have different uses of the refactoring tools than the users. However the most used refactoring was Rename in every data set but users and everyone data set used way more that toolsmiths, 62\%, 75\% and 29\% respectively. This might happen because the users are not so frequent users of the other refactoring operations. This analysis might be limited because each data set was gathered in different times and the tools themselves might be changed in those different times. Another fact that might limit this analysis is that Users included Java and non-Java developers when the others only had Java developers and this might increase the usage of Rename and Move refactoring operations.
+The first one is the most common refactoring operations used by the users with some importance and they are: Rename, Extract Local Variable, Inline, extract Method and Move. The use percentages of this 5 refactoring operations is between 86.4\% and 92\% of the data sets. % 86.4 90.8 92.0
 
-An important information that we can get from this paper is the most common refactoring operations used by the users with some importance and they are: Rename, Extract Local Variable, Inline, extract Method and Move. The use percentages of this 5 refactoring operations is between 86.4\% and 92\% of the data sets. % 86.4 90.8 92.0
-%TODO insert refactoring operations
+However the refactoring behavior differ among users. Even that the most refactoring operation was the rename for all the sets, the used percentage was drastically different between toolsmiths and other sets. Toolsmiths had 29\% while the User set and Everyone had 62\% and 75\% respectively.
 
-Refactorings are frequent, by using the data sets of users and toolsmiths it was possible to define that refactorings are frequent. in users set, 41\% of programming sessions contained refactoring activities, and the sessions that did not have refactoring activities were the sessions where less edits where made, in fact the sessions that contained refactoring activities represent 71\% of the total edits by the programmer. and that was consistent over the population. 22 of 31 had an average greater than 72\% the remaining 9 had 0 to 63\%. 
-In toolsmith only 2 weeks of the year 2006 did not had any refactoring, and one of them was a winter holidays week. it had 30 refactorings per week in average. in 2007 every week had refactoring activities and the average was 47 refactorings a week.
+Refactoring operations are frequent, using the data sets of users and toolsmiths it was possible to extract that refactoring operations are frequent. In the users data set, 41\% of programming sessions contained refactoring activities, and the sessions that did not have refactoring activities were the sessions where less edits where made, in fact the sessions that contained refactoring activities represent 71\% of the total edits by the programmer.
+In toolsmith only 2 weeks of the year 2006 did not had any refactoring operation, which one of them was a winter holidays week, and it had, in average, 30 refactoring operations per week. In 2007 every week had refactoring activities and the average was 47 refactoring operations a week.
 
-Refactoring tools are underused! They tried to correlate refactoring activities with tool support to check whether the refactoring is manual or tool assisted, however they where unable to link to 89\% of the refactorings to a tool supported refactoring. Ignoring some commits that may have some problems in identifying the refactoring. 73\% refactorings were unable to be linked with a tool usage. and all this numbers are computed from the toolsmiths that in theory should be the better group using refactoring tools.
-
-%Programmers often don't configure refactoring tools:
-%It was hypothesized that programmers do not often configure refactoring tools, and to validate this hypothesis it was analyzed the 5 most popular refactoring in the toolsmith set that had configuration options. The average of the configuration is just under 10%. Although different refactoring operations have different configuration percentages. However this analysis have some limitations. The only set that was detailed enough was the toolsmith set, they could not count how often certain configuration options were changed (how often the parameters are reordered when Extract method is performed) and it only examine the 5 most common refactoring, the others could have a different configuration frequency.
-
-Refactorings are frequent, by using the data sets of users and toolsmiths it was possible to define that refactorings are frequent. in users set, 41\% of programming sessions contained refactoring activities, and the sessions that did not have refactoring activities were the sessions where less edits where made, in fact the sessions that contained refactoring activities represent 71\% of the total edits by the programmer. and that was consistent over the population. 22 of 31 had an average greater than 72\% the remaining 9 had 0 to 63\%. 
-In toolsmith only 2 weeks of the year 2006 did not had any refactoring, and one of them was a winter holidays week. it had 30 refactorings per week in average. in 2007 every week had refactoring activities and the average was 47 refactorings a week.
-
-%Refactoring tools are underused! :( They tried to correlate refactoring activities with tool support to check whether the refactoring is manual or tool assisted, however they where unable to link to 89% of the refactorings to a tool supported refactoring. Ignoring some commits that may have some problems in identifying the refactoring. 73% refactorings were unable to be linked with a tool usage. and all this numbers are computed from the toolsmiths that in theory should be the better group using refactoring tools.
-
-%The refactorings done manually are different to those refactorings done with a tool. Extract method tool is underused only 1/10 was done via tool, all the other 9 were done manually. Remove parameter is performed 8/9 manually. However there are some refactorings that do not have a tool assisted such as modify entity property.
+Besides refactoring operations being frequent, refactoring tools are underused, to decide whether the refactoring operation was manual or tool assisted they tried to correlate refactoring activities with tool support, if the refactoring activities is correlated with tool support it is classified as a refactoring with a tool. In the end they were unable to link to 89\% of the refactoring operations to a tool supported refactoring. Even ignoring some commits that might have some problems in identifying if the refactoring is tool assisted or manual, 73\% refactorings were unable to be linked with a tool usage.
+All this numbers are computed from the toolsmiths data set which is in theory the group who knows and better uses the refactoring tools.
 
 
-
-\subsection{Refactoring definitions}
+\subsection{Overview of static Refactoring tools}
 
 \begin{table}[htbp]
+\caption{Refactoring operations available by default}
+\label{tab-Comparing-Static}
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
 Refactoring \textbackslash IDE           & Visual Studio & Eclipse & IntelliJ & NetBeans & Jbuilder \\ \hline
@@ -67,63 +64,10 @@ Inheritance to delegation &               &         & x        &          &     
 \end{tabular}
 \end{table}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
-\begin{table}[h]
-\begin{tabular}{p{3 cm} | p{10.5 cm}}
-Rename                    & Renames the selected element and corrects all references.                                                                                                                 \\ \hline
-Move                      & Moves the selected elements and corrects all references.                                                                                                                  \\ \hline
-Change method signature   & Changes parameter names, parameter types, parameter order and updates and all references to the corresponding method.                                                     \\ \hline
-Extract method            & Creates a new method containing the statements or expression currently selected and replaces with a reference to the new method.                                          \\ \hline
-Extract local variable    & Creates a new variable assigned to the expression currently selected and replaces with a reference to the new variable.                                                   \\ \hline
-Extract constant          & Creates a static final field from the selected expression and,substitutes a field reference, and rewrites other places where the same expression occurs.                  \\ \hline
-Inline                    & Inline local variables, methods or constants.                                                                                                                             \\ \hline
-Anonymous to nested       & Converts an anonymous inner class to a member class.                                                                                                                      \\ \hline
-Move type to new file     & Creates a new Java compilation unit for the selected member type updating all references as needed.                                                                       \\ \hline
-Variable to field         & Turn a local variable into a field.                                                                                                                                       \\ \hline
-Extract superclass        & Creates a new abstract class, changes the current class to extend the new class and moves the selected methods and fields to the new class.                               \\ \hline
-Extract interface         & Creates a new interface with a set of methods and makes the selected class implement the interface.                                                                       \\ \hline
-Supertype where possible  & Replaces occurrences of a type with one of its supertypes after identifying all places where this replacement is possible.                                                \\ \hline
-Push down                 & Moves a set of methods and fields from a class to its subclasses.                                                                                                         \\ \hline
-Pull up                   & Moves a field or method to a superclass and in the case of methods declares the method as abstract in the superclass.                                                     \\ \hline
-Extract class             & Replaces a set of fields with new container object. All references to the fields are updated.                                                                             \\ \hline
-Introduce parameter       & Replaces an expression with a reference to a new method parameter and updates all callers of the method to pass the expression as the valueof that parameter.             \\ \hline
-Introduce indirection     & Creates a static indirection method delegating to the selected method.                                                                                                    \\ \hline
-Introduce factory         & Creates a new factory method, which calls a selected constructor and returns the created object. Update the references.                                                   \\ \hline
-Encapsulate field         & Replaces all references to a field with getter and setter methods.                                                                                                        \\ \hline
-Generalize declared type  & Allows the user to choose a supertype of the reference's current type.                                                                                                    \\ \hline
-Type Migration            & Change a member type and data flow dependent type entries, across the entire project.                                                                                     \\ \hline
-Remove Middleman          & Replaces all calls to delegating methods with the equivalent direct calls.                                                                                                \\ \hline
-Wrap Return Value         & Creates a wrapper class that includes current method return value.                                                                                                        \\ \hline
-Safe Delete               & Finds all the usages of the selected symbol or, simply delete the symbol if no usages found.                                                                              \\ \hline
-Replace Method duplicates & Finds all the places in the current file where the selected method code is fully, repeated and change to corresponding method,calls.                                      \\ \hline
-Static to instance method & Converts a static method into an instance method with an initial method call argument being a prototype of newly created instance method call qualifier.                  \\ \hline
-Make Method Static        & Converts a non-static method into a static one.                                                                                                                           \\ \hline
-Interface where possible  & Used fter using Extract an Interface then search for all places where the interface can be used instead of the original class.                                            \\ \hline
-Inheritance to delegation & Delegate the execution of specified methods derived from the base class/interface to an instance of the ancestor class or an inner class implementing the same interface. \\ \hline
-\end{tabular}
-\end{table}
 
+When comparing this refactoring tools with each other it is easy to see that IntelliJ have almost all the refactoring operations followed by Eclipse and NetBeans.
+However, even having significantly less refactoring operations available by default than the other tools, the JBuilder have the essential ones and the most used ones as showed above, only Visual Studio has only 2 out of 5 more used refactoring operations available by default, but there are easily installed plug-ins that cover the more important refactoring operations. The table only has the refactoring operations by default in order to have a more fair way to compare them with each other.
 
-
-%Refactorings in eclipse \footnote{http://help.eclipse.org/luna/index.jsp?topic=\%2Forg.eclipse.jdt.doc.user\%2Freference\%2Fref-menu-refactor.htm}
-%Eclipse has this refactoring operations: Rename, Move, change method signature, extract method, extract local variable, extract constant, inline, Convert anonymous class to nested, move type to new file, convert local variable to field, extract superclass, extract interface, Use supertype where possible, push down, pull up, extract class, introduce parameter object, introduce indirection, introduce factory, introduce parameter, Encapsulate field, generalize declared type, infer generic type arguments, migrate JAR File, create script, apply script, history.
-
-
-%Refactorings in IntelliJ \footnote{https://www.jetbrains.com/idea/features/refactoring.html} IntelliJ has this refactoring operations: Extract Method Object, Type Migration, Extract Class, Inline Superclass, Introduce Parameter Object, Remove Middleman, Wrap Return Value, XML-aware dedicated refactoring (Rename tags and attributes, wrap and unwrap tags, replace attributes with tags and vice versa, convert tags to attributes, safely add and remove subtags and attributes, etc) Drag-and-drop items in the project view bar (??), Invert Boolean, Safe Delete, Move instance method, inline constant, extract subclass, Replace Method code duplicates, convert to instance method, renaming of packages, classes, methods, fields, method parameters and local variables with reference correction , moving classes and packages with reference correction, moving static members with reference correction, Move Inner Class to Upper Level, Change Method Signature, Make Method Static, copy/clone class, extract method, introduce variable, introduce field, introduce constant, introduce parameter, extract interface, extract superclass, use interface where possible, pull members up, push members down, replace inheritance with delegation, inline local variable, inline method, convert anonymous class to inner, encapsulate fields, replace temp with query, replace constructor with factory method. [more: http://jetbrains.dzone.com/articles/top-20-refactoring-features ]
-%Refactoring in Ruby, and other languages maybe using a meta-model to do the refactoring operations.
-
-
-%Refactorings in Visual studio: for c\# it has this refactoring operations \footnote{https://msdn.microsoft.com/en-us/library/719exd8s.aspx} Extract method, rename, encapsulate field, extract interface, remove parameters, reorder parameters,and for c++, \footnote{http://blogs.msdn.com/b/vcblog/archive/2014/11/14/all-about-c-refactoring-in-visual-studio-2015-preview.aspx}    Rename;  Extract Function;  Implement Pure Virtuals; Create Declaration/Definition; Move Function Definition; Convert to Raw-String Literal
-%Refactorings no default.
-
-%Refactoring in NetBeans: 
-%Refactorings found:
-%Rename;Move Class: Moves a class to another package or into another class. In addition, all source code in your project is updated to reference the class in its new location.;Copy;Safely ;Delete: Checks for references to a code element and then automatically deletes that element if no other code references i.Inline;Change Method Parameters: Enables you to add parameters to a method and change the access modifier.;pull up;push down;Extract Interface: Creates a new interface from the selected public non-static methods in a class or interface.;Extract Superclass: ;reates a new abstract class, changes the current class to extend the new class, and moves the selected methods and fields to the new class.;use supertype when possible;introduce variable  ;constant method parameter field and local extension; Move Inner to Outer Level: Moves an inner class one level up in hierarchy.;replace constructor with factory;replace constructer with builder;invert boolean;
-
-%Refactorings in JBuilder: Optimize Imports;Rename refactoring (package class, inner class, interface, method, field, local variable, property);Move refactoring (class);Change Parameters;Extract method;Introduce Variable;Surround With Try/Catch;
-
-When comparing this 5 refactoring tools with each other it is easy to see that IntelliJ has the most number of refactoring operations followed by eclipse and Visual Studio. However, the Visual Studio, even having significantly less refactoring operations than the others it has the essential ones and the most used ones as showed above.
-
+It is easy to see all the effort in giving to the programmers refactoring operations to help them refactoring their projects.
 
  

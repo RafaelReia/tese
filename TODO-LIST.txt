@@ -4,9 +4,6 @@ finish this: https://docs.google.com/document/d/1Q784bOBfcq19yht6yBZIju-_KJGf0Vr
 
 -Table comparing dynamic languages
 -Abstract 
--Review Introduction
--Review Overview
--Review Griswold
 -Review Smalltalk
 -Review Refactoring JavaScript
 -Review Bicycle

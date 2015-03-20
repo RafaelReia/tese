@@ -108,3 +108,25 @@ Move refactoring (class)
 Change Parameters
 Extract Method
 Introduce Variable
+
+
+
+
+RAW Information:
+
+%Refactorings in eclipse \footnote{http://help.eclipse.org/luna/index.jsp?topic=\%2Forg.eclipse.jdt.doc.user\%2Freference\%2Fref-menu-refactor.htm}
+%Eclipse has this refactoring operations: Rename, Move, change method signature, extract method, extract local variable, extract constant, inline, Convert anonymous class to nested, move type to new file, convert local variable to field, extract superclass, extract interface, Use supertype where possible, push down, pull up, extract class, introduce parameter object, introduce indirection, introduce factory, introduce parameter, Encapsulate field, generalize declared type, infer generic type arguments, migrate JAR File, create script, apply script, history.
+
+
+%Refactorings in IntelliJ \footnote{https://www.jetbrains.com/idea/features/refactoring.html} IntelliJ has this refactoring operations: Extract Method Object, Type Migration, Extract Class, Inline Superclass, Introduce Parameter Object, Remove Middleman, Wrap Return Value, XML-aware dedicated refactoring (Rename tags and attributes, wrap and unwrap tags, replace attributes with tags and vice versa, convert tags to attributes, safely add and remove subtags and attributes, etc) Drag-and-drop items in the project view bar (??), Invert Boolean, Safe Delete, Move instance method, inline constant, extract subclass, Replace Method code duplicates, convert to instance method, renaming of packages, classes, methods, fields, method parameters and local variables with reference correction , moving classes and packages with reference correction, moving static members with reference correction, Move Inner Class to Upper Level, Change Method Signature, Make Method Static, copy/clone class, extract method, introduce variable, introduce field, introduce constant, introduce parameter, extract interface, extract superclass, use interface where possible, pull members up, push members down, replace inheritance with delegation, inline local variable, inline method, convert anonymous class to inner, encapsulate fields, replace temp with query, replace constructor with factory method. [more: http://jetbrains.dzone.com/articles/top-20-refactoring-features ]
+%Refactoring in Ruby, and other languages maybe using a meta-model to do the refactoring operations.
+
+
+%Refactorings in Visual studio: for c\# it has this refactoring operations \footnote{https://msdn.microsoft.com/en-us/library/719exd8s.aspx} Extract method, rename, encapsulate field, extract interface, remove parameters, reorder parameters,and for c++, \footnote{http://blogs.msdn.com/b/vcblog/archive/2014/11/14/all-about-c-refactoring-in-visual-studio-2015-preview.aspx}    Rename;  Extract Function;  Implement Pure Virtuals; Create Declaration/Definition; Move Function Definition; Convert to Raw-String Literal
+%Refactorings no default.
+
+%Refactoring in NetBeans: 
+%Refactorings found:
+%Rename;Move Class: Moves a class to another package or into another class. In addition, all source code in your project is updated to reference the class in its new location.;Copy;Safely ;Delete: Checks for references to a code element and then automatically deletes that element if no other code references i.Inline;Change Method Parameters: Enables you to add parameters to a method and change the access modifier.;pull up;push down;Extract Interface: Creates a new interface from the selected public non-static methods in a class or interface.;Extract Superclass: ;reates a new abstract class, changes the current class to extend the new class, and moves the selected methods and fields to the new class.;use supertype when possible;introduce variable  ;constant method parameter field and local extension; Move Inner to Outer Level: Moves an inner class one level up in hierarchy.;replace constructor with factory;replace constructer with builder;invert boolean;
+
+%Refactorings in JBuilder: Optimize Imports;Rename refactoring (package class, inner class, interface, method, field, local variable, property);Move refactoring (class);Change Parameters;Extract method;Introduce Variable;Surround With Try/Catch;
