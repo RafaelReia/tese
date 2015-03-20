@@ -4,11 +4,8 @@ finish this: https://docs.google.com/document/d/1Q784bOBfcq19yht6yBZIju-_KJGf0Vr
 
 -Table comparing dynamic languages
 -Abstract 
--Review Smalltalk
--Review Refactoring JavaScript
 -Review Bicycle
 -Review Rope
--Review Refactoring Safer
 -Review Architecture
 -Review Conclusions
 -Review Abstract
