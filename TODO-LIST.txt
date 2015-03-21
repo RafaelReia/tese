@@ -4,7 +4,6 @@ finish this: https://docs.google.com/document/d/1Q784bOBfcq19yht6yBZIju-_KJGf0Vr
 
 -Table comparing dynamic languages
 -Abstract 
--Review Bicycle
 -Review Rope
 -Review Architecture
 -Review Conclusions

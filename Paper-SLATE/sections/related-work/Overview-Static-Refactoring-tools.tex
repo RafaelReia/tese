@@ -15,14 +15,14 @@ The Toolsmiths data set that consists in information about 4 developers who prim
 There were some important informations that could get from this paper.
 
 The first one is the most common refactoring operations used by the users with some importance and they are: Rename, Extract Local Variable, Inline, extract Method and Move. The use percentages of this 5 refactoring operations is between 86.4\% and 92\% of the data sets. % 86.4 90.8 92.0
+However the refactoring behavior differ among users. The most refactoring operation was the rename for all the sets, but the used percentage was drastically different between toolsmiths and other sets. Toolsmiths had 29\% while the User set and Everyone had 62\% and 75\% respectively.
 
-However the refactoring behavior differ among users. Even that the most refactoring operation was the rename for all the sets, the used percentage was drastically different between toolsmiths and other sets. Toolsmiths had 29\% while the User set and Everyone had 62\% and 75\% respectively.
-
-Refactoring operations are frequent, using the data sets of users and toolsmiths it was possible to extract that refactoring operations are frequent. In the users data set, 41\% of programming sessions contained refactoring activities, and the sessions that did not have refactoring activities were the sessions where less edits where made, in fact the sessions that contained refactoring activities represent 71\% of the total edits by the programmer.
-In toolsmith only 2 weeks of the year 2006 did not had any refactoring operation, which one of them was a winter holidays week, and it had, in average, 30 refactoring operations per week. In 2007 every week had refactoring activities and the average was 47 refactoring operations a week.
+Refactoring operations are frequent, using the data sets of users and toolsmiths it was possible to extract that refactoring operations are frequent. 
+In the users data set, 41\% of programming sessions contained refactoring activities and the sessions that did not have refactoring activities were the sessions where less edits where made.
+In toolsmith only 2 weeks of the year 2006 did not had any refactoring operation, which one of them was a winter holidays week, and it had in average, 30 refactoring operations per week. In 2007 every week had refactoring activities and the average was 47 refactoring operations a week.
 
 Besides refactoring operations being frequent, refactoring tools are underused, to decide whether the refactoring operation was manual or tool assisted they tried to correlate refactoring activities with tool support, if the refactoring activities is correlated with tool support it is classified as a refactoring with a tool. In the end they were unable to link to 89\% of the refactoring operations to a tool supported refactoring. Even ignoring some commits that might have some problems in identifying if the refactoring is tool assisted or manual, 73\% refactorings were unable to be linked with a tool usage.
-All this numbers are computed from the toolsmiths data set which is in theory the group who knows and better uses the refactoring tools.
+All this numbers are computed from the toolsmiths data set which is in theory is the group who knows and better uses the refactoring tools.
 
 
 \subsection{Overview of static Refactoring tools}
@@ -66,10 +66,10 @@ Inheritance to delegation &               &         & x        &          &     
 \end{tabular}
 \end{table}
 
-
-When comparing this refactoring tools with each other it is easy to see that IntelliJ have almost all the refactoring operations followed by Eclipse and NetBeans.
+The ({\bf Table.~\ref{tab-Comparing-Static}}) compares this refactoring tools with each other and the Refactoring definitions can be found on ({\bf Table.~\ref{tab-Refactoring-Definitions} in Apendix ~\ref{sec:attachments}}). 
+It is easy to see that IntelliJ have almost all the refactoring operations followed by Eclipse and NetBeans.
 However, even having significantly less refactoring operations available by default than the other tools, the JBuilder have the essential ones and the most used ones as showed above, only Visual Studio has only 2 out of 5 more used refactoring operations available by default, but there are easily installed plug-ins that cover the more important refactoring operations. The table only has the refactoring operations by default in order to have a more fair way to compare them with each other.
 
-It is easy to see all the effort in giving to the programmers refactoring operations to help them refactoring their projects.
+It is easy to see all the effort to provide to the programmers refactoring operations to help them refactoring their projects.
 
  
