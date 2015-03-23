@@ -1,13 +1,13 @@
 %!TEX root = ../../report.tex
 
-\subsection{Refactoring Tool for Samlltalk}%add more?
+\subsection{Refactoring Tool for Smalltalk}%add more?
 
-This refactoring tool \cite{roberts1997refactoring} was made in a browser for smalltalk programs and the goal was to make refactoring knowed and used for everyone, to quoute them 
+This Refactoring Browser \cite{roberts1997refactoring} is a refactoring tool for smalltalk programs and the goal was to make refactoring knowed and used for everyone, to quoute them 
 \textit{"The goal of our research is to move refactoring into the mainstream of program development. The only way this can occur is to present refactorings to developers in such a way that they cannot help but use them".} 
 
-In order to do that they implemented a refactoring browser and one concern was that the refactoring browser needed to do the refactorings faster then the programmers do by hand. 
+%In order to do that they implemented a refactoring browser and one concern was that the refactoring browser needed to do the refactorings faster then the programmers do by hand. 
 
-It was also considered that the user of this tool was intelligent and that automated refactorings would not suit them because, for example, if it was fully-automated the tool would generate new classes in order to eliminate duplicated code, by creating an abstract class.
+It was considered that the user of this tool was intelligent and that automated refactorings would not suit them because, for example, if it was fully-automated the tool would generate new classes in order to eliminate duplicated code, by creating an abstract class.
 However that new abstracted class could not make sense in the abstraction of the problem domain. 
 %Another problem is when the automated refactoring chooses a name for new class that might not make sense in the domain. 
 Instead of doing that, the tool points out possible refactoring operations and let the user decide whether or not to do those operations.
@@ -17,3 +17,13 @@ It is used to check the preconditions of each refactoring before execution. Howe
 
 This is done using method wrappers to collect run-time information, the Refactoring Browser does the refactoring and then add a wrapper method to the original method and then, as the program runs the wrapper detects the source code that called the original method.
 One example of this is the rename method, after applying the refactoring and during the program run, when the old method is called, the browser suspends the execution and go to the location of the code that called the old method and changes that to the new method. The problem of this approach is that the dynamically analysis is only as good as the test suit used by the programmer.
+
+
+
+
+%Secao de critica/analise Como vimos nas secoes anteriores, as ling dyn
+%ling particular reconhecida, 1a operacao de refactoring
+%motivar pessoas para fazer refactoring, usar o IDE pedagogico e linguagem altamente pedagogico e fazer refactorings pedagogicos.
+
+%Base de dados preenchida durante a compilacao, que se presenta em forma de setas que eu vou usar para resolver os problemas semanticos.
+%Seccao de critica/analise. 

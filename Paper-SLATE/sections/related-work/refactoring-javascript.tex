@@ -1,15 +1,20 @@
 %!TEX root = ../../report.tex
 \subsection{Refactoring JavaScript}
 
-The motivation for the work that Feldthaus, Asger, et al \cite{feldthaus2011tool} started because there are very few refactoring tools for JavaScript. One problem mentioned that might be responsible for that is the additional difficulty that the refactoring tools have to deal with when compared with refactoring tools for static languages, namely when refactoring JavaScript they do not have information about the bindings in compile time.
+Feldthaus, Asger, et al \cite{feldthaus2011tool} create a refactoring tool for JavaScript because there are very few refactoring tools for JavaScript. One problem mentioned that might be responsible for that is the additional difficulty that the refactoring tools have to deal with when compared with refactoring tools made for static languages, namely when refactoring JavaScript they do not have information about the bindings in compile time.
 
 %TODO add the refactoring that they create!
 
 
-The framework uses pointer analysis to help defining a set of general analysis queries and uses under-approximations and over-approximations of sets in a safe way and preconditions that are expressed in terms of the analyses queries to be able to create a correct and behavior preserving refactoring operation. If it is not possible for the framework to guarantee behavior preservations, the refactoring operation are prevented.
+The framework uses pointer analysis to help defining a set of general analysis queries. It also uses under-approximations and over-approximations of sets in a safe way and uses preconditions, that are expressed in terms of the analyses queries, to be able to create a correct refactoring operation. 
+If it is not possible for the framework to guarantee behavior preservations, the refactoring operation is prevented.
 By using this it is possible to be sure when to do the refactoring operation but has the catch of not make every possible refactoring operations because it is an approximation to the set.
 
 To prove the concept it was implemented three refactoring operations, namely the Rename, Encapsulate Property and the Extract Module.
 
 %Talk about the tests made, that count what it counts.
-At first the approximations used to compute the sets might seem a problem, because it uses it to check whether a refactoring is or is not possible. That will have a certain percentage of refactorings that the framework will have unjustified rejections that a manual programmer doing that refactoring would be able to do. However, after testing with 50 JavaScript programs, the overall unjustified rejections was 6.2\%. The rejection due to imprecise preconditions was 8.2\% in encapsulate property and it was because of due to rigid preconditions. For imprecise pointer analysis the percentage of unjustified rejections was 5.9\% for the rename and 7.0\% for the encapsulate property. 
+
+Because it uses approximations it has a certain percentage of refactorings that the framework will unjustified reject that a manual programmer doing that refactoring would be able to do. 
+However, after testing with 50 JavaScript programs, the overall unjustified rejections was 6.2\%. 
+The rejections due to imprecise preconditions was 8.2\%.
+Unjustified rejections due to imprecise pointer analysis was 5.9\% for the rename and 7.0\% for the encapsulate property. 
