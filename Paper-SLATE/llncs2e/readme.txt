@@ -23,10 +23,6 @@ It consists of the following files:
   sprmindx.sty       supplementary style file for MakeIndex
                      (usage: makeindex -s sprmindx.sty <yourfile.idx>)
 
-  splncs.bst         old BibTeX style for use with llncs.cls
-
-  splncs_srt.bst     ditto with aphabetic sorting
-
   splncs03.bst       current LNCS BibTeX style with aphabetic sorting
 
   aliascnt.sty       part of the Oberdiek bundle; allows more control over

@@ -110,6 +110,22 @@ Extract Method
 Introduce Variable
 
 
+{C++ Eclipse}
+
+
+    Declare Method
+    Extract Baseclass
+    Extract Constant
+    Extract Method
+    Extract Subclass
+    Hide Method
+    Implement Method
+    Move Field / Method
+    Replace Number
+    Separate Class
+    Generate Getters and Setters 
+
+    
 
 
 RAW Information:
