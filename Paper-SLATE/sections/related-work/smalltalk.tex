@@ -2,17 +2,19 @@
 
 \subsection{Smalltalk}%add more?
 
-The Refactoring Browser \cite{roberts1997refactoring} is a refactoring tool for smalltalk programs and the goal was to make refactoring knowed and used for everyone.
+The Refactoring Browser \cite{roberts1997refactoring} is a refactoring tool for smalltalk programs which goal was to make refactoring knowed and used by everyone.
 %to quoute them  \textit{"The goal of our research is to move refactoring into the mainstream of program development. The only way this can occur is to present refactorings to developers in such a way that they cannot help but use them".} 
 
 %In order to do that they implemented a refactoring browser and one concern was that the refactoring browser needed to do the refactorings faster then the programmers do by hand. 
 
-It was considered that the user of this tool was intelligent and that automated refactorings would not suit them. 
-Automated refactorings could generate code that does not make sense in the domain, for example of the tool would generate new classes in order to eliminate duplicated code, by creating an abstract class, which might not make sense in the domain. Instead of doing that, the tool points out possible refactoring operations and let the user decide whether or not to do those operations.
+It was considered that the user of this tool is intelligent and that automated refactorings would not suit them. 
+Automated refactorings could generate code that does not make sense in the domain.
+For example, the tool would generate new classes in order to eliminate duplicated code, by creating an abstract class, which might not make sense in the domain. Instead of doing that, the tool points out possible refactoring operations and let the user decide whether or not to do those operations.
 
-In order to ensure behavior preservation the tool checks the preconditions of each refactoring before execution. However there are some conditions that are more difficult to determine statically, such as dynamic typing and cardinality relationships between objects. For that operations the tool uses another approach and instead of checking the precondition statically it checks the preconditions dynamically. 
+In order to ensure behavior preservation the tool checks the preconditions of each refactoring before execution. 
+However, there are some conditions that are more difficult to determine statically, such as dynamic typing and cardinality relationships between objects. For that operations the tool uses another approach and instead of checking the precondition statically it checks the preconditions dynamically. 
 
-The preconditions checks are done using method wrappers to collect runtime information, the Refactoring Browser does the refactoring operation and then it adds a wrapper method to the original method. Then, as the program runs, the wrapper detects the source code that called the original method and change it for the new method.
+The preconditions checks are done using method wrappers to collect runtime information: the Refactoring Browser does the refactoring operation and then it adds a wrapper method to the original method. Then, as the program runs, the wrapper detects the source code that called the original method and change it for the new method.
 %For example, in the rename refactoring, after applying the rename and while the program is running, whenever the old method is called, the browser suspends the execution and changes the code that called the old method by the new method. 
 The problem of this approach is that the dynamically analysis is only as good as the test suit used by the programmer.
 
@@ -23,10 +25,11 @@ The problem of this approach is that the dynamically analysis is only as good as
 
 The refactoring browser for smalltalk is dependent on unit tests to have a correct refactoring, but that problem can be solved if there is a tool that create the unit tests for the user.
 
-Soares, Gustavo, et al. \cite{soares2010making} created a tool for Eclipse that receives the source code that a refactoring is applied to, generates unit tests to the code being refactored and in the end it reports if the refactoring is safe to apply or not.
+Soares, Gustavo, et al. \cite{soares2010making} created a tool for Eclipse that receives the source code that a refactoring is applied to, generates unit tests to the code being refactored and at the end it reports if the refactoring is safe to apply or not.
 
 It uses a static analysis that identifies methods in common, a method to be considered that needs to have exactly the same modifier, return type, qualified name, parameters types and exceptions thrown in source and target programmers.
 After identifying those methods it uses Randoop \cite{pacheco2007feedback},  %ADD CITATION
  a tool that generates unit tests for classes within a time limit.
 
-Pairing this tool with the smalltalk refactoring browser would remove the limitation of the refactoring browser, however the tool is created for static languages and it is not that trivial to create one for dynamic languages because the tools have less information in compile time.
+Pairing this tool with the smalltalk refactoring browser would remove the limitation of the refactoring browser.
+However the tool is created for static languages and it is not that trivial to create one for dynamic languages because the tools have less information in compile time.

@@ -8,38 +8,37 @@
 
 %[REF]evolution survey do ments.
 %\cite{drscheme} teste  \cite{drscheme_pegadogy} \cite{languages_scheme}
-Over time, software artifacts tends to change, in order to develop gradually, to expand %quando se esta a usar, depois de se usar durante algum tempo
-while being used and even during development, new requirements appear, the existing ones change, new bugs are found or some critical %SHINY! important
-new features are added.
+%Over time, software artifacts tends to change, in order to develop gradually, to expand %quando se esta a usar, depois de se usar durante algum tempo
+%while being used and even during development, new requirements appear, the existing ones change, new bugs are found or some critical %SHINY! important
+%new features are added.
 
-Because of these changes the artifact starts to drift apart from its original design in order to incorporate all the modifications.
-Typically these modifications increases the complexity of the artifact making it less readable and harder to change, consequently making the quality lower and the maintenance costs higher. %[REF] Case study in refactoring functional programs.&& [REF] Refactoring: current research and future trends. 
+Over time, software tends to change, the requirements change or new requirements appear and even after development new bugs are found or some critical new features are added.
 
+These changes makes the artifact drift apart from its original design in order to incorporate all the modifications.
+Typically these modifications increase the complexity of the software making it less readable and harder to change, consequently making the quality lower and the maintenance costs higher. %[REF] Case study in refactoring functional programs.&& [REF] Refactoring: current research and future trends. 
 
-In order to improve the quality of software, programmers tend to work on the software structure to make it more readable and therefore easier to understand which leads to a better software quality \cite{bourquin2007high}, in other words, programmers try to improve the quality of the software by refactoring it. %[Ref 1 of How we refactor, and how we know it]
-
-Refactoring is a transformation or a set of transformations that are meant to improve the program structure without modifying the behavior. 
-Preserving the behavior is important because if the behavior changes, it transforms the program in a different program.
+Refactoring is a transformation or a set of transformations that are meant to improve the program structure and the software quality\cite{bourquin2007high},  without modifying its meaning. 
+Preserving the meaning is important because if the meaning changes, it transforms the program in a different program.
 %[REF] FIND IT 
 %The difference between Refactoring and restructuring is that Refactoring is used in literature to define the transformations that improve the program preserving the behavior in Object Oriented paradigm \cite{opdyke1992refactoring} \cite{fowlerrefactoring1999} whereas Restructuring is used for the rest. \cite{griswold1993automated} \cite{softrest1986} %[REF] 
 
 
 %why we need refactoring tools[ref JunGL]
-Refactoring is a tedious and error prone activity, because of that it is preferable to use a tool that provides automated support to the refactoring operations that the programmer intends to do, therefore saving time and reducing the possibility of adding errors to a previous correct program.
+Refactoring is a tedious and error prone activity, because of that it is preferable to use a tool that provides automated support to the refactoring operations that the programmer intends to do. 
+Therefore saving time and reducing the possibility of adding errors to a previous correct program.
 
-
-There are refactoring tools for the different types of languages paradigms such as static, dynamic, object oriented, functional, imperative. However the most difference refactoring tools are between the dynamic and static languages. The use of the refactoring tools were fully adopted by the object oriented and static programming languages with their IDE support, such as Java\footnote{https://www.oracle.com/java/index.html} with the IDEs, Eclipse\footnote{https://eclipse.org/}, IntelliJ\footnote{https://www.jetbrains.com/idea/} or NetBeans\footnote{https://netbeans.org/} and C\# with Visual Studio\footnote{https://www.visualstudio.com/} but when %add more examples, add citations, and refs X-develop
+The use of the refactoring tools is fully adopted by the object oriented and static programming languages with their IDE support, such as Java with the IDEs, Eclipse\footnote{https://eclipse.org/}, IntelliJ\footnote{https://www.jetbrains.com/idea/} or NetBeans\footnote{https://netbeans.org/} and C\# with Visual Studio\footnote{https://www.visualstudio.com/} but when %add more examples, add citations, and refs X-develop
 compared to the dynamic languages there is a lack of refactoring tools and refactoring operations.
 
-The major difference of the refactoring tools made specifically for the dynamic languages when compared with the ones made for static typed languages is the lack of information available, during the refactoring, about the program that is being refactored, such as the type of variables, parameters and returns. 
-This difficulty made the refactoring tools for dynamic languages not evolve like the ones made for static languages. 
+The lack of information available about the program, during the refactoring, is the biggest difference between refactoring tools for static languages and refactoring tools for dynamic languages.
+This difference is the main difficulty that made the refactoring tools for dynamic languages not evolve like the ones made for static languages. 
 Therefore making the refactoring tools for static languages largely used and considered a common tool unlike for the dynamic languages.  %Does not sound good.
 
-Despite of that, the importance of dynamic languages is growing. Mainly because they are growing very fast among unexperienced programmers, they are used a lot among the scientific community and there are new dynamic languages everyday. 
+Despite that, the importance of dynamic languages is growing. Mainly because they are growing very fast among unexperienced programmers, they are used a lot among the scientific community and there are new dynamic languages everyday. 
 The dynamic languages are good for creating prototypes because it is easy and fast to create one. Finally they are easy to adopt and often used as a learning language, such as Scheme, Racket and Python. %% ADD REFS! use PEDRO RAMOS
 
 
-The purpose of this paper is to show what work is done, which refactoring tools exist for dynamic languages and to purpose a refactoring tool for dynamic languages focused on people that are learning how to program. %change this.
+The purpose of this paper is to show which refactoring tools exist for dynamic languages and to propose a refactoring tool for dynamic languages focused on people that are learning how to program. %change this.
 
 
 

@@ -3,19 +3,19 @@
 %Rope
 \subsubsection{Rope}
 
-Rope is a python refactoring tool written in Python, which works like a python library.
+ is a Python refactoring tool written in Python, which works like a Python library.
 In order to make it easier to create refactoring operations Rope makes some assumptions, it assumes that a Python program only has assignments and functions calls. %(can this be a bad thing?)
-To gather the information for the assignments it is simple, because `PyName` objects can handle that. However for functions calls it is necessary to have other approaches in order to obtain the necessary information. 
+The tool can easily get information about the assignments. However for functions calls it is necessary to have other approaches in order to obtain the necessary information. 
 
-It uses a Static Object Analysis which analyses the modules or scope to get information about functions. It only analysis the scopes when they changed and only analyses the modules when asked by the user because this approach is time consuming. 
+It uses a Static Object Analysis which analyses the modules or scope to get information about functions. It only analyses the scopes when they are changed and only analyses the modules when asked by the user, because this approach is time consuming. 
 
-The other approach is the Dynamic Object Analysis that starts working when a module is running, then it collects information about parameters passed to and returned from functions in order to get all the information needed. The main problem with this approach is that this it is slow while collecting information however it isn't slow while accessing the information.
+The other approach is the Dynamic Object Analysis that starts working when a module is running, then it collects information about parameters passed to and returned from functions in order to get all the information needed. The main problem with this approach is that it is slow while collecting information, but not while accessing the information.
 
-It stores the information collected by the analysis in a `objectdb.ObjectDB`. If it needs the information, and there is nothing on the ObjectDB the Static object inference starts trying to infer the object that is returned from it.
+It stores the information collected by the analysis in a database. If it needs the information and there is nothing on the database the Static object inference starts trying to infer the object information.
 
 Rope uses an AST in order to store the syntax information about the programs.
 
-It has simple refactoring operations such as, Rename, Extract method/local variable, Move, inline, Introduce factory, Change method signature, Transform module to package, Encapsulate field and Replace method with method object.
+%It has simple refactoring operations such as, Rename, Extract method/local variable, Move, inline, Introduce factory, Change method signature, Transform module to package, Encapsulate field and Replace method with method object.
 
 %And it also can: Extract similar statements in extract refactorings, fix imports when needed, preview refactorings, undo/redo refactorings, interrupt refactorings, perform cross-project refactorings, handle basic implicit interfaces in rename and change signature.
 

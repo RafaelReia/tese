@@ -3,78 +3,125 @@
 %How we Refactor, and how we know it.
 \subsection{Use of static refactoring tools}
 
-Murphy et al \cite{murphy2012we} collected some data sets in order to understand how the users refactor.
-The first data set that was called User data set was collected by Murphy and colleagues \cite{murphy2006java} in 2005, it has records of 41 volunteer programmers using eclipse which 95\% of them programmed in java. %Whit this we impplied that Refactoring tools are underused [10]
+Understanding how users refactor and use the refactoring tools is an important step to better improve the refactoring tools.
+The information necessary to reason about how the users refactor was gathered by collecting some data sets.\cite{murphy2012we}
+
+
+%Murphy et al \cite{murphy2012we} collected some data sets in order to understand how the users refactor.
+The first data set that called User data set was collected\cite{murphy2006java} in 2005, it has records of 41 volunteer programmers using eclipse which 95\% of them programmed in Java. %Whit this we impplied that Refactoring tools are underused [10]
 
 The Everyone data set was collected from the Eclipse Usage Collector, the data used aggregates activity from over 13000 Java developers between 04/08 to 01/09 but also include non-Java developers.
 
-The Toolsmiths data set that consists in information about 4 developers who primarily maintain eclipse's refactoring tools. From 12/05 to 08/07 however it is not publicly available and not described in other papers, there is only a similar study by Robbes \cite{robbes2007mining} that uses data from Robbes itself and another developer. 
+The Toolsmiths data set that consists in information about 4 developers who primarily maintain eclipse's refactoring tools from 12/05 to 08/07. However, it is not publicly available and not described in other papers, there is only a similar study\cite{robbes2007mining} that uses data from the author and another developer. 
 
 
 %Many other authors have mined software repositories automatically for refactorings (WeiBgerber and Diehl [18]) they did not know of other reseach that compares refactoring tool logs with code histories.
-There were some important informations that could get from this paper.
+Using all the data sets it is possible to see which are the most common refactoring operations used by the users and they are: rename, extract local variable, inline, extract method and move. The sum of the use percentages of this five refactoring operations is between 86.4\% and 92\% of the data sets. % 86.4 90.8 92.0 
+However the refactoring behavior differs among users. The most used refactoring operations is the rename for all the sets, but the used percentage drastically differs between toolsmiths and the other sets. Toolsmiths usage of the rename refactoring is 29\% while the User set and Everyone sets is 62\% and 75\% respectively.
 
-The first one is the most common refactoring operations used by the users with some importance are: Rename, Extract Local Variable, Inline, extract Method and Move. The use percentages of this 5 refactoring operations is between 86.4\% and 92\% of the data sets. % 86.4 90.8 92.0
-However the refactoring behavior differs among users. The most used refactoring operations is the rename for all the sets, but the used percentage was drastically different between toolsmiths and other sets. Toolsmiths had 29\% while the User set and Everyone had 62\% and 75\% respectively.
-
-Using the data sets of users and toolsmiths it was possible to extract that refactoring operations are frequent. 
+Using the data sets of users and toolsmiths it was possible to confirm that refactoring operations are frequent. 
 In the users data set, 41\% of programming sessions contained refactoring activities and the sessions that did not have refactoring activities were the sessions where less edits where made.
 In the toolsmith data set only 2 weeks of the year 2006 did not had any refactoring operation and it had in average 30 refactoring operations per week. 
 In 2007 every week had refactoring activities and the average was 47 refactoring operations a week.
 
-Besides refactoring operations being frequent, the refactoring tools are underused. In order to decide whether the refactoring operation was manual or tool assisted they tried to correlate refactoring activities with tool support, if the refactoring activities is correlated with tool support it is classified as being a tool assisted refactoring.
+Besides refactoring operations being frequent, the refactoring tools are underused. In order to decide whether the refactoring operation was manual or tool assisted they tried to correlate refactoring activities with tool support. If the refactoring activities is correlated with tool support it is classified as being a tool assisted refactoring.
 After evaluating the refactoring activities in the data set they were unable to link 73\% of the refactoring operations to a tool supported refactoring. 
 All this numbers are computed from the toolsmiths data set which is in theory the group who knows and better uses the refactoring tools.
 
 
 \subsection{Overview of static Refactoring tools}
-
-\begin{table}[htbp]
+%\textbackslash
+\begin{table}
 \caption{Refactoring operations available by default}
 \label{tab-Comparing-Static}
-\begin{tabular}{|l|c|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline\noalign{\smallskip}
+Refactoring \textbackslash IDE           & Visual Studio & Eclipse & CDT & IntelliJ & NetBeans & Jbuilder \\
+\noalign{\smallskip}
 \hline
-Refactoring \textbackslash IDE           & Visual Studio & Eclipse & IntelliJ & NetBeans & Jbuilder \\ \hline
-Rename                    & x             & x       & x        & x        & x        \\ \hline
-Move                      &               & x       & x        & x        & x        \\ \hline
-Change method signature   &               & x       & x        &          &          \\ \hline
-Extract method            & x             & x       & x        &          & x        \\ \hline
-Extract local variable    &               & x       & x        &          & x        \\ \hline
-Extract constant          &               & x       & x        &          &          \\ \hline
-Inline                    &               & x       & x        & x        &          \\ \hline
-Anonymous to nested       &               & x       & x        &          &          \\ \hline
-Move type to new file     &               & x       & x        &          &          \\ \hline
-Variable to field         &               & x       & x        &          &          \\ \hline
-Extract superclass        &               & x       & x        & x        &          \\ \hline
-Extract interface         & x             & x       & x        & x        &          \\ \hline
-Supertype where possible  &               & x       &          & x        &          \\ \hline
-Push down                 &               & x       & x        & x        &          \\ \hline
-Pull up                   &               & x       & x        & x        &          \\ \hline
-Extract class             &               & x       & x        &          &          \\ \hline
-Introduce parameter       &               & x       & x        & x        &          \\ \hline
-Introduce indirection     &               & x       &          &          &          \\ \hline
-Introduce factory         &               & x       & x        & x        &          \\ \hline
-Encapsulate field         & x             & x       & x        &          &          \\ \hline
-Generalize declared type  &               & x       &          &          &          \\ \hline
-Type Migration            &               &         & x        &          &          \\ \hline
-Remove Middleman          &               &         & x        &          &          \\ \hline
-Wrap Return Value         &               &         & x        &          &          \\ \hline
-Safe Delete               &               &         & x        & x        &          \\ \hline
-Replace Method duplicates &               &         & x        &          &          \\ \hline
-Static to instance method &               &         & x        &          &          \\ \hline
-Make Method Static        &               &         & x        &          &          \\ \hline
-Interface where possible  &               &         & x        &          &          \\ \hline
-Inheritance to delegation &               &         & x        &          &          \\ \hline
+\noalign{\smallskip}
+Rename                    & x             & x       & x   & x        & x        & x        \\ \hline
+Move                      &               & x       & x   & x        & x        & x        \\ \hline
+Change method signature   &               & x       &     & x        &          &          \\ \hline
+Extract method            & x             & x       & x   & x        &          & x        \\ \hline
+Extract local variable    &               & x       &     & x        &          & x        \\ \hline
+Extract constant          &               & x       & x   & x        &          &          \\ \hline
+Inline                    &               & x       &     & x        & x        &          \\ \hline
+Anonymous to nested       &               & x       &     & x        &          &          \\ \hline
+Move type to new file     &               & x       &     & x        &          &          \\ \hline
+Variable to field         &               & x       &     & x        &          &          \\ \hline
+Extract superclass        &               & x       & x   & x        & x        &          \\ \hline
+Extract interface         & x             & x       &     & x        & x        &          \\ \hline
+Supertype where possible  &               & x       &     &          & x        &          \\ \hline
+Push down                 &               & x       &     & x        & x        &          \\ \hline
+Pull up                   &               & x       &     & x        & x        &          \\ \hline
+Extract class             &               & x       &     & x        &          &          \\ \hline
+Introduce parameter       &               & x       &     & x        & x        &          \\ \hline
+Introduce indirection     &               & x       &     &          &          &          \\ \hline
+Introduce factory         &               & x       &     & x        & x        &          \\ \hline
+Encapsulate field         & x             & x       &     & x        &          &          \\ \hline
+Generalize declared type  &               & x       &     &          &          &          \\ \hline
+Type Migration            &               &         &     & x        &          &          \\ \hline
+Remove Middleman          &               &         &     & x        &          &          \\ \hline
+Wrap Return Value         &               &         &     & x        &          &          \\ \hline
+Safe Delete               &               &         &     & x        & x        &          \\ \hline
+Replace Method duplicates &               &         &     & x        &          &          \\ \hline
+Static to instance method &               &         &     & x        &          &          \\ \hline
+Make Method Static        &               &         &     & x        &          &          \\ \hline
+Interface where possible  &               &         &     & x        &          &          \\ \hline
+Inheritance to delegation &               &         &     & x        &          &          \\ \hline
 \end{tabular}
 \end{table}
 
+\begin{table}[htbp]
+\caption{Refactoring operations definitions:}
+\label{tab-Refactoring-Definitions}
+\begin{tabular}{ l| p{9.8cm}}
+\hline\noalign{\smallskip}
+Refactoring name 		  & Definition \\
+\noalign{\smallskip}
+\hline
+\noalign{\smallskip}
+Rename                    & Renames the selected element and corrects all references.                                                                                                                 \\ \hline
+Move                      & Moves the selected elements and corrects all references.                                                                                                                  \\ \hline
+Change signature          & Change parameter names, types and updates all references to the method.                                                                                                   \\ \hline
+Extract method            & Creates a new method containing the statements or expression currently selected and replaces with a reference to the new method.                                          \\ \hline
+Extract local variable    & Creates a new variable assigned to the expression currently selected and replaces with a reference to the new variable.                                                   \\ \hline
+Extract constant          & Creates a static final field from the selected expression.                                                                                                                \\ \hline
+Inline                    & Inline local variables, methods or constants.                                                                                                                             \\ \hline
+To nested                 & Converts an anonymous inner class to a member class.                                                                                                                      \\ \hline
+Move type to new file     & Creates a new Java compilation unit and updates all references needed.                                                                                                    \\ \hline
+Variable to field         & Turn a local variable into a field.                                                                                                                                       \\ \hline
+Extract superclass        & Creates a new abstract class, changes the current class to extend the new class and moves the selected methods and fields to the new class.                               \\ \hline
+Extract interface         & Creates a new interface and makes the class implement the interface.                                                                                                      \\ \hline
+Change to Supertype       & Replaces occurrences of a type with one of its supertypes after identifying all places where this replacement is possible.                                                \\ \hline
+Push down                 & Moves a set of methods and fields from a class to its subclasses.                                                                                                         \\ \hline
+Pull up                   & Moves a field or method to a superclass and in the case of methods declares the method as abstract in the superclass.                                                     \\ \hline
+Extract class             & Replaces a set of fields with new container object.                                                                                                                       \\ \hline
+Introduce parameter       & Replaces an expression with a reference to a new method parameter and updates all callers of the method.                                                                  \\ \hline
+Introduce indirection     & Creates a static indirection method delegating to the selected method.                                                                                                    \\ \hline
+Introduce factory         & Creates a new factory method, which calls a selected constructor and returns the created object.                                                                          \\ \hline
+Encapsulate field         & Replaces all references to a field with getter and setter methods.                                                                                                        \\ \hline
+Generalize type           & Allows the user to choose a supertype of the reference's current type.                                                                                                    \\ \hline
+Type Migration            & Change a member type and data flow dependent type entries.                                                                                                                \\ \hline
+Remove Middleman          & Replaces all calls to delegating methods with the equivalent direct calls.                                                                                                \\ \hline
+Wrap Return Value         & Creates a wrapper class that includes current method return value.                                                                                                        \\ \hline
+Safe Delete               & Finds all the usages or, simply delete if no usages found.                                                                                                                \\ \hline
+Replace duplicates        & Finds all the places in the current file where the selected method code is fully, repeated and change to corresponding method,calls.                                      \\ \hline
+Static to instance        & Converts a static method into an instance method with an initial method call argument being a prototype of newly created instance method call qualifier.                  \\ \hline
+Make Method Static        & Converts a non-static method into a static one.                                                                                                                           \\ \hline
+Change to Interface       & Used after using Extract an Interface it search for all places where the interface can be used instead of the original class.                                              \\ \hline
+Inheritance to delegation & Delegate the execution of specified methods derived from the base class/interface to an instance of the ancestor class or an inner class implementing the same interface. \\ \hline
+\end{tabular}
+\end{table}
 
 %Por C++ e comparar ve o que o eclipse tem.
-The {\bf Table.~\ref{tab-Comparing-Static}} compares this refactoring tools with each other and the Refactoring definitions can be found on the {\bf Table.~\ref{tab-Refactoring-Definitions} in the Apendix ~\ref{sec:attachments}}. 
-The table compares the Visual Studio refactoring operations for C\# with Refactoring tools that have refactoring operations for Java because they are similar languages and it only lists the refactoring operations that each IDE has by default in order to have a fairer way to compare them with each other.
-It is easy to see that IntelliJ have almost all the refactoring operations in this table, followed by Eclipse and NetBeans.
-However, even having significantly less refactoring operations available by default than the other tools, the JBuilder have the most used ones as showed above.
-Only Visual Studio has only 2 out of 5 more used refactoring operations available by default, but there are easily installed plug-ins that cover the more important refactoring operations. 
+The {\bf table.~\ref{tab-Comparing-Static}} compares this refactoring tools with each other and the Refactoring definitions can be found on the {\bf table.~\ref{tab-Refactoring-Definitions}}.
 
-It is easy to see all the effort to provide to the programmers refactoring operations to help them refactoring their projects.
+The {\bf table.~\ref{tab-Comparing-Static}} compares the Visual Studio refactoring operations for C\# with Refactoring tools that have refactoring operations for Java because the languages are similar. It also compares with the Eclipse CDT  refactoring operations for C++ because in some aspects the languages are similar and the refactoring operations compared are similar to the refactoring operations for Java or C\#. 
+The table only lists the refactoring operations that each IDE has by default in order to have a fairer way to compare them with each other.
+It is easy to see that IntelliJ has almost all the refactoring operations in this table, followed by Eclipse and NetBeans.
+However, even having significantly less refactoring operations available by default than the other tools, JBuilder has the most used ones as shown above.
+Only Visual Studio has 2 out of 5 most used refactoring operations available by default, but there are easily installed plug-ins that cover the more important refactoring operations. 
 
+%It is easy to see all the effort to provide to the programmers refactoring operations to help them refactoring their projects. 
