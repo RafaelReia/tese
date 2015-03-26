@@ -8,14 +8,14 @@ The information necessary to reason about how the users refactor was gathered by
 
 
 %Murphy et al \cite{murphy2012we} collected some data sets in order to understand how the users refactor.
-The first data set that called User data set was collected\cite{murphy2006java} in 2005, it has records of 41 volunteer programmers using eclipse which 95\% of them programmed in Java. %Whit this we impplied that Refactoring tools are underused [10]
+The first data set that called User data set was collected\cite{murphy2006java} in 2005, it has records of 41 volunteer programmers using eclipse which 95\% of them programmed in Java. %Whit this we implied that Refactoring tools are underused [10]
 
 The Everyone data set was collected from the Eclipse Usage Collector, the data used aggregates activity from over 13000 Java developers between 04/08 to 01/09 but also include non-Java developers.
 
 The Toolsmiths data set that consists in information about 4 developers who primarily maintain eclipse's refactoring tools from 12/05 to 08/07. However, it is not publicly available and not described in other papers, there is only a similar study\cite{robbes2007mining} that uses data from the author and another developer. 
 
 
-%Many other authors have mined software repositories automatically for refactorings (WeiBgerber and Diehl [18]) they did not know of other reseach that compares refactoring tool logs with code histories.
+%Many other authors have mined software repositories automatically for refactorings (WeiBgerber and Diehl [18]) they did not know of other research that compares refactoring tool logs with code histories.
 Using all the data sets it is possible to see which are the most common refactoring operations used by the users and they are: rename, extract local variable, inline, extract method and move. The sum of the use percentages of this five refactoring operations is between 86.4\% and 92\% of the data sets. % 86.4 90.8 92.0 
 However the refactoring behavior differs among users. The most used refactoring operations is the rename for all the sets, but the used percentage drastically differs between toolsmiths and the other sets. Toolsmiths usage of the rename refactoring is 29\% while the User set and Everyone sets is 62\% and 75\% respectively.
 
@@ -47,12 +47,12 @@ Extract method            & x             & x       & x   & x        &          
 Extract local variable    &               & x       &     & x        &          & x        \\ \hline
 Extract constant          &               & x       & x   & x        &          &          \\ \hline
 Inline                    &               & x       &     & x        & x        &          \\ \hline
-Anonymous to nested       &               & x       &     & x        &          &          \\ \hline
+To nested 			      &               & x       &     & x        &          &          \\ \hline
 Move type to new file     &               & x       &     & x        &          &          \\ \hline
 Variable to field         &               & x       &     & x        &          &          \\ \hline
 Extract superclass        &               & x       & x   & x        & x        &          \\ \hline
 Extract interface         & x             & x       &     & x        & x        &          \\ \hline
-Supertype where possible  &               & x       &     &          & x        &          \\ \hline
+Change to supertype 	  &               & x       &     &          & x        &          \\ \hline
 Push down                 &               & x       &     & x        & x        &          \\ \hline
 Pull up                   &               & x       &     & x        & x        &          \\ \hline
 Extract class             &               & x       &     & x        &          &          \\ \hline
@@ -68,15 +68,15 @@ Safe Delete               &               &         &     & x        & x        
 Replace Method duplicates &               &         &     & x        &          &          \\ \hline
 Static to instance method &               &         &     & x        &          &          \\ \hline
 Make Method Static        &               &         &     & x        &          &          \\ \hline
-Interface where possible  &               &         &     & x        &          &          \\ \hline
+Change to interface 	  &               &         &     & x        &          &          \\ \hline
 Inheritance to delegation &               &         &     & x        &          &          \\ \hline
 \end{tabular}
 \end{table}
-
+ 
 \begin{table}[htbp]
 \caption{Refactoring operations definitions:}
 \label{tab-Refactoring-Definitions}
-\begin{tabular}{ l| p{9.8cm}}
+\begin{tabular}{ p{2.95cm}| p{9.15cm}}
 \hline\noalign{\smallskip}
 Refactoring name 		  & Definition \\
 \noalign{\smallskip}
@@ -84,37 +84,36 @@ Refactoring name 		  & Definition \\
 \noalign{\smallskip}
 Rename                    & Renames the selected element and corrects all references.                                                                                                                 \\ \hline
 Move                      & Moves the selected elements and corrects all references.                                                                                                                  \\ \hline
-Change signature          & Change parameter names, types and updates all references to the method.                                                                                                   \\ \hline
-Extract method            & Creates a new method containing the statements or expression currently selected and replaces with a reference to the new method.                                          \\ \hline
-Extract local variable    & Creates a new variable assigned to the expression currently selected and replaces with a reference to the new variable.                                                   \\ \hline
+Change signature          & Change parameter names, types and updates all references.                                                                                                                 \\ \hline
+Extract method            & Creates a new method with the statements or expression selected and replaces with a reference to the new method.                                                          \\ \hline
+Extract local variable    & Creates a new variable assigned to the expression selected and replaces with a reference to the new variable.                                                             \\ \hline
 Extract constant          & Creates a static final field from the selected expression.                                                                                                                \\ \hline
 Inline                    & Inline local variables, methods or constants.                                                                                                                             \\ \hline
 To nested                 & Converts an anonymous inner class to a member class.                                                                                                                      \\ \hline
-Move type to new file     & Creates a new Java compilation unit and updates all references needed.                                                                                                    \\ \hline
+Move type to new file     & Creates a new compilation unit and updates all references.                                                                                                                \\ \hline
 Variable to field         & Turn a local variable into a field.                                                                                                                                       \\ \hline
 Extract superclass        & Creates a new abstract class, changes the current class to extend the new class and moves the selected methods and fields to the new class.                               \\ \hline
-Extract interface         & Creates a new interface and makes the class implement the interface.                                                                                                      \\ \hline
-Change to Supertype       & Replaces occurrences of a type with one of its supertypes after identifying all places where this replacement is possible.                                                \\ \hline
+Extract interface         & Creates a new interface and makes the class implement it.                                                                                                                 \\ \hline
+Change to Supertype       & Replaces, where it is possible, all occurrences of a type with one of its supertypes.                                                                                     \\ \hline
 Push down                 & Moves a set of methods and fields from a class to its subclasses.                                                                                                         \\ \hline
-Pull up                   & Moves a field or method to a superclass and in the case of methods declares the method as abstract in the superclass.                                                     \\ \hline
+Pull up                   & Moves a field or method to a superclass, if it is a method, declares the method as abstract in the superclass.                                                            \\ \hline
 Extract class             & Replaces a set of fields with new container object.                                                                                                                       \\ \hline
 Introduce parameter       & Replaces an expression with a reference to a new method parameter and updates all callers of the method.                                                                  \\ \hline
-Introduce indirection     & Creates a static indirection method delegating to the selected method.                                                                                                    \\ \hline
+Introduce indirection     & Creates an indirection method delegating to the selected method.                                                                                                          \\ \hline
 Introduce factory         & Creates a new factory method, which calls a selected constructor and returns the created object.                                                                          \\ \hline
 Encapsulate field         & Replaces all references to a field with getter and setter methods.                                                                                                        \\ \hline
-Generalize type           & Allows the user to choose a supertype of the reference's current type.                                                                                                    \\ \hline
+Generalize type           & Allows the user to choose a supertype of the selected reference.                                                                                                          \\ \hline
 Type Migration            & Change a member type and data flow dependent type entries.                                                                                                                \\ \hline
-Remove Middleman          & Replaces all calls to delegating methods with the equivalent direct calls.                                                                                                \\ \hline
-Wrap Return Value         & Creates a wrapper class that includes current method return value.                                                                                                        \\ \hline
+Remove Middleman          & Replaces all calls to delegating methods with the equivalent calls.                                                                                                       \\ \hline
+Wrap Return Value         & Creates a wrapper class that includes the current return value.                                                                                                           \\ \hline
 Safe Delete               & Finds all the usages or, simply delete if no usages found.                                                                                                                \\ \hline
-Replace duplicates        & Finds all the places in the current file where the selected method code is fully, repeated and change to corresponding method,calls.                                      \\ \hline
+Replace duplicates        & Finds all the places in the current file where the selected method code is fully repeated and change to corresponding method calls.                                      \\ \hline
 Static to instance        & Converts a static method into an instance method with an initial method call argument being a prototype of newly created instance method call qualifier.                  \\ \hline
 Make Method Static        & Converts a non-static method into a static one.                                                                                                                           \\ \hline
-Change to Interface       & Used after using Extract an Interface it search for all places where the interface can be used instead of the original class.                                              \\ \hline
+Change to Interface       & Used after using Extract an Interface it search for all places where the interface can be used instead of the original class.                                             \\ \hline
 Inheritance to delegation & Delegate the execution of specified methods derived from the base class/interface to an instance of the ancestor class or an inner class implementing the same interface. \\ \hline
 \end{tabular}
 \end{table}
-
 %Por C++ e comparar ve o que o eclipse tem.
 The {\bf table.~\ref{tab-Comparing-Static}} compares this refactoring tools with each other and the Refactoring definitions can be found on the {\bf table.~\ref{tab-Refactoring-Definitions}}.
 

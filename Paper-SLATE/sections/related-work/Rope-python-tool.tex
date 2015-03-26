@@ -4,7 +4,7 @@
 \subsubsection{Rope}
 
  is a Python refactoring tool written in Python, which works like a Python library.
-In order to make it easier to create refactoring operations Rope makes some assumptions, it assumes that a Python program only has assignments and functions calls. %(can this be a bad thing?)
+In order to make it easier to create refactoring operations Rope assumes that a Python program only has assignments and functions calls. %(can this be a bad thing?)
 The tool can easily get information about the assignments. However for functions calls it is necessary to have other approaches in order to obtain the necessary information. 
 
 It uses a Static Object Analysis which analyses the modules or scope to get information about functions. It only analyses the scopes when they are changed and only analyses the modules when asked by the user, because this approach is time consuming. 
