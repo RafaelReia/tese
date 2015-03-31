@@ -1358,6 +1358,16 @@ If the namespace does not, they are colored the unbound color.
                           ; (what-is? menu) THIS IS (an) EDITOR
                           
                           (eta-abstraction frame-parent text start-selection end-selection binding-aux)))))
+                  (unless (null? binding-aux)
+                    ;(define name-to-offer (find-name-to-offer binding-identifiers))
+                    (make-object menu-item%
+                      "Add Prefix"
+                      menu
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                          ; (what-is? menu) THIS IS (an) EDITOR
+                          
+                          (add-prefix frame-parent text start-selection end-selection binding-aux)))))
                   
                   ;; End Changes
                   
@@ -1600,12 +1610,75 @@ If the namespace does not, they are colored the unbound color.
             
             ;;;; ############### CHANGES ################
             ;;
+            
+            ;; callback for the Added-menu Add Prefix
+            (define/private (add-prefix parent text start-selection end-selection binding-aux)
+              (define edit-sequence-txts (list this))
+              (define counter 0)
+              (define imported (list))
+              (define new-str
+                (fw:keymap:call/text-keymap-initializer
+                 (λ ()
+                   (get-text-from-user
+                    (fw:gui-utils:format-literal-label "Add Prefix")
+                    (fw:gui-utils:format-literal-label "Name of the prefix")
+                    parent
+                    (fw:gui-utils:format-literal-label "prefix") ;check if name colides?? 
+                    #:dialog-mixin frame:focus-table-mixin))))
+              (for ([var-arrow (in-list binding-aux)]) ;Go trough arrows
+                (begin ;go to the arrows that leave that selection
+                  (when (and (>= (var-arrow-start-pos-left var-arrow) start-selection) 
+                             (<= (var-arrow-start-pos-right var-arrow) end-selection))
+                    (begin
+                      ;(displayln var-arrow)
+                      ;(displayln "something")
+                      ;(set! args (cons var-arrow args))
+                      (set! imported (cons var-arrow imported))
+                      ;(set! counter (+ counter 1))
+                      )
+                    )
+                  ))
+              (set! imported (remove-duplicates imported = #:key(lambda (x) (var-arrow-end-pos-left x))))
+              ;(displayln counter)
+              (set! imported (sort imported #:key(lambda (x) (var-arrow-end-pos-left x)) <))
+              (displayln (length imported))
+              (define times 0)
+              (define prefix-length (string-length new-str))
+              (begin-edit-sequence)
+              (send text begin-edit-sequence)
+              (set! edit-sequence-txts (cons text edit-sequence-txts))
+              (define selection (send text get-text start-selection end-selection))
+              
+              (for ([var-arrow (in-list imported)]) ;check if the arrow counts, 
+                (begin ;Check if it's the end of the arg or the selection
+                  (begin
+                    (send text begin-edit-sequence)
+                    (set! edit-sequence-txts (cons text edit-sequence-txts))
+                    ;;Delete the text
+                    ;(send text delete start-selection end-selection)
+                    ;;write call
+                    ;(displayln var-arrow)
+                    (send text insert new-str (+ (var-arrow-end-pos-left var-arrow) (* times prefix-length)))
+                    (set! times (+ times 1))
+                    ;(displayln "something")
+                    )
+                  )
+                )
+              (send text delete start-selection end-selection)
+              (send text insert (string-append "(prefix-in " new-str " " selection ")"))
+              
+              (for ([txt (in-list edit-sequence-txts)])
+                (send txt end-edit-sequence)) 
+              )
+            
+            
             ;; callback for the Added-menu Eta abstraction
             
             (define/private (eta-abstraction parent text start-selection end-selection binding-aux)
               (define args (list))
               (define call (list))
               (define anything #f)
+              ;(displayln "ALTERADO")
               (define (get-special-args call)
                 ;Remove text of call. get literals
                 (string-append "")
