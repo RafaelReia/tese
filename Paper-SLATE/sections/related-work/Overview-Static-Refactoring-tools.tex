@@ -12,11 +12,13 @@ The first data set that called User data set was collected\cite{murphy2006java} 
 
 The Everyone data set was collected from the Eclipse Usage Collector, the data used aggregates activity from over 13000 Java developers between 04/08 to 01/09 but also include non-Java developers.
 
-The Toolsmiths data set that consists in information about 4 developers who primarily maintain eclipse's refactoring tools from 12/05 to 08/07. However, it is not publicly available and not described in other papers, there is only a similar study\cite{robbes2007mining} that uses data from the author and another developer. 
+The Toolsmiths data set that consists in information about 4 developers who primarily maintain eclipse's refactoring tools from 12/05 to 08/07. 
+However, it is not publicly available and not described in other papers, there is only a similar study\cite{robbes2007mining} that uses data from the author and another developer. 
 
 
 %Many other authors have mined software repositories automatically for refactorings (WeiBgerber and Diehl [18]) they did not know of other research that compares refactoring tool logs with code histories.
 Using all the data sets it is possible to see which are the most common refactoring operations used by the users and they are: rename, extract local variable, inline, extract method and move. The sum of the use percentages of this five refactoring operations is between 86.4\% and 92\% of the data sets. % 86.4 90.8 92.0 
+
 However the refactoring behavior differs among users. The most used refactoring operations is the rename for all the sets, but the used percentage drastically differs between toolsmiths and the other sets. Toolsmiths usage of the rename refactoring is 29\% while the User set and Everyone sets is 62\% and 75\% respectively.
 
 Using the data sets of users and toolsmiths it was possible to confirm that refactoring operations are frequent. 
@@ -24,7 +26,9 @@ In the users data set, 41\% of programming sessions contained refactoring activi
 In the toolsmith data set only 2 weeks of the year 2006 did not had any refactoring operation and it had in average 30 refactoring operations per week. 
 In 2007 every week had refactoring activities and the average was 47 refactoring operations a week.
 
-Besides refactoring operations being frequent, the refactoring tools are underused. In order to decide whether the refactoring operation was manual or tool assisted they tried to correlate refactoring activities with tool support. If the refactoring activities is correlated with tool support it is classified as being a tool assisted refactoring.
+Besides refactoring operations being frequent, the refactoring tools are underused. 
+In order to decide whether the refactoring operation was manual or tool assisted they tried to correlate refactoring activities with tool support. 
+If the refactoring activities is correlated with tool support it is classified as being a tool assisted refactoring.
 After evaluating the refactoring activities in the data set they were unable to link 73\% of the refactoring operations to a tool supported refactoring. 
 All this numbers are computed from the toolsmiths data set which is in theory the group who knows and better uses the refactoring tools.
 

@@ -1,0 +1,9 @@
+Add Prefix Use Case
+
+A programmer is using some functions from a library and then realizes that needs another library. when importing that library conflicts occur.
+both libraries have function with the same name. The solution add a prefix for one of the requires.
+That is really annoying because the user has to remember and change one by one all functions invocations.
+
+The Add Prefix refactoring does all that for the user.
+
+This is also useful when the name of the functions are similar, adding a prefix make it easier to distinguish between libraries.
