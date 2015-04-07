@@ -1,7 +1,7 @@
 %!TEX root = ../../report.tex
 \subsection{JavaScript}
 
-Feldthaus, Asger, et al \cite{feldthaus2011tool} created a refactoring tool for JavaScript because there are very few refactoring tools for JavaScript. 
+A framework \cite{feldthaus2011tool} for refactoring JavaScript programs created because there are very few refactoring tools for JavaScript. 
 A problem that might be responsible for that is the additional difficulty that the refactoring tools have to deal with when compared with refactoring tools made for static languages. 
 E.g. when refactoring JavaScript the refactoring tools do not have information about the bindings in compile time.
 
@@ -9,15 +9,17 @@ E.g. when refactoring JavaScript the refactoring tools do not have information a
 
 
 The framework uses pointer analysis to help defining a set of general analysis queries. 
-It also uses under-approximations and over-approximations of sets in a safe way and uses preconditions, that are expressed in terms of the analyses queries, to be able to create a correct refactoring operation. 
-If it is not possible for the framework to guarantee behavior preservations, the refactoring operation is prevented.
-By using this it is possible to be sure when a refactoring operation is valid but it has the catch of not making every possible refactoring operations because it is an approximation to the set.
+It also uses under-approximations and over-approximations of sets in a safe way and uses preconditions.
+These conditions are expressed in terms of the analyses queries, to be able to create a correct refactoring operation. 
+If it is not possible for to guarantee behavior preservations, the refactoring operation is prevented.
+With this approach it is possible to be sure when a refactoring operation is valid but it has the catch of not making every possible refactoring operations because it is an approximation to the set.
 
 %To prove the concept it was implemented three refactoring operations, namely the rename, encapsulate property and extract module.
 
 %Talk about the tests made, that count what it counts.
 
-Because it uses approximations it has a certain percentage of refactorings that the framework will unjustifiably reject, while a manual programmer doing that refactoring would be able to do. 
+Because it uses approximations it has a certain percentage of refactoring operations that the framework will unjustifiably reject.
+While a manual programmer doing that refactoring would be able to do. 
 However, after testing with 50 JavaScript programs, the overall unjustified rejections were of 6.2\%. 
 The rejections due to imprecise preconditions represent 8.2\%.
 Unjustified rejections due to imprecise pointer analysis were of 5.9\% for the rename and 7.0\% for the encapsulate property. 
