@@ -1,16 +1,16 @@
 %!TEX root = ../../report.tex
 \subsection{JavaScript}
 
-A framework \cite{feldthaus2011tool} for refactoring JavaScript programs created because there are very few refactoring tools for JavaScript. 
-A problem that might be responsible for that is the additional difficulty that the refactoring tools have to deal with when compared with refactoring tools made for static languages. 
+A framework \cite{feldthaus2011tool} for refactoring JavaScript programs was created because there are few refactoring tools for JavaScript. 
+A problem that might be responsible for the additional difficulty that the refactoring tools have to deal with, when compared with refactoring tools made for static languages. 
 E.g. when refactoring JavaScript the refactoring tools do not have information about the bindings in compile time.
 
 %TODO add the refactoring that they create!
 
 
-The framework uses pointer analysis to help defining a set of general analysis queries. 
+The framework uses pointer analysis to help define a set of general analysis queries. 
 It also uses under-approximations and over-approximations of sets in a safe way and uses preconditions.
-These conditions are expressed in terms of the analyses queries, to be able to create a correct refactoring operation. 
+In order to be able to create a correct refactoring operation these conditions are expressed in terms query analyses, 
 If it is not possible for to guarantee behavior preservations, the refactoring operation is prevented.
 With this approach it is possible to be sure when a refactoring operation is valid but it has the catch of not making every possible refactoring operations because it is an approximation to the set.
 

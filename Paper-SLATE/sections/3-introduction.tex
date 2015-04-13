@@ -13,13 +13,15 @@
 %new features are added.
 
 Over time, software tends to change, new requirements appear or are adapted. 
-And even after development new bugs are found or some critical new features are added.
-
+Even after development new bugs are found or some critical new features are added.
+%A piece of software that is used never stops changing and evolving.
 These changes makes the artifact drift apart from its original design.
 Typically these modifications increase the complexity of the software, making it less readable and harder to change. 
-Consequently making the quality lower and the maintenance costs higher. %[REF] Case study in refactoring functional programs.&& [REF] Refactoring: current research and future trends. 
+Consequently making the quality lower and the maintenance costs higher. %[REF] Case study in refactoring functional programs.&& [REF] Refactoring: current research and future trends.
 
-Refactoring is a transformation or a set of meaning preserving transformations that are meant to improve the program structure and the software quality.\cite{bourquin2007high}
+These changes creates a need of improving continuously the software structure.
+
+Refactoring is a transformation or a set of meaning-preserving transformations that are meant to improve the program structure and the software quality \cite{bourquin2007high}.
 %Preserving the meaning is important because if the meaning changes, it transforms the program in a different program.
 
 %[REF] FIND IT 
@@ -28,9 +30,9 @@ Refactoring is a transformation or a set of meaning preserving transformations t
 
 %why we need refactoring tools[ref JunGL]
 Refactoring is a tedious and error prone activity, and because of that it is preferable to use a tool that provides automated support to the refactoring operations that the programmer intends to do. 
-Therefore saving time and reducing the possibility of adding errors to a previous correct program.
+Therefore saving time and without adding errors to a previous correct program.
 
-The use of the refactoring tools is fully adopted by the object oriented and static programming languages with their IDE support.
+The use of the refactoring tools is fully adopted by the object oriented and static programming languages with their IDE (integrated development environment) support.
 For example, languages such as Java with the IDEs, Eclipse\footnote{https://eclipse.org/}, IntelliJ\footnote{https://www.jetbrains.com/idea/} or NetBeans\footnote{https://netbeans.org/} and C\# with Visual Studio\footnote{https://www.visualstudio.com/}.
 %When compared to the dynamic languages there is a lack of refactoring tools and refactoring operations.
 
@@ -39,7 +41,7 @@ This difference is the main difficulty that made the refactoring tools for dynam
 Therefore making the refactoring tools for static languages largely used and considered a common tool in contrast with the refactoring tools for dynamic languages.  %Does not sound good.
 
 Despite that, the importance of dynamic languages is growing.
-Mainly because they are becoming very popular among unexperienced programmers, they are used a lot among the scientific community and there are new dynamic languages everyday. 
+Mainly because they are becoming popular among unexperienced programmers, they are used a lot among the scientific community and there are new dynamic languages everyday. 
 Dynamic languages are good for creating prototypes because it is easy and fast to create one. 
 Finally they are easy to adopt and often used as a learning language, such as Scheme, Racket and Python. %% ADD REFS! use PEDRO RAMOS
 

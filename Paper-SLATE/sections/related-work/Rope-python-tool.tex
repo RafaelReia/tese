@@ -9,11 +9,11 @@ The tool can easily get information about the assignments.
 However for functions calls it is necessary to have other approaches in order to obtain the necessary information. 
 
 It uses a Static Object Analysis which analyses the modules or scope to get information about functions. 
-It only analyses the scopes when they are changed and only analyses the modules when asked by the user, because this approach is time consuming. 
+It only analyses the scopes when they change and it only analyses the modules when asked by the user, because this approach is time consuming. 
 
 The other approach is the Dynamic Object Analysis that starts working when a module is running. 
 Then, it collects information about parameters passed to and returned from functions in order to get all the information needed. 
-The main problem with this approach is that it is slow while collecting information, but not while accessing the information.
+The main problem is that this approach is slow while collecting information, but not while accessing the information.
 
 It stores the information collected by the analysis in a database. 
 If it needs the information and there is nothing on the database the Static object inference starts trying to infer the object information.

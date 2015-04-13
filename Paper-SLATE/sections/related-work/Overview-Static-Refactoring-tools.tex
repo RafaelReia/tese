@@ -3,34 +3,35 @@
 %How we Refactor, and how we know it.
 \subsection{Use of static refactoring tools}
 
-Understanding how users refactor and use the refactoring tools is an important step to better improve the refactoring tools.
-The information necessary to reason about how the users refactor was gathered by collecting some data sets.\cite{murphy2012we}
+Understanding how users refactor and use refactoring tools is an important step to better improve the refactoring tools.
+The information necessary to reason about how the users refactor was gathered by collecting some data sets \cite{murphy2012we}.
 
 
 %Murphy et al \cite{murphy2012we} collected some data sets in order to understand how the users refactor.
-The first data set that called User data set was collected\cite{murphy2006java} in 2005, it has records of 41 volunteer programmers using eclipse which 95\% of them programmed in Java. %Whit this we implied that Refactoring tools are underused [10]
+The first data set that User data set was collected \cite{murphy2006java} in 2005, it has records of 41 volunteer programmers using eclipse which 95\% of them programmed in Java. %Whit this we implied that Refactoring tools are underused [10]
 
-The Everyone data set was collected from the Eclipse Usage Collector, the data used aggregates activity from over 13000 Java developers between 04/08 to 01/09 but also include non-Java developers.
+The Everyone data set was collected from the Eclipse Usage Collector, the data used aggregates activity from over 13000 Java developers between 04/08 to 01/09 and it also includes non-Java developers.
 
 The Toolsmiths data set that consists in information about 4 developers who primarily maintain eclipse's refactoring tools from 12/05 to 08/07. 
-However, it is not publicly available and not described in other papers, there is only a similar study\cite{robbes2007mining} that uses data from the author and another developer. 
+However, it is not publicly available and is not described in other papers.
+There is only a similar study \cite{robbes2007mining} that uses data from the author and another developer. 
 
 
 %Many other authors have mined software repositories automatically for refactorings (WeiBgerber and Diehl [18]) they did not know of other research that compares refactoring tool logs with code histories.
-Using all the data sets it is possible to see which are the most common refactoring operations used by the users and they are: rename, extract local variable, inline, extract method and move. The sum of the use percentages of this five refactoring operations is between 86.4\% and 92\% of the data sets. % 86.4 90.8 92.0 
+Using all the data sets it is possible to see which are the most common refactoring operations used by the users and they are: rename, extract local variable, inline, extract method and move. The sum of the use percentages of this refactoring operations is between 86.4\% and 92\% of the data sets. % 86.4 90.8 92.0 
 
-However the refactoring behavior differs among users. The most used refactoring operations is the rename for all the sets, but the used percentage drastically differs between toolsmiths and the other sets. Toolsmiths usage of the rename refactoring is 29\% while the User set and Everyone sets is 62\% and 75\% respectively.
+However the refactoring behavior differs among users. The most used refactoring operations is the rename for all the sets, but the used percentage drastically differs between Toolsmiths and the other sets. Toolsmiths usage of the rename refactoring is 29\% while the User set and Everyone sets is 62\% and 75\% respectively.
 
-Using the data sets of users and toolsmiths it was possible to confirm that refactoring operations are frequent. 
-In the users data set, 41\% of programming sessions contained refactoring activities and the sessions that did not have refactoring activities were the sessions where less edits where made.
-In the toolsmith data set only 2 weeks of the year 2006 did not had any refactoring operation and it had in average 30 refactoring operations per week. 
+Using the data sets of Users and Toolsmiths it was possible to confirm that refactoring operations are frequent. 
+In the Users data set, 41\% of programming sessions contained refactoring activities and the sessions that did not have refactoring activities were the sessions where less edits where made.
+In the toolsmith data set only 2 weeks of the year 2006 did not had any refactoring operation and, in average, it had 30 refactoring operations per week. 
 In 2007 every week had refactoring activities and the average was 47 refactoring operations a week.
 
 Besides refactoring operations being frequent, the refactoring tools are underused. 
-In order to decide whether the refactoring operation was manual or tool assisted they tried to correlate refactoring activities with tool support. 
-If the refactoring activities is correlated with tool support it is classified as being a tool assisted refactoring.
+%In order to decide whether the refactoring operation was manual or tool assisted they tried to correlate refactoring activities with tool support. 
+%If the refactoring activities is correlated with tool support it is classified as being a tool assisted refactoring.
 After evaluating the refactoring activities in the data set they were unable to link 73\% of the refactoring operations to a tool supported refactoring. 
-All this numbers are computed from the toolsmiths data set which is in theory the group who knows and better uses the refactoring tools.
+All this numbers are computed from the Toolsmiths data set which is in theory the group who knows and better uses the refactoring tools.
 
 
 \subsection{Overview of static Refactoring tools}
@@ -119,7 +120,7 @@ Inheritance to delegation & Delegate the execution of specified methods derived 
 \end{tabular}
 \end{table}
 %Por C++ e comparar ve o que o eclipse tem.
-The {\bf table.~\ref{tab-Comparing-Static}} compares this refactoring tools with each other and the Refactoring definitions can be found on the {\bf table.~\ref{tab-Refactoring-Definitions}}.
+The {\bf table.~\ref{tab-Comparing-Static}} compares this refactoring tools with each other and the Refactoring definitions, that were taken from Eclipse\footnote{help.eclipse.org/luna/topic/org.eclipse.jdt.doc.user/reference/ref-menu-refactor.htm} and IntelliJ\footnote{https://www.jetbrains.com/idea/features/refactoring.html} can be found on the {\bf table.~\ref{tab-Refactoring-Definitions}}.
 
 The {\bf table.~\ref{tab-Comparing-Static}} compares the Visual Studio refactoring operations for C\# with Refactoring tools that have refactoring operations for Java because the languages are similar. It also compares with the Eclipse CDT  refactoring operations for C++ because in some aspects the languages are similar and the refactoring operations compared are similar to the refactoring operations for Java or C\#. 
 The table only lists the refactoring operations that each IDE has by default in order to have a fairer way to compare them with each other.
