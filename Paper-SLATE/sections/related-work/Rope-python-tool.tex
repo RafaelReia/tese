@@ -8,15 +8,15 @@ In order to make it easier to create refactoring operations Rope assumes that a 
 The tool can easily get information about the assignments. 
 However for functions calls it is necessary to have other approaches in order to obtain the necessary information. 
 
-It uses a Static Object Analysis which analyses the modules or scope to get information about functions. 
-It only analyses the scopes when they change and it only analyses the modules when asked by the user, because this approach is time consuming. 
+Rope uses a Static Object Analysis which analyses the modules or scope to get information about functions. 
+Rope only analyses the scopes when they change and it only analyses the modules when asked by the user, because this approach is time consuming. 
 
 The other approach is the Dynamic Object Analysis that starts working when a module is running. 
-Then, it collects information about parameters passed to and returned from functions in order to get all the information needed. 
+Then, Rope collects information about parameters passed to and returned from functions in order to get all the information needed. 
 The main problem is that this approach is slow while collecting information, but not while accessing the information.
 
-It stores the information collected by the analysis in a database. 
-If it needs the information and there is nothing on the database the Static object inference starts trying to infer the object information.
+Rope stores the information collected by the analysis in a database. 
+If Rope needs the information and there is nothing on the database the Static object inference starts trying to infer the object information.
 
 Rope uses an AST in order to store the syntax information about the programs.
 
