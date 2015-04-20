@@ -1368,6 +1368,16 @@ If the namespace does not, they are colored the unbound color.
                           ; (what-is? menu) THIS IS (an) EDITOR
                           
                           (add-prefix frame-parent text start-selection end-selection binding-aux)))))
+                  (unless (null? binding-aux)
+                    ;(define name-to-offer (find-name-to-offer binding-identifiers))
+                    (make-object menu-item%
+                      "Organize Imports"
+                      menu
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                          ; (what-is? menu) THIS IS (an) EDITOR
+                          
+                          (organize-imports frame-parent text start-selection end-selection binding-aux)))))
                   
                   ;; End Changes
                   
@@ -1610,6 +1620,49 @@ If the namespace does not, they are colored the unbound color.
             
             ;;;; ############### CHANGES ################
             ;;
+            ;; callback for the Added-menu Organize Imports
+            ; might have problems with prefix. check it.
+            (define/private (organize-imports parent text start-selection end-selection binding-aux)
+              (define edit-sequence-txts (list this))
+              (define used (list))
+              (define string-require "")
+              
+              ; Gets a list of the imports that are not used, order the list by the further in the code, then starts delliting those imports.
+              (for ([var-arrow (in-list binding-aux)]) ;Go trough arrows
+                (begin ;go to the arrows that do not leave that selection
+                  (when (and (>= (var-arrow-start-pos-left var-arrow) start-selection) 
+                             (<= (var-arrow-start-pos-right var-arrow) end-selection))
+                    (begin
+                      (set! used (cons var-arrow used)) 
+                      )
+                    )
+                  ))
+              (set! used (remove-duplicates used = #:key(lambda (x) (var-arrow-start-pos-left x))))
+              ;(displayln counter)
+              (set! used (sort used #:key(lambda (x) (var-arrow-start-pos-left x)) >)) ;order decreasing.
+              
+              
+              (begin-edit-sequence)
+              (send text begin-edit-sequence)
+              (set! edit-sequence-txts (cons text edit-sequence-txts))
+              
+              (set! string-require (string-append string-require "(require "))
+              ; Its a for(send text insert
+              (for ([var-arrow (in-list used)])
+                (begin
+                   (set! string-require (string-append string-require (send text get-text (var-arrow-start-pos-left var-arrow) (var-arrow-start-pos-right var-arrow)))))
+                   (set! string-require (string-append string-require "\n"))
+                )
+               (set! string-require (string-append string-require ")" ))
+              (send text delete start-selection end-selection)
+              ;checks if there is any import remaining. 
+              (unless (null? used) 
+              (send text insert string-require)
+              )
+              (for ([txt (in-list edit-sequence-txts)])
+                (send txt end-edit-sequence)) 
+              )
+            
             
             ;; callback for the Added-menu Add Prefix
             (define/private (add-prefix parent text start-selection end-selection binding-aux)
@@ -1678,7 +1731,6 @@ If the namespace does not, they are colored the unbound color.
               (define args (list))
               (define call (list))
               (define anything #f)
-              ;(displayln "ALTERADO")
               (define (get-special-args call)
                 ;Remove text of call. get literals
                 (string-append "")
