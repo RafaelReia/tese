@@ -1313,7 +1313,7 @@ If the namespace does not, they are colored the unbound color.
                   (for ([f (in-list add-menus)])
                     (f menu))
                   
-                  (define-values (binding-identifiers make-identifiers-hash)
+                  (define-values (binding-identifiers make-identifiers-hash) ;only where the mouse is.
                     (position->matching-identifiers-hash text pos (+ pos 1) #t))
                   
                   
@@ -1322,8 +1322,35 @@ If the namespace does not, they are colored the unbound color.
                   ;; Start Changes
                   ;;Add conditions before!
                   ;I have access to the binding-identifiers and the make-identifiers-hash
-                  (define-values (binding-aux make-identifiers-aux)
+                  (define-values (binding-aux make-identifiers-aux) ;the binding idenfitiers of the selection
                     (position->matching-identifiers-hash text start-selection end-selection #t))
+                  
+                  (define (compute-imports) ;No imports?
+                    (displayln start-selection)
+                    (displayln end-selection)
+                    (set! binding-aux (remove-duplicates binding-aux = #:key(lambda (x) (var-arrow-end-pos-left x))))
+                    ;(display binding-aux)
+                    ;(displayln "teste")
+                    (let ([return #f])
+                      (for ([var-arrow (in-list binding-aux)]) ;check if the arrow is "import" or "require" 
+                        (begin
+                          (let ([name (send text get-text  (var-arrow-end-pos-left var-arrow) (var-arrow-end-pos-right var-arrow))])
+                            
+                            (when (and (or (and (>= (var-arrow-end-pos-left var-arrow) start-selection)
+                                                (<= (var-arrow-end-pos-right var-arrow) end-selection))
+                                           (and (>= (var-arrow-start-pos-left var-arrow) start-selection)
+                                                (<= (var-arrow-start-pos-right var-arrow) end-selection))
+                                           )
+                                       (or (string=? name "import") 
+                                           (string=? name "require" )))
+                              (begin
+                                ;(displayln name)
+                                (set! return #t))  ; check if add args.
+                              ))))
+                      ;(displayln return)
+                      return)
+                    )
+                  
                   
                   ;(examine-identifiers make-identifiers-aux binding-aux)
                   
@@ -1339,44 +1366,40 @@ If the namespace does not, they are colored the unbound color.
                           (extract-function make-identifiers-hash binding-identifiers
                                             frame-parent text start-selection end-selection binding-aux)))))
                   (unless (null? binding-aux)
-                    ;(define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
                       "Eta Reduction"
                       menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
-                          ; (what-is? menu) THIS IS (an) EDITOR
-                          
                           (eta-reduction frame-parent text start-selection end-selection binding-aux)))))
-                  (unless (null? binding-aux)
+                  
+                  (unless #f;(null? binding-aux)
                     ;(define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
                       "Eta Abstraction"
                       menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
-                          ; (what-is? menu) THIS IS (an) EDITOR
-                          
                           (eta-abstraction frame-parent text start-selection end-selection binding-aux)))))
-                  (unless (null? binding-aux)
-                    ;(define name-to-offer (find-name-to-offer binding-identifiers))
-                    (make-object menu-item%
-                      "Add Prefix"
-                      menu
-                      (λ (item evt)
-                        (let ([frame-parent (find-menu-parent menu)])
-                          ; (what-is? menu) THIS IS (an) EDITOR
-                          
-                          (add-prefix frame-parent text start-selection end-selection binding-aux)))))
-                  (unless (null? binding-aux)
+                  
+                  (unless (null? binding-identifiers)
+                    (define name-to-offer (find-name-to-offer binding-identifiers))
+                    (new menu-item%
+                         [parent menu]
+                         [label (fw:gui-utils:format-literal-label (string-append "Add Prefix to "
+                                                                                  name-to-offer))]
+                         [callback
+                          (λ (item evt)
+                            (let ([frame-parent (find-menu-parent menu)])
+                              (add-prefix frame-parent text start-selection end-selection binding-aux)))]))
+                  
+                  (when (compute-imports)
                     ;(define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
                       "Organize Imports"
                       menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
-                          ; (what-is? menu) THIS IS (an) EDITOR
-                          
                           (organize-imports frame-parent text start-selection end-selection binding-aux)))))
                   
                   ;; End Changes
@@ -1650,15 +1673,15 @@ If the namespace does not, they are colored the unbound color.
               ; Its a for(send text insert
               (for ([var-arrow (in-list used)])
                 (begin
-                   (set! string-require (string-append string-require (send text get-text (var-arrow-start-pos-left var-arrow) (var-arrow-start-pos-right var-arrow)))))
-                   (set! string-require (string-append string-require "\n"))
+                  (set! string-require (string-append string-require (send text get-text (var-arrow-start-pos-left var-arrow) (var-arrow-start-pos-right var-arrow)))))
+                (set! string-require (string-append string-require "\n"))
                 )
-               (set! string-require (string-append string-require ")" ))
+              (set! string-require (string-append string-require ")" ))
               (send text delete start-selection end-selection)
               ;checks if there is any import remaining. 
               (unless (null? used) 
-              (send text insert string-require)
-              )
+                (send text insert string-require)
+                )
               (for ([txt (in-list edit-sequence-txts)])
                 (send txt end-edit-sequence)) 
               )

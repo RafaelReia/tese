@@ -15,6 +15,7 @@ pi
          )
 
 (cos pi)
+(sin pi)
 
 pi.f
 
