@@ -4,7 +4,7 @@
 
 
 ;; by applying eta reduction on this
-(lambda (x) (car x)) 
+((lambda (x) (car x)) (list 1 2 3))
 
 ;; it should get this
 ;soma

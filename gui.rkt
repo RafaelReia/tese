@@ -760,7 +760,7 @@ If the namespace does not, they are colored the unbound color.
               (when new-str
                 (define new-sym (format "~s" (string->symbol new-str)))
                 (define dup-name? (name-dup? new-sym))
-                
+                (define imported? #f)
                 (define do-renaming?
                   (or (not dup-name?)
                       (equal?
@@ -780,6 +780,20 @@ If the namespace does not, they are colored the unbound color.
                 (when do-renaming?
                   (define edit-sequence-txts (list this))
                   (define per-txt-positions (make-hash))
+                  ;;;; CHANGES
+                  (define arrow-aux null)
+                  (define original-name "" )
+                  (define import-name "")
+                  (define get-the-name #t)
+                  (for/or ([var-arrow (in-list binding-identifiers)])
+                    (displayln (var-arrow-level var-arrow))
+                    (when (eq? (var-arrow-level var-arrow) 'imported)
+                      (displayln (var-arrow-level var-arrow)))
+                    (set! imported? #t)
+                    (set! arrow-aux var-arrow)
+                    )
+                  
+                  ;;;; END CHANGES
                   (for ([(k _) (in-hash (make-identifiers-hash))])
                     (define-values (txt start-pos end-pos) (apply values k))
                     (hash-set! per-txt-positions txt 
@@ -795,10 +809,43 @@ If the namespace does not, they are colored the unbound color.
                         (unless (memq source-txt edit-sequence-txts)
                           (send source-txt begin-edit-sequence)
                           (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
+                        ;;;HACK
+                        (when get-the-name
+                          (set! original-name (send source-txt get-text start end))
+                          (set! import-name (send source-txt get-text (var-arrow-start-pos-left arrow-aux) (var-arrow-start-pos-right arrow-aux)))
+                          (set! get-the-name #f))
+                        
+                        ;;;END-HACK
+                        
                         (send source-txt delete start end #f)
                         (send source-txt insert new-sym start start #f))))
+
+                  ;;; CHANGES
+                  (when imported?
+                    (begin
+                      ;(send txt delete start-pos end-pos)
+                      (define pos (hash-iterate-first per-txt-positions))
+                      (define text (hash-iterate-key per-txt-positions pos))
+                      
+                      (define start (var-arrow-start-pos-left arrow-aux) )
+                      (define end (+ start (string-length new-sym) ))
+                      ;(begin-edit-sequence)
+                      ;(displayln "begin")
+                      ;(unless (memq text edit-sequence-txts)
+                       ; (send text begin-edit-sequence)
+                        ;(set! edit-sequence-txts (cons text edit-sequence-txts)))
+                      (send text delete start end)
+                      (define le-string (string-append "(rename-in " import-name " (" original-name " " new-sym "))" ))
+                      (displayln le-string)
+                      (send text insert le-string start)
+                      )
+
+                    )
+                  ;;; END CHANGES
+                  
                   (for ([txt (in-list edit-sequence-txts)])
-                    (send txt end-edit-sequence)))))
+                    (send txt end-edit-sequence))
+                  )))
             
             ;; find-name-to-offer : (non-empty-listof identifier?) -> string?
             (define/private (find-name-to-offer binding-var-arrows)
@@ -1373,7 +1420,7 @@ If the namespace does not, they are colored the unbound color.
                         (let ([frame-parent (find-menu-parent menu)])
                           (eta-reduction frame-parent text start-selection end-selection binding-aux)))))
                   
-                  (unless #f;(null? binding-aux)
+                  (unless #t;(null? binding-aux)
                     ;(define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
                       "Eta Abstraction"
