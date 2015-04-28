@@ -760,9 +760,8 @@ If the namespace does not, they are colored the unbound color.
               (when new-str
                 (define new-sym (format "~s" (string->symbol new-str)))
                 (define dup-name? (name-dup? new-sym))
-;;;changes
+                ;;;changes
                 (define imported? #f)
-                
                 ;;; end change
                 (define do-renaming?
                   (or (not dup-name?)
@@ -788,6 +787,7 @@ If the namespace does not, they are colored the unbound color.
                   (define original-name "" )
                   (define import-name "")
                   (define get-the-name #t)
+                  ;; Get the arrow
                   (for/or ([var-arrow (in-list binding-identifiers)])
                     (displayln (var-arrow-level var-arrow))
                     (when (eq? (var-arrow-level var-arrow) 'imported)
@@ -795,8 +795,8 @@ If the namespace does not, they are colored the unbound color.
                     (set! imported? #t)
                     (set! arrow-aux var-arrow))
                     )
-                  
                   ;;;; END CHANGES
+
                   (for ([(k _) (in-hash (make-identifiers-hash))])
                     (define-values (txt start-pos end-pos) (apply values k))
                     (hash-set! per-txt-positions txt 
@@ -813,6 +813,7 @@ If the namespace does not, they are colored the unbound color.
                           (send source-txt begin-edit-sequence)
                           (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
                         ;;;HACK
+                        ;I need to get the original names of the require module and the function
                         (when (and imported? get-the-name)
                           (set! original-name (send source-txt get-text start end))
                           (set! import-name (send source-txt get-text (var-arrow-start-pos-left arrow-aux) (var-arrow-start-pos-right arrow-aux)))
@@ -829,23 +830,16 @@ If the namespace does not, they are colored the unbound color.
                       ;(send txt delete start-pos end-pos)
                       (define pos (hash-iterate-first per-txt-positions))
                       (define text (hash-iterate-key per-txt-positions pos))
-                      
                       (define start (var-arrow-start-pos-left arrow-aux) )
                       (define end (+ start (string-length new-sym) ))
-                      ;(begin-edit-sequence)
-                      ;(displayln "begin")
-                      ;(unless (memq text edit-sequence-txts)
-                       ; (send text begin-edit-sequence)
-                        ;(set! edit-sequence-txts (cons text edit-sequence-txts)))
-                      (send text delete start end)
+                      ;;; I let DrRacket change everything because I know the original names and positions
+                      (send text delete start end) ;delete the renamed name in the require. 
+                      ;this is the string that will be added, with the rename-in etc.
                       (define rename-in-string (string-append "(rename-in " import-name " (" original-name " " new-sym "))" ))
-                      (displayln rename-in-string)
-                      (send text insert rename-in-string start)
-                      )
-
-                    )
+                      ;(displayln rename-in-string)
+                      (send text insert rename-in-string start)))
                   ;;; END CHANGES
-                  
+
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))
                   )))
