@@ -760,7 +760,10 @@ If the namespace does not, they are colored the unbound color.
               (when new-str
                 (define new-sym (format "~s" (string->symbol new-str)))
                 (define dup-name? (name-dup? new-sym))
+;;;changes
                 (define imported? #f)
+                
+                ;;; end change
                 (define do-renaming?
                   (or (not dup-name?)
                       (equal?
@@ -788,9 +791,9 @@ If the namespace does not, they are colored the unbound color.
                   (for/or ([var-arrow (in-list binding-identifiers)])
                     (displayln (var-arrow-level var-arrow))
                     (when (eq? (var-arrow-level var-arrow) 'imported)
-                      (displayln (var-arrow-level var-arrow)))
+                      (displayln (var-arrow-level var-arrow))
                     (set! imported? #t)
-                    (set! arrow-aux var-arrow)
+                    (set! arrow-aux var-arrow))
                     )
                   
                   ;;;; END CHANGES
@@ -810,7 +813,7 @@ If the namespace does not, they are colored the unbound color.
                           (send source-txt begin-edit-sequence)
                           (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
                         ;;;HACK
-                        (when get-the-name
+                        (when (and imported? get-the-name)
                           (set! original-name (send source-txt get-text start end))
                           (set! import-name (send source-txt get-text (var-arrow-start-pos-left arrow-aux) (var-arrow-start-pos-right arrow-aux)))
                           (set! get-the-name #f))
@@ -835,9 +838,9 @@ If the namespace does not, they are colored the unbound color.
                        ; (send text begin-edit-sequence)
                         ;(set! edit-sequence-txts (cons text edit-sequence-txts)))
                       (send text delete start end)
-                      (define le-string (string-append "(rename-in " import-name " (" original-name " " new-sym "))" ))
-                      (displayln le-string)
-                      (send text insert le-string start)
+                      (define rename-in-string (string-append "(rename-in " import-name " (" original-name " " new-sym "))" ))
+                      (displayln rename-in-string)
+                      (send text insert rename-in-string start)
                       )
 
                     )

@@ -7,10 +7,8 @@ Paper:
 -https://github.com/greghendershott/racket-mode check API checksyntax
 -fix issues github
 -Refactorings: cascata de ifs to cond e defives to/from let
--add prefix: check arrows, add that prefix for all arrows.
 -export functions to a file/or new file. then add import.
 Racket Mode:
-
 
 check syntax: http://docs.racket-lang.org/tools/drracket_module-language-tools.html?q=drracket%3Amodule-language-tools%3Aadd-online-expansion-monitor#%28def._%28%28lib._drracket%2Ftool-lib..rkt%29._drracket~3amodule-language-tools~3aadd-online-expansion-monitor%29%29
 
