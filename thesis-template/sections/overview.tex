@@ -1,0 +1,64 @@
+\section{Definitions}
+
+%add refferences
+
+%[REF] Survey of software refactoring tools \cite{erb2010survey}
+This section presents Refactoring definitions and describes them.
+
+\subsection{Classification of the refactoring}
+There are several levels of refactoring, a high level refactoring like design refactoring or a low level refactoring such as extract method refactoring operation. 
+In between, exists combinational refactoring that is a combination of several low level refactoring operations
+The refactoring operations can also be classified by the effect that they have on software quality attributes, however that is a complex task to do. \cite{elish2011classification}
+
+\subsection{Refactoring as a Process}
+Refactoring can be done in two ways. %add citations
+One is doing the refactoring in between programming and constantly performed. 
+The other one is to do the refactoring as a different activity and in bulks
+Regardless when is done, the refactoring can always be decomposed in this different activities:
+
+\begin{enumerate}
+ \item Identify where to change the software
+ \item Determine the adequate refactoring
+ \item Have a way to protect the planned changes (e.g automated tests)
+ \item Make the planned changes
+ \item Access the refactoring benefits
+ \item Maintain consistency between refactored and non-refactored code (design artifacts)
+\end{enumerate}
+
+
+%Eisenecker et al. [2000] defined requirements for the refactoring tools
+
+%Functional requirements of a refactoring tools:
+%Image, or explain in text => explain in text
+%Non Functional requirements of a refactoring tool:
+%Image. or explain in text.
+
+\subsection{Refactoring Correctness}
+%survey of software refactoring tools \cite{erb2010survey} %add citation
+Refactoring must be correct and for some authors it means preserving the program behavior. 
+However there is no consensual definition for what is behavior preservation.
+Some authors say that the behavior of the program is the output and preserving the output preserves the program behavior. 
+Unfortunately that is not always true. 
+For example in a class, if a method name is renamed and the program consists in printing that method name, by renaming that method the behavior of the program changes.
+
+Another way do define it is to say that in order to preserve behavior it is needed to preserve the syntactic and semantic properties.
+By preserving the syntactic properties is to preserve the syntax, and it is common sense that a refactoring should not invalidate a syntactic correct program.
+
+Preserving the semantic of the program is to preserve the meaning of the program in the basic concept of the language. 
+In other words, is to  maintain the semantic properties of all declarations after a refactoring and it should resolve to the same declarations they resolved before the refactoring operation.
+Because preserving the syntax is easily seen, in this document focus on the meaning-preservation of the refactoring operations. 
+
+
+%suvey mens 2003 \cite{mens2003refactoring}
+%What is behaviour and how to preserve it? 
+%Observational behaviour, for the same input we get the same output, is not always sufficient.
+%for example, for Real time systems it is important the time that a (sequence of) operations takes, for embedded systems it takes into account the memory and the power consumption and for safety-critical systems there is a defined safety that must be preserved. 
+%In a theoretical world all this properties should be preserved by a refactoring, however in practice that is not the case. 
+
+
+
+
+\subsection{Classification of refactoring tools} %\cite{erb2010survey}
+Refactoring tools can be subdivided in two types.
+The Fully-automated one, that detects refactoring opportunities and executes the refactoring operations. And the semi-automated one in which the user chooses which refactoring operation wants to do or this tools may assist the user by suggesting the refactoring operations, but the decision to apply them belongs to the user.
+There is no manual refactoring tool, because if the user has to do everything it is not considered a tool.
