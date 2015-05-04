@@ -2095,6 +2095,8 @@ If the namespace does not, they are colored the unbound color.
                   
                   )))
             
+            ;;; END CHANGES
+            
             ;; tack/untack-callback : (listof arrow) -> void
             ;; callback for the tack/untack menu item
             (define/private (tack/untack-callback arrows)
@@ -2667,6 +2669,19 @@ If the namespace does not, they are colored the unbound color.
             (define drs-eventspace (current-eventspace))
             (define the-tab (get-current-tab))
             (define-values (old-break-thread old-custodian) (send the-tab get-breakables))
+            
+            ;;;Changes
+            (displayln "Init tests")
+            (displayln (get-definitions-text))
+            (displayln "BREAK")
+            (displayln interactions-text)
+            (displayln "BREAK")
+            (displayln drs-eventspace)
+            (displayln "BREAK")
+            (displayln the-tab)
+            (displayln "End")
+            ;;;End changes
+            
             
             ;; set by the init-proc
             (define expanded-expression void)

@@ -24,6 +24,30 @@ The tool also can induce transformation rules based on manual examples given by 
 This tool is simple because it is focused on syntax transformations of the program. Meaning that it does not need semantic information such as bindings relations needed for transformations, making it a simpler tool.
 
 
+
+\subsection{A case study in Refactoring functional programs}
+The case study \cite{thompson2003case} was done with the idea to show that refactoring is also important in functional programs.
+The case study consists in refactoring an Haskell program with 400 lines, written by a student.
+The program's goal is to build a semantic tableaux, which is a truth tree used to  for example to proof procedures for first order logic or solve satisfiability of finite sets.
+
+\subsubsection{Refactoring of a program}
+In order to understand better what consists a refactoring they applied manually refactoring to the program.
+They started by changing the name of some variables to avoid misunderstandings and to be easier to read.
+After that they renamed some functions that reflect better what the function did. 
+Then they replaced explicit recursion by calls to higher order functions and they rename some variables and functions.
+In the end they generalized some functions and modified the representation type because it was giving a lots of work keeping the initial representation.
+
+\subsubsection{What was learned}
+This case study shows that the order of the refactoring operations is somehow arbitrary.
+The refactoring operations were applied when they thought it made more sense at the moment.
+They also conclude that generally, refactoring a program, is as good way to find out more about the program. 
+And that the refactoring operations need to have a way of doing undo, redo or revert changes. 
+Otherwise it would be more difficult to correct mistakes.
+
+It is crucial to document the refactoring operations applied in detail. 
+This aspect was stressed because having documentation about the version previous to the refactoring or outdated is not good for the readability of the program because it can mislead the programmer.
+
+
 \subsection{HaRe}
 
 The HaRe system is a refactoring tool for Haskell that integrates with Emacs and Vim.
@@ -65,6 +89,7 @@ Then it was added module awareness to those refactorings.
 Module awareness is important because in Haskell it is possible to import definitions from other modules.
 With module awareness it was possible to add new refactorings to the module like Clean the imported list, move a definition to another module or add and remove items of the export list.
 
+
 \subsection{Scheme}
 %Griswold
 %Characteristics Dynamic language, Simple refactoring operations, Only One language, AST?, PDG?, Easy to create new operations?
@@ -93,8 +118,6 @@ Meaning that the transformations were done in almost a random way when compared 
 
 \subsubsection{Architecture}
 
-
-
 In order to be able to correctly implement these operations it was used contours and a PDG (program dependence graph).
 
 The main program representation is the contours. 
@@ -107,3 +130,270 @@ With these structures it is possible to combine them and have a single formalism
 
 %It is possible to have this representation because it have access to everything like a compiler does, and it tries to used work done, such as using a library for the PDG. Using DrRacket the semantic part is covered by the arrows created which helps having the semantic logic between things.
 
+
+
+\subsection{JunGL} 
+
+
+The JunGL \cite{verbaere2006jungl} is a domain-specific language for refactoring. 
+It is a hybrid of a functional language and a logic query language. 
+The goal of this paper is to create a scripting language that allows the user to create their owns refactoring without errors.
+
+\subsubsection{Architecture}
+The JunGL has a Program Graph as main data structure that is composed by nodes and edges and both nodes and edges can have a type. 
+For example: control flow successor. 
+This graph have all the relevant information about the program, including the ASTs, variable binding and control flow.
+
+It defines the Program Dependence Graph using path queries. 
+This allows the correct application of many transformations that reorder statements.
+The language has lazy edges. 
+The lazy edges initially are only composed by the ASTs of the program, the rest of the information will be added later to the edges as it may be necessary, like lazy evaluation but for the Program Graph.
+This lazy edges allow the tool to handle incomplete programs. 
+The tool can handle null branches, that means when the branch information of the graph is non existent. This means that the tool can handle incomplete programs.
+
+\subsubsection{Performance}
+
+The Lazy edges used allows a better performance of the refactoring because the tool will not need to compute unnecessary information and then save computations.
+
+
+\subsection{Smalltalk}%add more?
+
+The Refactoring Browser \cite{roberts1997refactoring} is a refactoring tool for smalltalk programs which goal was to make refactoring known and used by everyone.
+to quote them  \textit{"The goal of our research is to move refactoring into the mainstream of program development. The only way this can occur is to present refactorings to developers in such a way that they cannot help but use them".} 
+
+To do that they implemented the refactoring browser with the concern that the refactoring operations did by the programmer using the refactoring browser needed to be faster then by hand.
+
+It was considered that the user of this tool is intelligent therefor automated refactorings would not suit them. 
+Automated refactorings do not suit the user because they could generate code that does not make sense in the domain.
+For example, the tool would generate new classes in order to eliminate duplicated code, by creating an abstract class, which might not make sense in the domain. Instead of doing that, the tool points out possible refactoring operations and let the user decide whether or not to do those operations.
+
+In order to ensure behavior preservation the tool checks the preconditions of each refactoring before execution. 
+However, there are some conditions that are more difficult to determine statically, such as dynamic typing and cardinality relationships between objects. 
+Instead of checking the precondition statically the refactoring browser checks the preconditions dynamically. 
+
+The preconditions checks are done using method wrappers to collect runtime information. 
+The Refactoring Browser starts by doing the refactoring operation and then it adds a wrapper method to the original method. 
+While the program is running, the wrapper detects the source code that called the original method and change it for the new method.
+For example, in the rename refactoring, after applying the rename and while the program is running, whenever the old method is called, the browser suspends the execution and changes the code that called the old method by the new method. 
+
+The problem of this approach is that the dynamically analysis is only as good as the test suit used by the programmer.
+
+
+%\input{sections/related-work/Making-refactoring-safer.tex}
+However there is already a tool \cite{soares2010making} for Eclipse that receives the source code that a refactoring is applied to, generates unit tests to the code being refactored and at the end it reports if the refactoring is safe to apply or not.
+
+The tool uses a static analysis that identifies methods that have exactly the same modifier, return type, qualified name, parameters types and exceptions thrown in source and target programmers.
+After identifying those methods it uses Randoop \cite{pacheco2007feedback}, a tool that generates unit tests for classes within a time limit.
+
+Pairing this tool with the smalltalk refactoring browser would remove the limitation of the refactoring browser.
+However the tool is created for static languages and it is not that trivial to create one for dynamic languages because the tools have less information in compile time.
+
+
+\subsection{Metrics based refactoring}
+%84
+
+The goal of this paper \cite{simon2001metrics} is to show some metrics that can be used to support the decision where to apply refactoring and which refactorings.
+The tool uses the metrics to identify where the code should be refactored and warns the developer.
+The tool takes into account the "bad smell" of a code to suggest a refactoring. The "bad smell" is a human intuition which that specific code should be refactored. 
+An example of a "bad smell" that would trigger a Move Method refactoring is when one method of a class is used more by other class in which it is defined.
+
+To quickly show to the user the identified "bad smells" it is generated a visualization of the objects, and those objects are linked to the corresponding source code. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.75\textwidth]{img/metricsbasedrefactoring.png}
+  \caption{Motivates the refactoring move method}
+  \label{fig:MetricsBasedRefactoring}
+\end{figure}
+
+
+
+\subsubsection{Distance based cohesion on refactorings}
+In order to make an automated approach to identify "bad smells" it is used a distance based cohesion metric.
+With the distance based algorithm it is possible to identify violations to the rule "put together what belongs together". 
+There are some refactoring operations that are related to this rule such as, move attribute, extract class, in-line class and move method. 
+Regarding the distances a method using only locally defined methods/attributes have a high distance to the methods of other classes. 
+Whereas methods that use many attributes and/or methods of other classes have a low distance to them. 
+The attributes are compared by the methods that use them. 
+For example if an attribute is only used by methods of other classes, that attribute probably should be moved to other class.
+
+
+\subsection{FAMIX} %Review && Rewrite
+
+FAMIX \cite{tichelaar2000meta} is a  Meta-model for Language-independent refactoring.
+The goal of the FAMIX is to check the preconditions of the refactorings supported and to analyze which changes need to be done for every supported refactoring at a language independent level.
+
+Language independence is useful because a large part of the refactorings are described and analyzed on a language-independent level and similar concepts in different languages are treated in the same way. 
+With that it is possible to reuse the analysis and reduce the language specifics to only the modifications in the source code.
+
+Based on this meta-model is possible to construct a refactoring engine that can do primitive refactorings for a few implementations such as smalltalk and java.
+
+\subsubsection{Difficulties}
+However there are some downsides to this approach which leads to an increase of the algorithms complexity. 
+The complexity increases because the model needs to be general in order to deal with several languages. 
+
+There are difficulties in mapping the changes to the actual code, because sometimes the concepts that are generalized in the language-independent level need to be mapped back to their language-specific.
+For example the invocation of methods in Java is different that the constructors.
+It is also difficult to abstract a language when there are apparent standards in all languages but needs language-specific interpretation such as when a name is a valid name for a class in that specific language.
+
+Mapping back the language to the FAMIX is difficult in some languages because FAMIX meta-model does not have the concept of meta-classes or interfaces.
+However the most problematic issue was with dynamic languages. Dynamic languages have less information available at compile-time and that makes the dependency analysis  through invocations and accesses more difficult. For example the rename method can only be done if there is no other method with the same signature.
+
+\subsection{JavaScript}
+
+A framework \cite{feldthaus2011tool} for refactoring JavaScript programs was created because there are few refactoring tools for JavaScript. 
+A problem that might be responsible for the additional difficulty that the refactoring tools have to deal with, when compared with refactoring tools made for static languages. 
+E.g. when refactoring JavaScript the refactoring tools do not have information about the bindings in compile time.
+
+%TODO add the refactoring that they create!
+
+
+The framework uses pointer analysis to help define a set of general analysis queries. 
+It also uses under-approximations and over-approximations of sets in a safe way and uses preconditions.
+In order to be able to create a correct refactoring operation these conditions are expressed in terms query analyses. 
+If it is not possible for to guarantee behavior preservations, the refactoring operation is prevented.
+With this approach it is possible to be sure when a refactoring operation is valid but it has the catch of not making every possible refactoring operations because it is an approximation to the set.
+
+To prove the concept it was implemented three refactoring operations, namely the rename, encapsulate property and extract module.
+
+%Talk about the tests made, that count what it counts.
+
+Because it uses approximations it has a certain percentage of refactoring operations that the framework will unjustifiably reject.
+While a manual programmer doing that refactoring would be able to do. 
+However, after testing with 50 JavaScript programs, the overall unjustified rejections were of 6.2\%. 
+The rejections due to imprecise preconditions represent 8.2\%.
+Unjustified rejections due to imprecise pointer analysis were of 5.9\% for the rename and 7.0\% for the encapsulate property. 
+
+
+\subsection{Python}
+
+The following section presents two refactoring tools for Python. 
+It starts with Bicycle-Repair-Man, a refactoring tool that attempts to create a refactoring browser. 
+Afterwards it presents Rope, a refactoring tool that works like a Python library.
+
+\subsubsection{Bicycle Repair Man}
+
+ is a Refactoring Tool for Python written in Python and it was based on the ideas of Don Roberts PhD thesis. 
+ It is a library that can be added to IDEs and editors to provide refactoring capabilities such as Emacs, Vi, Eclipse, and Sublime Text. 
+ However, even having a version for sublime this tool did not improve since 2004.
+
+Bicycle Repair Man is an attempt to create the refactoring browser functionality for Python. 
+%Bicycle Repair Man has the following refactoring operations: extract method, extract variable, inline variable, move to module and rename.
+
+The tool has an AST and it does its own parsing so it replaces the Python's parser with its own wrapper to be easier to develop the refactoring operations.
+
+
+\subsubsection{Rope}
+
+ is a Python refactoring tool written in Python, which works like a Python library.
+In order to make it easier to create refactoring operations Rope assumes that a Python program only has assignments and functions calls. %(can this be a bad thing?)
+The tool can easily get information about the assignments. 
+However for functions calls it is necessary to have other approaches in order to obtain the necessary information. 
+
+Rope uses a Static Object Analysis which analyses the modules or scope to get information about functions. 
+Rope only analyses the scopes when they change and it only analyses the modules when asked by the user, because this approach is time consuming. 
+
+The other approach is the Dynamic Object Analysis that starts working when a module is running. 
+Then, Rope collects information about parameters passed to and returned from functions in order to get all the information needed. 
+The main problem is that this approach is slow while collecting information, but not while accessing the information.
+
+Rope stores the information collected by the analysis in a database. 
+If Rope needs the information and there is nothing on the database the Static object inference starts trying to infer the object information.
+
+Rope uses an AST in order to store the syntax information about the programs.
+
+%It has simple refactoring operations such as, Rename, Extract method/local variable, Move, inline, Introduce factory, Change method signature, Transform module to package, Encapsulate field and Replace method with method object.
+
+%And it also can: Extract similar statements in extract refactorings, fix imports when needed, preview refactorings, undo/redo refactorings, interrupt refactorings, perform cross-project refactorings, handle basic implicit interfaces in rename and change signature.
+
+%And helps IDE's with:
+
+ %   Auto-completion
+  %  Finding definition location
+   % Getting pydoc
+    %Finding occurrences
+    %Organizing imports (removing unused and duplicate imports and sorting them)
+    %Generating python elements
+
+ %(the PyRefactor a plugin for sublime text 3 that uses Rope https://packagecontrol.io/packages/PyRefactor)
+
+ %It has a module that tries to support build-in types and functions.
+
+
+\subsection{Racket}
+
+Racket\footnote{http://racket-lang.org/} programming language is a dialect of lisp and a descendant of Scheme and it supports objects, types and lazy evaluation.
+For the Racket language the most used IDE is DrRacket. 
+DrRacket is an IDE, that was formerly known as DrScheme. 
+It is a simple IDE that was initially build for Racket programming language and it is aimed at inexperienced programmers.
+
+Regarding refactoring operations DrRacket only has one, namely the rename. 
+It could be viewed in two ways: the first is they only implemented one refactoring operation and forgot the other ones.
+Or it could be viewed as they implemented a refactoring operation that is the most used one. 
+In the worst case it represents 29\% of the refactoring operations for experienced users and in the best case represents of 62 to 75\% for the standard users. 
+
+%Add Image
+
+%Comparing Racket with eclise, racket language has its own  \AST\ while java doesnt. Eclipse creates its own AST from partially programs, meaning that it even does not use a java compiler to create the AST. DrRacket \/probably/\ adds more stuff to the racket AST.
+
+
+\subsection{Conclusions}
+%dynamic languages are good for prototyping and are used as introductory courses.
+
+%Few refactoring tools
+%Refactoring tools for dynamic languages are still far away from the capabilities offered by the refactoring tools for static languages and in average have less refactoring operations than the refactoring tools for static languages.
+%few information
+%Dynamic languages have the problem of having less information available in compile time and that might explain the different capabilities of the refactoring tools for dynamic languages when compared to refactoring tools for static languages. 
+
+%very different from each other
+%The dynamic languages are also very different from each other, whereas the static languages such as Java or C\# are similar. thus the refactoring operations can have the same base/do the same checks and only adapt to the few differences between languages
+
+%Dynamic even having way less refactoring operations when compared with static refactoring tools, they at least have the most used refactoring operation.
+%The dynamic languages even having few refactoring operations, the available ones are very different from one language to another. However, the rename, which is the most used refactoring operations, is available in every dynamic refactoring tool.
+
+%Refactoring tools for static in general have almost all of them. and that refactoring operations make sense for most of dynamic languages, if not all. => check this.
+
+
+%they are made for several text editors/ IDEs whereas static refactoring tools are made for usually one specific IDE.
+
+Dynamic languages, like Racket and Python are used in introductory courses across the world.
+However even being recognized as good languages to learn programming there are few refactoring tools for dynamic languages. 
+Consequently making the unexperienced programmer contact with refactoring tools latter on and not while learning.
+
+Refactoring tools for dynamic languages are still far away from the capabilities offered by the refactoring tools for static languages. 
+In average they have less refactoring operations than the refactoring tools for static languages.
+
+The biggest difficulty of the refactoring tools for dynamic languages is the lack of information available. 
+A dynamic language only knows type information in runtime. 
+That makes the refactoring operations more difficult when compared with the refactoring operations for static languages, where the information is always available.
+
+In addition, dynamic languages are very different from each other whereas the static languages are more similar.
+For example, Java and C\# are very similar and they have similar refactoring operations.
+Even C++ that is not that similar to Java or C\# have some refactoring operations available that are similar to Java and C\#. 
+This difference makes it a bit more difficult for the refactoring tools for dynamic languages when compared to the static one's. %they can't use the same refactoring bases/preconditions
+
+%IDEs help with the refactoring operations.
+Another difference between refactoring tools is the IDE support. 
+Static refactoring tools have an IDE support for the refactoring operations. 
+Thus making it easier when compared to the usual refactoring tools for dynamic languages, which help managing the information. 
+However this becomes an advantage when considering the interoperability of the refactoring tools. 
+Thus making it easier to use in different text-editors or IDEs.
+
+%Dynamic even having way less refactoring operations when compared with static refactoring tools, they at least have the most used refactoring operation.
+Even having way less refactoring operations available, when compared with static refactoring tools, the refactoring tools for dynamic languages at least have the most used refactoring operation, namely the rename.
+
+
+\section{Analyze}
+%Secao de critica/analise Como vimos nas secoes anteriores, as ling dyn
+%ling particular reconhecida, 1a operacao de refactoring
+%motivar pessoas para fazer refactoring, usar o IDE pedagogico e linguagem altamente pedagogico e fazer refactorings pedagogicos.
+
+There is a lack of refactoring tools for dynamic languages and none of the existent ones cares about unexperienced users that are starting to program. 
+And there are some dynamic languages such as Scheme, Racket and Python that are used to teach unexperienced programmers how to program.
+Without a refactoring tool that helps those users in the refactoring operations delays the contact of the users with a refactoring tool and that might influence the low use of the refactoring tools.
+
+Racket is a dynamic language that is known of being used as an introductory programming course in schools around the world. 
+Racket also has an IDE, DrRacket that is a pedagogic environment \cite{drscheme_pegadogy} and it also supports development and extension of other programming languages \cite{tobin2011languages} and recently it has an implementation of python \cite{ramos2014implementation}.
+Besides that, DrRacket only has one refactoring operation, that is the rename.
+A refactoring tool that would suit an unexperienced programmer who is learning how to program is needed. 
+That will motivate the unexperienced programmers to start using tool assisted refactoring operations and DrRacket seams to be the ideal candidate to have that refactoring tool.
