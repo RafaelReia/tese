@@ -744,6 +744,7 @@ If the namespace does not, they are colored the unbound color.
             ;; callback for the rename popup menu item
             (define/private (rename-menu-callback make-identifiers-hash name-to-offer
                                                   binding-identifiers parent)
+              
               (define (name-dup? x) 
                 (for/or ([var-arrow (in-list binding-identifiers)])
                   ((var-arrow-name-dup? var-arrow) x)))
@@ -783,63 +784,84 @@ If the namespace does not, they are colored the unbound color.
                   (define edit-sequence-txts (list this))
                   (define per-txt-positions (make-hash))
                   ;;;; CHANGES
+                  
+                  (define (normal-rename per-txt-positions arrow-aux)
+                    (for ([(source-txt start+ends) (in-hash per-txt-positions)])
+                      (when (is-a? source-txt text%)
+                        (define merged-positions (sort-and-merge start+ends))
+                        (begin-edit-sequence)
+                        (for ([start+end (in-list (reverse merged-positions))])
+                          (define start (car start+end))
+                          (define end (cdr start+end))
+                          (unless (memq source-txt edit-sequence-txts)
+                            (send source-txt begin-edit-sequence)
+                            (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
+                          (send source-txt delete start end #f)
+                          (send source-txt insert new-sym start start #f)))))
+                  
+                  
+                  (define (imported-rename per-txt-positions arrow-aux)
+                    (define get-the-name #t)
+                    (define original-name "" )
+                    (define import-name "")
+                    (define pos (hash-iterate-first per-txt-positions))
+                    (define text (hash-iterate-key per-txt-positions pos))
+                    (define start (var-arrow-start-pos-left arrow-aux) )
+                    (define end (+ start (string-length new-sym) ))
+                    (define rename-in-string "")
+                    (for ([(source-txt start+ends) (in-hash per-txt-positions)])
+                      (when (is-a? source-txt text%)
+                        (define merged-positions (sort-and-merge start+ends))
+                        (begin-edit-sequence)
+                        ;;;HACK
+                        ;I need to get the original names of the require module and the function
+                        (when get-the-name
+                          (set! original-name (send source-txt get-text (var-arrow-end-pos-left arrow-aux) (var-arrow-end-pos-right arrow-aux)))
+                          (set! import-name (send source-txt get-text (var-arrow-start-pos-left arrow-aux) (var-arrow-start-pos-right arrow-aux)))
+                          (set! get-the-name #f))
+                        ;;;END-HACK
+                        (for ([start+end (in-list (reverse merged-positions))])
+                          (define start (car start+end))
+                          (define end (cdr start+end))
+                          (unless (memq source-txt edit-sequence-txts)
+                            (send source-txt begin-edit-sequence)
+                            (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
+                          (when (string=? (send source-txt get-text start end) original-name)
+                            (displayln original-name)
+                            (send source-txt delete start end #f)
+                            (send source-txt insert new-sym start start #f)))))
+                    ;(send txt delete start-pos end-pos)
+                    ;;; I let DrRacket change everything because I know the original names and positions
+                    (send text delete start end) ;delete the renamed name in the require. 
+                    ;this is the string that will be added, with the rename-in etc.
+                    ;(displayln rename-in-string)
+                    (set! rename-in-string (string-append "(rename-in " import-name " (" original-name " " new-sym "))" ))
+                    (send text insert rename-in-string start))
+                  ;;; END CHANGES
+                  
                   (define arrow-aux null)
-                  (define original-name "" )
-                  (define import-name "")
-                  (define get-the-name #t)
+                  
                   ;; Get the arrow
                   (for/or ([var-arrow (in-list binding-identifiers)])
                     (displayln (var-arrow-level var-arrow))
                     (when (eq? (var-arrow-level var-arrow) 'imported)
                       (displayln (var-arrow-level var-arrow))
-                    (set! imported? #t)
-                    (set! arrow-aux var-arrow))
+                      (set! imported? #t)
+                      (set! arrow-aux var-arrow))
                     )
                   ;;;; END CHANGES
-
+                  
                   (for ([(k _) (in-hash (make-identifiers-hash))])
                     (define-values (txt start-pos end-pos) (apply values k))
                     (hash-set! per-txt-positions txt 
                                (cons (cons start-pos end-pos)
                                      (hash-ref per-txt-positions txt '()))))
-                  (for ([(source-txt start+ends) (in-hash per-txt-positions)])
-                    (when (is-a? source-txt text%)
-                      (define merged-positions (sort-and-merge start+ends))
-                      (begin-edit-sequence)
-                      (for ([start+end (in-list (reverse merged-positions))])
-                        (define start (car start+end))
-                        (define end (cdr start+end))
-                        (unless (memq source-txt edit-sequence-txts)
-                          (send source-txt begin-edit-sequence)
-                          (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
-                        ;;;HACK
-                        ;I need to get the original names of the require module and the function
-                        (when (and imported? get-the-name)
-                          (set! original-name (send source-txt get-text start end))
-                          (set! import-name (send source-txt get-text (var-arrow-start-pos-left arrow-aux) (var-arrow-start-pos-right arrow-aux)))
-                          (set! get-the-name #f))
-                        
-                        ;;;END-HACK
-                        
-                        (send source-txt delete start end #f)
-                        (send source-txt insert new-sym start start #f))))
-
-                  ;;; CHANGES
-                  (when imported?
-                    (begin
-                      ;(send txt delete start-pos end-pos)
-                      (define pos (hash-iterate-first per-txt-positions))
-                      (define text (hash-iterate-key per-txt-positions pos))
-                      (define start (var-arrow-start-pos-left arrow-aux) )
-                      (define end (+ start (string-length new-sym) ))
-                      ;;; I let DrRacket change everything because I know the original names and positions
-                      (send text delete start end) ;delete the renamed name in the require. 
-                      ;this is the string that will be added, with the rename-in etc.
-                      (define rename-in-string (string-append "(rename-in " import-name " (" original-name " " new-sym "))" ))
-                      ;(displayln rename-in-string)
-                      (send text insert rename-in-string start)))
-                  ;;; END CHANGES
-
+                  (if imported?
+                      (imported-rename per-txt-positions arrow-aux)
+                      (normal-rename per-txt-positions arrow-aux))
+                  
+                  (normal-rename per-txt-positions arrow-aux)
+                  
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))
                   )))
