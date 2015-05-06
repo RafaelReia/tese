@@ -740,11 +740,114 @@ If the namespace does not, they are colored the unbound color.
             
             ;;;; End Changes
             
+            (define/private (rename-menu-callback-imported make-identifiers-hash name-to-offer
+                                                  binding-identifiers parent start-selection)
+              
+              (define (name-dup? x) 
+                (for/or ([var-arrow (in-list binding-identifiers)])
+                  ((var-arrow-name-dup? var-arrow) x)))
+              (define new-str
+                (fw:keymap:call/text-keymap-initializer
+                 (λ ()
+                   (get-text-from-user
+                    (string-constant cs-rename-id)
+                    (fw:gui-utils:format-literal-label (string-constant cs-rename-var-to) 
+                                                       name-to-offer)
+                    parent
+                    name-to-offer
+                    #:dialog-mixin frame:focus-table-mixin))))
+              (when new-str
+                (define new-sym (format "~s" (string->symbol new-str)))
+                (define dup-name? (name-dup? new-sym))
+                ;;;changes
+                (define imported? #f)
+                ;;; end change
+               (displayln "estou no sitio certo")
+                (define do-renaming?
+                  (or (not dup-name?)
+                      (equal?
+                       (message-box/custom
+                        (string-constant check-syntax)
+                        (fw:gui-utils:format-literal-label
+                         (string-constant cs-name-duplication-error) 
+                         new-sym)
+                        (string-constant cs-rename-anyway)
+                        (string-constant cancel)
+                        #f
+                        parent
+                        '(stop default=2)
+                        #:dialog-mixin frame:focus-table-mixin)
+                       1)))
+                
+                (when do-renaming?
+                  (define edit-sequence-txts (list this))
+                  (define per-txt-positions (make-hash))               
+                  (define arrow-aux null)
+                  (define (imported-rename per-txt-positions)
+                    (define get-the-name #t)
+                    (define original-name "" )
+                    (define import-name "")
+                    (define pos (hash-iterate-first per-txt-positions))
+                    (define text (hash-iterate-key per-txt-positions pos))
+
+                    (define rename-in-string "")
+(displayln start-selection)
+                    (for/or ([var-arrow (in-list binding-identifiers)])
+                      (when (and (>= (var-arrow-end-pos-left var-arrow) start-selection)
+                                 (<= (var-arrow-end-pos-right var-arrow) start-selection))
+                                  (displayln "Fiz display")
+                                  (displayln (var-arrow-level var-arrow))
+                                  (set! arrow-aux var-arrow)
+                        
+                                  ))
+
+                    (for ([(source-txt start+ends) (in-hash per-txt-positions)])
+                      (when (is-a? source-txt text%)
+                        (define merged-positions (sort-and-merge start+ends))
+                        (begin-edit-sequence)
+                        ;;;HACK
+                        ;I need to get the original names of the require module and the function
+                        (when get-the-name
+                          (set! original-name (send source-txt get-text (var-arrow-end-pos-left arrow-aux) (var-arrow-end-pos-right arrow-aux)))
+                          (set! import-name (send source-txt get-text (var-arrow-start-pos-left arrow-aux) (var-arrow-start-pos-right arrow-aux)))
+                          (set! get-the-name #f)
+                          (displayln (send source-txt get-text (send source-txt get-start-position) (+ 5 (send source-txt get-start-position)) )))
+                        ;;;END-HACK
+                        (for ([start+end (in-list (reverse merged-positions))])
+                          (define start (car start+end))
+                          (define end (cdr start+end))
+                          (unless (memq source-txt edit-sequence-txts)
+                            (send source-txt begin-edit-sequence)
+                            (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
+                          (when (string=? (send source-txt get-text start end) original-name)
+                            (displayln original-name)
+                            (send source-txt delete start end #f)
+                            (send source-txt insert new-sym start start #f)))))
+                    ;(send txt delete start-pos end-pos)
+                    ;;; I let DrRacket change everything because I know the original names and positions
+                    (send text delete (var-arrow-start-pos-left arrow-aux) (+ (var-arrow-start-pos-left arrow-aux) (string-length new-sym) )) ;delete the renamed name in the require. 
+                    ;this is the string that will be added, with the rename-in etc.
+                    ;(displayln rename-in-string)
+                    (set! rename-in-string (string-append "(rename-in " import-name " (" original-name " " new-sym "))" ))
+                    (send text insert rename-in-string (var-arrow-start-pos-left arrow-aux)))
+
+                  
+                  (for ([(k _) (in-hash (make-identifiers-hash))])
+                    (define-values (txt start-pos end-pos) (apply values k))
+                    (hash-set! per-txt-positions txt 
+                               (cons (cons start-pos end-pos)
+                                     (hash-ref per-txt-positions txt '()))))
+                  
+                   (imported-rename per-txt-positions)
+
+                  
+                  (for ([txt (in-list edit-sequence-txts)])
+                    (send txt end-edit-sequence))
+                  )))
             
             ;; callback for the rename popup menu item
             (define/private (rename-menu-callback make-identifiers-hash name-to-offer
-                                                  binding-identifiers parent)
-              
+                                                  binding-identifiers parent )              
               (define (name-dup? x) 
                 (for/or ([var-arrow (in-list binding-identifiers)])
                   ((var-arrow-name-dup? var-arrow) x)))
@@ -785,7 +888,7 @@ If the namespace does not, they are colored the unbound color.
                   (define per-txt-positions (make-hash))
                   ;;;; CHANGES
                   
-                  (define (normal-rename per-txt-positions arrow-aux)
+                  (define (normal-rename per-txt-positions)
                     (for ([(source-txt start+ends) (in-hash per-txt-positions)])
                       (when (is-a? source-txt text%)
                         (define merged-positions (sort-and-merge start+ends))
@@ -800,67 +903,16 @@ If the namespace does not, they are colored the unbound color.
                           (send source-txt insert new-sym start start #f)))))
                   
                   
-                  (define (imported-rename per-txt-positions arrow-aux)
-                    (define get-the-name #t)
-                    (define original-name "" )
-                    (define import-name "")
-                    (define pos (hash-iterate-first per-txt-positions))
-                    (define text (hash-iterate-key per-txt-positions pos))
-                    (define start (var-arrow-start-pos-left arrow-aux) )
-                    (define end (+ start (string-length new-sym) ))
-                    (define rename-in-string "")
-                    (for ([(source-txt start+ends) (in-hash per-txt-positions)])
-                      (when (is-a? source-txt text%)
-                        (define merged-positions (sort-and-merge start+ends))
-                        (begin-edit-sequence)
-                        ;;;HACK
-                        ;I need to get the original names of the require module and the function
-                        (when get-the-name
-                          (set! original-name (send source-txt get-text (var-arrow-end-pos-left arrow-aux) (var-arrow-end-pos-right arrow-aux)))
-                          (set! import-name (send source-txt get-text (var-arrow-start-pos-left arrow-aux) (var-arrow-start-pos-right arrow-aux)))
-                          (set! get-the-name #f))
-                        ;;;END-HACK
-                        (for ([start+end (in-list (reverse merged-positions))])
-                          (define start (car start+end))
-                          (define end (cdr start+end))
-                          (unless (memq source-txt edit-sequence-txts)
-                            (send source-txt begin-edit-sequence)
-                            (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
-                          (when (string=? (send source-txt get-text start end) original-name)
-                            (displayln original-name)
-                            (send source-txt delete start end #f)
-                            (send source-txt insert new-sym start start #f)))))
-                    ;(send txt delete start-pos end-pos)
-                    ;;; I let DrRacket change everything because I know the original names and positions
-                    (send text delete start end) ;delete the renamed name in the require. 
-                    ;this is the string that will be added, with the rename-in etc.
-                    ;(displayln rename-in-string)
-                    (set! rename-in-string (string-append "(rename-in " import-name " (" original-name " " new-sym "))" ))
-                    (send text insert rename-in-string start))
-                  ;;; END CHANGES
                   
-                  (define arrow-aux null)
-                  
-                  ;; Get the arrow
-                  (for/or ([var-arrow (in-list binding-identifiers)])
-                    (displayln (var-arrow-level var-arrow))
-                    (when (eq? (var-arrow-level var-arrow) 'imported)
-                      (displayln (var-arrow-level var-arrow))
-                      (set! imported? #t)
-                      (set! arrow-aux var-arrow))
-                    )
-                  ;;;; END CHANGES
                   
                   (for ([(k _) (in-hash (make-identifiers-hash))])
                     (define-values (txt start-pos end-pos) (apply values k))
                     (hash-set! per-txt-positions txt 
                                (cons (cons start-pos end-pos)
                                      (hash-ref per-txt-positions txt '()))))
-                  (if imported?
-                      (imported-rename per-txt-positions arrow-aux)
-                      (normal-rename per-txt-positions arrow-aux))
+                
                   
-                  (normal-rename per-txt-positions arrow-aux)
+                  (normal-rename per-txt-positions)
                   
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))
@@ -1472,6 +1524,7 @@ If the namespace does not, they are colored the unbound color.
                   
                   (unless (null? binding-identifiers)
                     (define name-to-offer (find-name-to-offer binding-identifiers))
+                    (define imported? #f)
                     (new menu-item%
                          [parent menu]
                          [label (fw:gui-utils:format-literal-label (string-constant cs-rename-var)
@@ -1479,10 +1532,23 @@ If the namespace does not, they are colored the unbound color.
                          [callback
                           (λ (x y)
                             (let ([frame-parent (find-menu-parent menu)])
-                              (rename-menu-callback make-identifiers-hash
-                                                    name-to-offer 
-                                                    binding-identifiers
-                                                    frame-parent)))]))
+                              (for/or ([var-arrow (in-list binding-identifiers)])
+                                
+                                (when (eq? (var-arrow-level var-arrow) 'imported)
+                                  (displayln (var-arrow-level var-arrow))
+                                  (set! imported? #t)
+                                  ))
+                              (displayln name-to-offer)
+                              (if imported?
+                                  (rename-menu-callback-imported make-identifiers-hash
+                                                        name-to-offer 
+                                                        binding-identifiers
+                                                        frame-parent
+                                                        start-selection)
+                                  (rename-menu-callback make-identifiers-hash
+                                                        name-to-offer 
+                                                        binding-identifiers
+                                                        frame-parent))))]))
                   (unless sep-before?
                     (when need-a-sep?
                       (new separator-menu-item% [parent menu])))
