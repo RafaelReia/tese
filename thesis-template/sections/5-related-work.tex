@@ -12,6 +12,136 @@
 %Then it presents the refactoring tools for the dynamic languages such as, Scheme, JavaScript, Smalltalk, Python and Racket.
 %Finally it has a conclusion about the related work.
 
+%%ADD overview + refactoring tools for static languages
+%How we Refactor, and how we know it.
+\subsection{Use of static refactoring tools}
+
+Understanding how users refactor and use refactoring tools is an important step to better improve the refactoring tools.
+The information necessary to reason about how the users refactor was gathered by collecting some data sets \cite{murphy2012we}.
+
+
+%Murphy et al \cite{murphy2012we} collected some data sets in order to understand how the users refactor.
+The User data set was collected \cite{murphy2006java} in 2005, it has records of 41 volunteer programmers using eclipse which 95\% of them programmed in Java. %Whit this we implied that Refactoring tools are underused [10]
+
+The Everyone data set was collected from the Eclipse Usage Collector, the data used aggregates activity from over 13000 Java developers between 04/08 to 01/09 and it also includes non-Java developers.
+
+The Toolsmiths data set that consists in information about 4 developers who primarily maintain eclipse's refactoring tools from 12/05 to 08/07. 
+However, it is not publicly available and is not described in other papers.
+There is only a similar study \cite{robbes2007mining} that uses data from the author and another developer. 
+
+
+%Many other authors have mined software repositories automatically for refactorings (WeiBgerber and Diehl [18]) they did not know of other research that compares refactoring tool logs with code histories.
+Using all the data sets it is possible to see which are the most common refactoring operations used by the users and they are: rename, extract local variable, inline, extract method and move. The sum of the use percentages of this refactoring operations is between 86.4\% and 92\% of the data sets. % 86.4 90.8 92.0 
+
+However the refactoring behavior differs among users. The most used refactoring operations is the rename for all the sets, but the used percentage drastically differs between Toolsmiths and the other sets. Toolsmiths usage of the rename refactoring is 29\% while the User set and Everyone set is 62\% and 75\% respectively.
+
+Using the data sets of Users and Toolsmiths it was possible to confirm that refactoring operations are frequent. 
+In the Users data set, 41\% of programming sessions contained refactoring activities and the sessions that did not have refactoring activities were the sessions where less edits where made.
+In the toolsmith data set only 2 weeks of the year 2006 did not had any refactoring operation and, in average, it had 30 refactoring operations per week. 
+In 2007 every week had refactoring activities and the average was 47 refactoring operations a week.
+
+Besides refactoring operations being frequent, the refactoring tools are underused. 
+%In order to decide whether the refactoring operation was manual or tool assisted they tried to correlate refactoring activities with tool support. 
+%If the refactoring activities is correlated with tool support it is classified as being a tool assisted refactoring.
+After evaluating the refactoring activities in the data set they were unable to link 73\% of the refactoring operations to a tool supported refactoring. 
+All this numbers are computed from the Toolsmiths data set which is in theory the group who knows and better uses the refactoring tools.
+
+
+\subsection{Overview of static Refactoring tools}
+%\textbackslash
+\begin{table}
+\caption{Refactoring operations available by default}
+\label{tab-Comparing-Static}
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline\noalign{\smallskip}
+Refactoring \textbackslash IDE           & Visual Studio & Eclipse & CDT & IntelliJ & NetBeans & Jbuilder \\
+\noalign{\smallskip}
+\hline
+\noalign{\smallskip}
+Rename                    & x             & x       & x   & x        & x        & x        \\ \hline
+Move                      &               & x       & x   & x        & x        & x        \\ \hline
+Change method signature   &               & x       &     & x        &          &          \\ \hline
+Extract method            & x             & x       & x   & x        &          & x        \\ \hline
+Extract local variable    &               & x       &     & x        &          & x        \\ \hline
+Extract constant          &               & x       & x   & x        &          &          \\ \hline
+Inline                    &               & x       &     & x        & x        &          \\ \hline
+To nested 			      &               & x       &     & x        &          &          \\ \hline
+Move type to new file     &               & x       &     & x        &          &          \\ \hline
+Variable to field         &               & x       &     & x        &          &          \\ \hline
+Extract superclass        &               & x       & x   & x        & x        &          \\ \hline
+Extract interface         & x             & x       &     & x        & x        &          \\ \hline
+Change to supertype 	  &               & x       &     &          & x        &          \\ \hline
+Push down                 &               & x       &     & x        & x        &          \\ \hline
+Pull up                   &               & x       &     & x        & x        &          \\ \hline
+Extract class             &               & x       &     & x        &          &          \\ \hline
+Introduce parameter       &               & x       &     & x        & x        &          \\ \hline
+Introduce indirection     &               & x       &     &          &          &          \\ \hline
+Introduce factory         &               & x       &     & x        & x        &          \\ \hline
+Encapsulate field         & x             & x       &     & x        &          &          \\ \hline
+Generalize declared type  &               & x       &     &          &          &          \\ \hline
+Type Migration            &               &         &     & x        &          &          \\ \hline
+Remove Middleman          &               &         &     & x        &          &          \\ \hline
+Wrap Return Value         &               &         &     & x        &          &          \\ \hline
+Safe Delete               &               &         &     & x        & x        &          \\ \hline
+Replace Method duplicates &               &         &     & x        &          &          \\ \hline
+Static to instance method &               &         &     & x        &          &          \\ \hline
+Make Method Static        &               &         &     & x        &          &          \\ \hline
+Change to interface 	  &               &         &     & x        &          &          \\ \hline
+Inheritance to delegation &               &         &     & x        &          &          \\ \hline
+\end{tabular}
+\end{table}
+ 
+\begin{table}[htbp]
+\caption{Refactoring operations definitions:}
+\label{tab-Refactoring-Definitions}
+\begin{tabular}{ p{2.95cm}| p{9.15cm}}
+\hline\noalign{\smallskip}
+Refactoring name 		  & Definition \\
+\noalign{\smallskip}
+\hline
+\noalign{\smallskip}
+Rename                    & Renames the selected element and corrects all references.                                                                                                                 \\ \hline
+Move                      & Moves the selected elements and corrects all references.                                                                                                                  \\ \hline
+Change signature          & Change parameter names, types and updates all references.                                                                                                                 \\ \hline
+Extract method            & Creates a new method with the statements or expression selected and replaces with a reference to the new method.                                                          \\ \hline
+Extract local variable    & Creates a new variable assigned to the expression selected and replaces with a reference to the new variable.                                                             \\ \hline
+Extract constant          & Creates a static final field from the selected expression.                                                                                                                \\ \hline
+Inline                    & Inline local variables, methods or constants.                                                                                                                             \\ \hline
+To nested                 & Converts an anonymous inner class to a member class.                                                                                                                      \\ \hline
+Move type to new file     & Creates a new compilation unit and updates all references.                                                                                                                \\ \hline
+Variable to field         & Turn a local variable into a field.                                                                                                                                       \\ \hline
+Extract superclass        & Creates a new abstract class, changes the current class to extend the new class and moves the selected methods and fields to the new class.                               \\ \hline
+Extract interface         & Creates a new interface and makes the class implement it.                                                                                                                 \\ \hline
+Change to Supertype       & Replaces, where it is possible, all occurrences of a type with one of its supertypes.                                                                                     \\ \hline
+Push down                 & Moves a set of methods and fields from a class to its subclasses.                                                                                                         \\ \hline
+Pull up                   & Moves a field or method to a superclass, if it is a method, declares the method as abstract in the superclass.                                                            \\ \hline
+Extract class             & Replaces a set of fields with new container object.                                                                                                                       \\ \hline
+Introduce parameter       & Replaces an expression with a reference to a new method parameter and updates all callers of the method.                                                                  \\ \hline
+Introduce indirection     & Creates an indirection method delegating to the selected method.                                                                                                          \\ \hline
+Introduce factory         & Creates a new factory method, which calls a selected constructor and returns the created object.                                                                          \\ \hline
+Encapsulate field         & Replaces all references to a field with getter and setter methods.                                                                                                        \\ \hline
+Generalize type           & Allows the user to choose a supertype of the selected reference.                                                                                                          \\ \hline
+Type Migration            & Change a member type and data flow dependent type entries.                                                                                                                \\ \hline
+Remove Middleman          & Replaces all calls to delegating methods with the equivalent calls.                                                                                                       \\ \hline
+Wrap Return Value         & Creates a wrapper class that includes the current return value.                                                                                                           \\ \hline
+Safe Delete               & Finds all the usages or, simply delete if no usages found.                                                                                                                \\ \hline
+Replace duplicates        & Finds all the places in the current file where the selected method code is fully repeated and change to corresponding method calls.                                      \\ \hline
+Static to instance        & Converts a static method into an instance method with an initial method call argument being a prototype of newly created instance method call qualifier.                  \\ \hline
+Make Method Static        & Converts a non-static method into a static one.                                                                                                                           \\ \hline
+Change to Interface       & Used after using Extract an Interface it search for all places where the interface can be used instead of the original class.                                             \\ \hline
+Inheritance to delegation & Delegate the execution of specified methods derived from the base class/interface to an instance of the ancestor class or an inner class implementing the same interface. \\ \hline
+\end{tabular}
+\end{table}
+%Por C++ e comparar ve o que o eclipse tem.
+The {\bf table.~\ref{tab-Comparing-Static}} compares this refactoring tools with each other and the Refactoring definitions, that were taken from Eclipse\footnote{help.eclipse.org/luna/topic/org.eclipse.jdt.doc.user/reference/ref-menu-refactor.htm} and IntelliJ\footnote{https://www.jetbrains.com/idea/features/refactoring.html} can be found on the {\bf table.~\ref{tab-Refactoring-Definitions}}.
+
+The {\bf table.~\ref{tab-Comparing-Static}} compares the Visual Studio refactoring operations for C\# with Refactoring tools that have refactoring operations for Java because the languages are similar. It also compares with the Eclipse CDT  refactoring operations for C++ because in some aspects the languages are similar and the refactoring operations compared are similar to the refactoring operations for Java or C\#. 
+The table only lists the refactoring operations that each IDE has by default in order to have a fairer way to compare them with each other.
+It is easy to see that IntelliJ has almost all the refactoring operations in this table, followed by Eclipse and NetBeans.
+However, even having significantly less refactoring operations available by default than the other tools, JBuilder has the most used ones as shown above.
+Only Visual Studio has 2 out of 5 most used refactoring operations available by default, but there are easily installed plug-ins that cover the more important refactoring operations. 
+
+%It is easy to see all the effort to provide to the programmers refactoring operations to help them refactoring their projects. 
 
 \subsection{Formal Pattern Language for Refactoring of Lisp Programs}
 %prof paper
@@ -48,7 +178,7 @@ It is crucial to document the refactoring operations applied in detail.
 This aspect was stressed because having documentation about the version previous to the refactoring or outdated is not good for the readability of the program because it can mislead the programmer.
 
 
-\subsection{HaRe}
+\subsection{Haskell}
 
 The HaRe system is a refactoring tool for Haskell that integrates with Emacs and Vim.
 This tool was made for the working programmers instead of being a prof of concept prototype and it is implemented in Haskell.
@@ -132,28 +262,7 @@ With these structures it is possible to combine them and have a single formalism
 
 
 
-\subsection{JunGL} 
 
-
-The JunGL \cite{verbaere2006jungl} is a domain-specific language for refactoring. 
-It is a hybrid of a functional language and a logic query language. 
-The goal of this paper is to create a scripting language that allows the user to create their owns refactoring without errors.
-
-\subsubsection{Architecture}
-The JunGL has a Program Graph as main data structure that is composed by nodes and edges and both nodes and edges can have a type. 
-For example: control flow successor. 
-This graph have all the relevant information about the program, including the ASTs, variable binding and control flow.
-
-It defines the Program Dependence Graph using path queries. 
-This allows the correct application of many transformations that reorder statements.
-The language has lazy edges. 
-The lazy edges initially are only composed by the ASTs of the program, the rest of the information will be added later to the edges as it may be necessary, like lazy evaluation but for the Program Graph.
-This lazy edges allow the tool to handle incomplete programs. 
-The tool can handle null branches, that means when the branch information of the graph is non existent. This means that the tool can handle incomplete programs.
-
-\subsubsection{Performance}
-
-The Lazy edges used allows a better performance of the refactoring because the tool will not need to compute unnecessary information and then save computations.
 
 
 \subsection{Smalltalk}%add more?
@@ -187,57 +296,6 @@ After identifying those methods it uses Randoop \cite{pacheco2007feedback}, a to
 
 Pairing this tool with the smalltalk refactoring browser would remove the limitation of the refactoring browser.
 However the tool is created for static languages and it is not that trivial to create one for dynamic languages because the tools have less information in compile time.
-
-
-\subsection{Metrics based refactoring}
-%84
-
-The goal of this paper \cite{simon2001metrics} is to show some metrics that can be used to support the decision where to apply refactoring and which refactorings.
-The tool uses the metrics to identify where the code should be refactored and warns the developer.
-The tool takes into account the "bad smell" of a code to suggest a refactoring. The "bad smell" is a human intuition which that specific code should be refactored. 
-An example of a "bad smell" that would trigger a Move Method refactoring is when one method of a class is used more by other class in which it is defined.
-
-To quickly show to the user the identified "bad smells" it is generated a visualization of the objects, and those objects are linked to the corresponding source code. 
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.75\textwidth]{img/metricsbasedrefactoring.png}
-  \caption{Motivates the refactoring move method}
-  \label{fig:MetricsBasedRefactoring}
-\end{figure}
-
-
-
-\subsubsection{Distance based cohesion on refactorings}
-In order to make an automated approach to identify "bad smells" it is used a distance based cohesion metric.
-With the distance based algorithm it is possible to identify violations to the rule "put together what belongs together". 
-There are some refactoring operations that are related to this rule such as, move attribute, extract class, in-line class and move method. 
-Regarding the distances a method using only locally defined methods/attributes have a high distance to the methods of other classes. 
-Whereas methods that use many attributes and/or methods of other classes have a low distance to them. 
-The attributes are compared by the methods that use them. 
-For example if an attribute is only used by methods of other classes, that attribute probably should be moved to other class.
-
-
-\subsection{FAMIX} %Review && Rewrite
-
-FAMIX \cite{tichelaar2000meta} is a  Meta-model for Language-independent refactoring.
-The goal of the FAMIX is to check the preconditions of the refactorings supported and to analyze which changes need to be done for every supported refactoring at a language independent level.
-
-Language independence is useful because a large part of the refactorings are described and analyzed on a language-independent level and similar concepts in different languages are treated in the same way. 
-With that it is possible to reuse the analysis and reduce the language specifics to only the modifications in the source code.
-
-Based on this meta-model is possible to construct a refactoring engine that can do primitive refactorings for a few implementations such as smalltalk and java.
-
-\subsubsection{Difficulties}
-However there are some downsides to this approach which leads to an increase of the algorithms complexity. 
-The complexity increases because the model needs to be general in order to deal with several languages. 
-
-There are difficulties in mapping the changes to the actual code, because sometimes the concepts that are generalized in the language-independent level need to be mapped back to their language-specific.
-For example the invocation of methods in Java is different that the constructors.
-It is also difficult to abstract a language when there are apparent standards in all languages but needs language-specific interpretation such as when a name is a valid name for a class in that specific language.
-
-Mapping back the language to the FAMIX is difficult in some languages because FAMIX meta-model does not have the concept of meta-classes or interfaces.
-However the most problematic issue was with dynamic languages. Dynamic languages have less information available at compile-time and that makes the dependency analysis  through invocations and accesses more difficult. For example the rename method can only be done if there is no other method with the same signature.
 
 \subsection{JavaScript}
 
@@ -320,6 +378,7 @@ Rope uses an AST in order to store the syntax information about the programs.
  %It has a module that tries to support build-in types and functions.
 
 
+
 \subsection{Racket}
 
 Racket\footnote{http://racket-lang.org/} programming language is a dialect of lisp and a descendant of Scheme and it supports objects, types and lazy evaluation.
@@ -335,6 +394,82 @@ In the worst case it represents 29\% of the refactoring operations for experienc
 %Add Image
 
 %Comparing Racket with eclise, racket language has its own  \AST\ while java doesnt. Eclipse creates its own AST from partially programs, meaning that it even does not use a java compiler to create the AST. DrRacket \/probably/\ adds more stuff to the racket AST.
+
+
+\subsection{Detecting refactoring opportunities}
+%84
+%Metrics based refactoring
+Using metrics can support the decision where to apply refactorings and which refactorings. \cite{simon2001metrics}
+A tool was created as proof of concept and it uses the metrics to identify where the code should be refactored.
+The tool takes into account the "bad smell" of a code to suggest a refactoring. The "bad smell" is a human intuition which that specific code should be refactored. 
+An example of a "bad smell" that would trigger a Move Method refactoring is when one method of a class is used more by other class in which it is defined.
+
+To quickly show to the user the identified "bad smells" it is generated a visualization of the objects, and those objects are linked to the corresponding source code. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.75\textwidth]{img/metricsbasedrefactoring.png}
+  \caption{Motivates the refactoring move method}
+  \label{fig:MetricsBasedRefactoring}
+\end{figure}
+
+
+
+\subsubsection{Distance based cohesion on refactorings}
+In order to make an automated approach to identify "bad smells" it is used a distance based cohesion metric.
+With the distance based algorithm it is possible to identify violations to the rule "put together what belongs together". 
+There are some refactoring operations that are related to this rule such as, move attribute, extract class, in-line class and move method. 
+Regarding the distances a method using only locally defined methods/attributes have a high distance to the methods of other classes. 
+Whereas methods that use many attributes and/or methods of other classes have a low distance to them. 
+The attributes are compared by the methods that use them. 
+For example if an attribute is only used by methods of other classes, that attribute probably should be moved to other class.
+
+
+\subsection{Language-independent refactoring} %Review && Rewrite
+
+FAMIX \cite{tichelaar2000meta} is a  Meta-model for Language-independent refactoring.
+The goal of the FAMIX is to check the preconditions of the refactorings supported and to analyze which changes need to be done for every supported refactoring at a language independent level.
+
+Language independence is useful because a large part of the refactorings are described and analyzed on a language-independent level and similar concepts in different languages are treated in the same way. 
+With that it is possible to reuse the analysis and reduce the language specifics to only the modifications in the source code.
+
+Based on this meta-model is possible to construct a refactoring engine that can do primitive refactorings for a few implementations such as smalltalk and java.
+
+\subsubsection{Difficulties}
+However there are some downsides to this approach which leads to an increase of the algorithms complexity. 
+The complexity increases because the model needs to be general in order to deal with several languages. 
+
+There are difficulties in mapping the changes to the actual code, because sometimes the concepts that are generalized in the language-independent level need to be mapped back to their language-specific.
+For example the invocation of methods in Java is different that the constructors.
+It is also difficult to abstract a language when there are apparent standards in all languages but needs language-specific interpretation such as when a name is a valid name for a class in that specific language.
+
+Mapping back the language to the FAMIX is difficult in some languages because FAMIX meta-model does not have the concept of meta-classes or interfaces.
+However the most problematic issue was with dynamic languages. Dynamic languages have less information available at compile-time and that makes the dependency analysis  through invocations and accesses more difficult. For example the rename method can only be done if there is no other method with the same signature.
+
+\subsection{JunGL} %creating refactorings  
+
+
+The JunGL \cite{verbaere2006jungl} is a domain-specific language for refactoring. 
+It is a hybrid of a functional language and a logic query language. 
+The goal of this paper is to create a scripting language that allows the user to create their owns refactoring without errors.
+
+\subsubsection{Architecture}
+The JunGL has a Program Graph as main data structure that is composed by nodes and edges and both nodes and edges can have a type. 
+For example: control flow successor. 
+This graph have all the relevant information about the program, including the ASTs, variable binding and control flow.
+
+It defines the Program Dependence Graph using path queries. 
+This allows the correct application of many transformations that reorder statements.
+The language has lazy edges. 
+The lazy edges initially are only composed by the ASTs of the program, the rest of the information will be added later to the edges as it may be necessary, like lazy evaluation but for the Program Graph.
+This lazy edges allow the tool to handle incomplete programs. 
+The tool can handle null branches, that means when the branch information of the graph is non existent. This means that the tool can handle incomplete programs.
+
+\subsubsection{Performance}
+
+The Lazy edges used allows a better performance of the refactoring because the tool will not need to compute unnecessary information and then save computations.
+
+
 
 
 \subsection{Conclusions}
@@ -383,12 +518,20 @@ Thus making it easier to use in different text-editors or IDEs.
 Even having way less refactoring operations available, when compared with static refactoring tools, the refactoring tools for dynamic languages at least have the most used refactoring operation, namely the rename.
 
 
-\section{Analyze}
+%Meta-models
+%detecting refactorings
+%scripting language
+
+
+
+
+
 %Secao de critica/analise Como vimos nas secoes anteriores, as ling dyn
 %ling particular reconhecida, 1a operacao de refactoring
 %motivar pessoas para fazer refactoring, usar o IDE pedagogico e linguagem altamente pedagogico e fazer refactorings pedagogicos.
 
-There is a lack of refactoring tools for dynamic languages and none of the existent ones cares about unexperienced users that are starting to program. 
+
+To conclude, there is a lack of refactoring tools for dynamic languages and none of the existent ones cares about unexperienced users that are starting to program. 
 And there are some dynamic languages such as Scheme, Racket and Python that are used to teach unexperienced programmers how to program.
 Without a refactoring tool that helps those users in the refactoring operations delays the contact of the users with a refactoring tool and that might influence the low use of the refactoring tools.
 
