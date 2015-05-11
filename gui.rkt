@@ -762,7 +762,7 @@ If the namespace does not, they are colored the unbound color.
                 ;;;changes
                 (define imported? #f)
                 ;;; end change
-               (displayln "estou no sitio certo")
+               ;(displayln "estou no sitio certo")
                 (define do-renaming?
                   (or (not dup-name?)
                       (equal?
@@ -791,12 +791,16 @@ If the namespace does not, they are colored the unbound color.
                     (define text (hash-iterate-key per-txt-positions pos))
 
                     (define rename-in-string "")
-(displayln start-selection)
-                    (for/or ([var-arrow (in-list binding-identifiers)])
-                      (when (and (>= (var-arrow-end-pos-left var-arrow) start-selection)
-                                 (<= (var-arrow-end-pos-right var-arrow) start-selection))
-                                  (displayln "Fiz display")
-                                  (displayln (var-arrow-level var-arrow))
+                    
+                    (for ([var-arrow (in-list binding-identifiers)])
+                      ;(display "start-selection")
+                      ;(displayln start-selection)
+                      ;(display "end-pos-left")
+                      ;(displayln (var-arrow-end-pos-left var-arrow))
+                      (when (and (<= (var-arrow-end-pos-left var-arrow) start-selection)
+                                 (>= (var-arrow-end-pos-right var-arrow) start-selection))
+                                  ;(displayln "Fiz display")
+                                  ;(displayln (var-arrow-level var-arrow))
                                   (set! arrow-aux var-arrow)
                         
                                   ))
@@ -811,7 +815,8 @@ If the namespace does not, they are colored the unbound color.
                           (set! original-name (send source-txt get-text (var-arrow-end-pos-left arrow-aux) (var-arrow-end-pos-right arrow-aux)))
                           (set! import-name (send source-txt get-text (var-arrow-start-pos-left arrow-aux) (var-arrow-start-pos-right arrow-aux)))
                           (set! get-the-name #f)
-                          (displayln (send source-txt get-text (send source-txt get-start-position) (+ 5 (send source-txt get-start-position)) )))
+                          ;(displayln (send source-txt get-text (send source-txt get-start-position) (+ 5 (send source-txt get-start-position)) ))
+                          )
                         ;;;END-HACK
                         (for ([start+end (in-list (reverse merged-positions))])
                           (define start (car start+end))
@@ -820,15 +825,16 @@ If the namespace does not, they are colored the unbound color.
                             (send source-txt begin-edit-sequence)
                             (set! edit-sequence-txts (cons source-txt edit-sequence-txts)))
                           (when (string=? (send source-txt get-text start end) original-name)
-                            (displayln original-name)
+                            ;(displayln original-name)
                             (send source-txt delete start end #f)
                             (send source-txt insert new-sym start start #f)))))
                     ;(send txt delete start-pos end-pos)
                     ;;; I let DrRacket change everything because I know the original names and positions
-                    (send text delete (var-arrow-start-pos-left arrow-aux) (+ (var-arrow-start-pos-left arrow-aux) (string-length new-sym) )) ;delete the renamed name in the require. 
+                    (send text delete (var-arrow-start-pos-left arrow-aux) (var-arrow-start-pos-right arrow-aux)) ;delete the renamed name in the require. 
                     ;this is the string that will be added, with the rename-in etc.
                     ;(displayln rename-in-string)
                     (set! rename-in-string (string-append "(rename-in " import-name " (" original-name " " new-sym "))" ))
+                    ;(displayln rename-in-string)
                     (send text insert rename-in-string (var-arrow-start-pos-left arrow-aux)))
 
                   
@@ -926,6 +932,10 @@ If the namespace does not, they are colored the unbound color.
                        >
                        #:key (λ (x) (- (var-arrow-start-pos-right x)
                                        (var-arrow-start-pos-left x))))))
+              #;(displayln  (send (var-arrow-start-text longest-var-arrow)
+                    get-text
+                    (var-arrow-end-pos-left longest-var-arrow)
+                    (var-arrow-end-pos-right longest-var-arrow)) )
               (send (var-arrow-start-text longest-var-arrow)
                     get-text
                     (var-arrow-start-pos-left longest-var-arrow)

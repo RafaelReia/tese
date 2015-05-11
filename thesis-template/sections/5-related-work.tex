@@ -183,7 +183,7 @@ This aspect was stressed because having documentation about the version previous
 The HaRe system is a refactoring tool for Haskell that integrates with Emacs and Vim.
 This tool was made for the working programmers instead of being a prof of concept prototype and it is implemented in Haskell.
 
-The HaRe system also allows the users to design their own refacatorings using the HaRe API.
+The HaRe system also allows the users to design their own refactorings using the HaRe API.
 
 \subsubsection{Representation}
 \hfill \break
@@ -300,26 +300,25 @@ However the tool is created for static languages and it is not that trivial to c
 \subsection{JavaScript}
 
 A framework \cite{feldthaus2011tool} for refactoring JavaScript programs was created because there are few refactoring tools for JavaScript. 
-A problem that might be responsible for the additional difficulty that the refactoring tools have to deal with, when compared with refactoring tools made for static languages. 
+The problem that might be responsible for that is the additional difficulty that the refactoring tools have to deal with, when compared with refactoring tools made for static languages. 
 E.g. when refactoring JavaScript the refactoring tools do not have information about the bindings in compile time.
 
 %TODO add the refactoring that they create!
 
-
-The framework uses pointer analysis to help define a set of general analysis queries. 
-It also uses under-approximations and over-approximations of sets in a safe way and uses preconditions.
-In order to be able to create a correct refactoring operation these conditions are expressed in terms query analyses. 
-If it is not possible for to guarantee behavior preservations, the refactoring operation is prevented.
+In order to guarantee the correctness of the refactoring operation the framework uses conditions expressed in query analyses.
+To define those queries, the framework uses pointer analysis. The framework also uses preconditions, under and over approximations of sets in a safe way to help to define a correct refactoring operation.
+If it is not possible for the framework to guarantee behavior preservations, the refactoring operation is prevented.
 With this approach it is possible to be sure when a refactoring operation is valid but it has the catch of not making every possible refactoring operations because it is an approximation to the set.
+
+
 
 To prove the concept it was implemented three refactoring operations, namely the rename, encapsulate property and extract module.
 
 %Talk about the tests made, that count what it counts.
 
-Because it uses approximations it has a certain percentage of refactoring operations that the framework will unjustifiably reject.
-While a manual programmer doing that refactoring would be able to do. 
+Because the framework uses approximations sets to decide if the refactoring is possible to do it has a certain percentage of refactoring operations that will be unjustifiably rejected.
 However, after testing with 50 JavaScript programs, the overall unjustified rejections were of 6.2\%. 
-The rejections due to imprecise preconditions represent 8.2\%.
+The rejections regarding to imprecise preconditions represent 8.2\%.
 Unjustified rejections due to imprecise pointer analysis were of 5.9\% for the rename and 7.0\% for the encapsulate property. 
 
 
@@ -393,7 +392,7 @@ In the worst case it represents 29\% of the refactoring operations for experienc
 
 %Add Image
 
-%Comparing Racket with eclise, racket language has its own  \AST\ while java doesnt. Eclipse creates its own AST from partially programs, meaning that it even does not use a java compiler to create the AST. DrRacket \/probably/\ adds more stuff to the racket AST.
+%Comparing Racket with Eclipse, racket language has its own  \AST\ while Java doesn't. Eclipse creates its own AST from partially programs, meaning that it even does not use a java compiler to create the AST. DrRacket \/probably/\ adds more stuff to the racket AST.
 
 
 \subsection{Detecting refactoring opportunities}

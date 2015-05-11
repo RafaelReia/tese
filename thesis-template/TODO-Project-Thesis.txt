@@ -1,0 +1,64 @@
+TODO Project Thesis:
+
+Related work:
+
+Create 2 sections
+
+One for languages and other for levels of refactoring.
+then relate the languages with the levels of refactoring, like for giving examples.
+
+Levels of refactoring have a little introduction which has the syntactic + case study and semantic.
+
+Find a place for:
+	Automated refactoring detection
+	Language-independent refactoring
+	Jungle/ Scripting language to create refactorings
+Conclusion of the related work
+
+Architecture
+	Has a introduction connecting with the Related work conclusion
+	AST + def-use-relation (s-exp + "arrows")
+	we are "stuck" to the DrRacket so we decided to validate the architecture with some operations, however the architecture might change.
+		For each of (extract method, add-prefix, rename-extended)
+		add use case
+		what was done/used
+Evaluation
+Evaluate has 2 components
+	1st one:
+	Evaluation with users in front of the PC
+	2nd one:
+	Evaluate the correctness of the program
+		Formally:
+		That is the ideal case, however that is too difficult for complex languages, there are a lot of refactoring tools with bugs, give Jungl's example of eclipse and netbeans(??)!!
+		Are usually done for theoretical languages, too much work for real languages
+		There are not enough time to do those proves
+
+		informal:
+		Have a program with unit tests.
+		Do the refactorings
+		run again the unit tests
+
+		Use a Racket program that already has unit tests and use that as a good use case!
+
+Objectives
+
+	Implement simple and useful refactoring operations
+	Correctness
+	Simple to use
+
+Conclusion
+Wrap up and conclue (I must decide what to write here)
+
+Introduction
+Introduce what exist
+what are the problems
+compare
+say the solution really really in the end!
+
+General topic then going to the least general one
+talk about the problem
+talk about systems talked in the related work
+kind of leave a open question
+
+Abstract
+Keywords
