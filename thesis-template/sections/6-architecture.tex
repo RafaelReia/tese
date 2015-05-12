@@ -8,16 +8,22 @@
 
 %introduction
 
+%explain why is important and stuff
 
 
-%s-exp and def-uses-relatioships
+%s-exp and def-uses-relationships
 
-
-
+%An image will be awesome here
+The architecture of the refactoring tool will consist in an AST and in the def-use-relations of the program.
+The information gathered in the AST and in the def-use-relations with some preconditions is enough to ensure the correctness of the refactoring operations.
+The AST in the Racket programing language is composed of s-expressions. Because a program is a list of s-expressions.
+DrRacket provides the def-use-relations which is an important help to do the refactoring operations. The def-use-relations are visual represented as arrows in the DrRacket.
 
 
 %use cases: To validate the architecture.
 
+
+%introduce the validate cases xD
 % rename improved
 \subsection{Imported rename}
 %this is a refactoring for racket
@@ -45,4 +51,4 @@ This is also useful when the name of the functions are similar, adding a prefix 
 % extract-function
 \subsection{extract-function}
 
-Extract functions is a simple and very useful refactoring as you can see in the use tables/overview. this is actualy a good test to the architecture because it is largely used and is a ``must'' to be implemented.
+Extract functions is a simple and very useful refactoring as you can see in the use tables/overview. this is actually a good test to the architecture because it is largely used.
