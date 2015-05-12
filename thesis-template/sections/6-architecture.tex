@@ -4,6 +4,45 @@
 % Architecture
 % 
 
-\section{Architecture (2/3pgs)}
+\section{Architecture}
 
-Your proposed architecture. Can have lots of pictures and bullet points so it is easy to understand.
+%introduction
+
+
+
+%s-exp and def-uses-relatioships
+
+
+
+
+
+%use cases: To validate the architecture.
+
+% rename improved
+\subsection{Imported rename}
+%this is a refactoring for racket
+When using functions exported from another file or library it is necessary to require them, in other words to import.
+After that the user can call the methods exported like they were defined in the file.
+However those methods could have name collision or change it for a more adequate name. To do that the user would do a rename.
+
+DrRacket already had implemented a rename, however the rename was not suit for renaming imported functions.
+When renaming a imported function the original rename of DrRacket renamed the name all the functions imported from the same file and the name of the file. 
+Making the program incorrect.
+
+
+% add-prefix
+\subsection{Add-prefix}
+%this is a refactoring for racket
+A programmer is using some functions from a library and then realizes that needs another library. when importing that library conflicts occur.
+both libraries have function with the same name. The solution add a prefix for one of the requires.
+That is really annoying because the user has to remember and change one by one all functions invocations.
+
+The Add Prefix refactoring does all that for the user.
+
+This is also useful when the name of the functions are similar, adding a prefix make it easier to distinguish between libraries.
+
+
+% extract-function
+\subsection{extract-function}
+
+Extract functions is a simple and very useful refactoring as you can see in the use tables/overview. this is actualy a good test to the architecture because it is largely used and is a ``must'' to be implemented.
