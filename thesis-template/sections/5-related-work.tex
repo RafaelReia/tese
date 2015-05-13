@@ -6,14 +6,18 @@
 
 \section{Related Work}
 
-%TODO: Rewrite Related Work Intro
 
-%The following section starts to present the use of refactoring tools and an overview of static refactoring tools. 
-%Then it presents the refactoring tools for the dynamic languages such as, Scheme, JavaScript, Smalltalk, Python and Racket.
-%Finally it has a conclusion about the related work.
+The following section firstly presents the use of refactoring tools and an overview of static refactoring tools.
+Secondly it presents the different levels of refactorings.
+Thirdly it presents the refactoring tools for the dynamic languages such as, Scheme, JavaScript, Smalltalk, Python and Racket.
+%talks about multi-language refactorings
+Finally it has a conclusion about the related work.
 
 %%ADD overview + refactoring tools for static languages
 %How we Refactor, and how we know it.
+
+
+
 \subsection{Use of static refactoring tools}
 
 Understanding how users refactor and use refactoring tools is an important step to better improve the refactoring tools.
@@ -143,7 +147,10 @@ Only Visual Studio has 2 out of 5 most used refactoring operations available by 
 
 %It is easy to see all the effort to provide to the programmers refactoring operations to help them refactoring their projects. 
 
-\subsection{Formal Pattern Language for Refactoring of Lisp Programs}
+\subsection{Levels of Refactoring}
+
+
+\subsubsection{Formal Pattern Language for Refactoring of Lisp Programs}
 %prof paper
 In this paper \cite{leitdo2002formal} it is proposed a pattern language refactoring tool that works well on lisp-like languages. 
 
@@ -155,19 +162,19 @@ This tool is simple because it is focused on syntax transformations of the progr
 
 
 
-\subsection{A case study in Refactoring functional programs}
+\subsubsection{Manual Refactoring}
 The case study \cite{thompson2003case} was done with the idea to show that refactoring is also important in functional programs.
 The case study consists in refactoring an Haskell program with 400 lines, written by a student.
 The program's goal is to build a semantic tableaux, which is a truth tree used to  for example to proof procedures for first order logic or solve satisfiability of finite sets.
 
-\subsubsection{Refactoring of a program}
+%\subsubsection{Refactoring of a program}
 In order to understand better what consists a refactoring they applied manually refactoring to the program.
 They started by changing the name of some variables to avoid misunderstandings and to be easier to read.
 After that they renamed some functions that reflect better what the function did. 
 Then they replaced explicit recursion by calls to higher order functions and they rename some variables and functions.
 In the end they generalized some functions and modified the representation type because it was giving a lots of work keeping the initial representation.
 
-\subsubsection{What was learned}
+%\subsubsection{What was learned}
 This case study shows that the order of the refactoring operations is somehow arbitrary.
 The refactoring operations were applied when they thought it made more sense at the moment.
 They also conclude that generally, refactoring a program, is as good way to find out more about the program. 
@@ -176,6 +183,34 @@ Otherwise it would be more difficult to correct mistakes.
 
 It is crucial to document the refactoring operations applied in detail. 
 This aspect was stressed because having documentation about the version previous to the refactoring or outdated is not good for the readability of the program because it can mislead the programmer.
+
+\subsubsection{Automated Refactoring}
+%84
+%Metrics based refactoring
+Using metrics can support the decision where to apply refactorings and which refactorings. \cite{simon2001metrics}
+A tool was created as proof of concept and it uses the metrics to identify where the code should be refactored.
+The tool takes into account the "bad smell" of a code to suggest a refactoring. The "bad smell" is a human intuition which that specific code should be refactored. 
+An example of a "bad smell" that would trigger a Move Method refactoring is when one method of a class is used more by other class in which it is defined.
+
+To quickly show to the user the identified "bad smells" it is generated a visualization of the objects, and those objects are linked to the corresponding source code. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.75\textwidth]{img/metricsbasedrefactoring.png}
+  \caption{Motivates the refactoring move method}
+  \label{fig:MetricsBasedRefactoring}
+\end{figure}
+
+
+
+%\subsubsection{Distance based cohesion on refactorings}
+In order to make an automated approach to identify "bad smells" it is used a distance based cohesion metric.
+With the distance based algorithm it is possible to identify violations to the rule "put together what belongs together". 
+There are some refactoring operations that are related to this rule such as, move attribute, extract class, in-line class and move method. 
+Regarding the distances a method using only locally defined methods/attributes have a high distance to the methods of other classes. 
+Whereas methods that use many attributes and/or methods of other classes have a low distance to them. 
+The attributes are compared by the methods that use them. 
+For example if an attribute is only used by methods of other classes, that attribute probably should be moved to other class.
 
 
 \subsection{Haskell}
@@ -395,37 +430,11 @@ In the worst case it represents 29\% of the refactoring operations for experienc
 %Comparing Racket with Eclipse, racket language has its own  \AST\ while Java doesn't. Eclipse creates its own AST from partially programs, meaning that it even does not use a java compiler to create the AST. DrRacket \/probably/\ adds more stuff to the racket AST.
 
 
-\subsection{Detecting refactoring opportunities}
-%84
-%Metrics based refactoring
-Using metrics can support the decision where to apply refactorings and which refactorings. \cite{simon2001metrics}
-A tool was created as proof of concept and it uses the metrics to identify where the code should be refactored.
-The tool takes into account the "bad smell" of a code to suggest a refactoring. The "bad smell" is a human intuition which that specific code should be refactored. 
-An example of a "bad smell" that would trigger a Move Method refactoring is when one method of a class is used more by other class in which it is defined.
-
-To quickly show to the user the identified "bad smells" it is generated a visualization of the objects, and those objects are linked to the corresponding source code. 
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.75\textwidth]{img/metricsbasedrefactoring.png}
-  \caption{Motivates the refactoring move method}
-  \label{fig:MetricsBasedRefactoring}
-\end{figure}
 
 
+\subsection{Language-independent Refactoring} %Review && Rewrite
 
-\subsubsection{Distance based cohesion on refactorings}
-In order to make an automated approach to identify "bad smells" it is used a distance based cohesion metric.
-With the distance based algorithm it is possible to identify violations to the rule "put together what belongs together". 
-There are some refactoring operations that are related to this rule such as, move attribute, extract class, in-line class and move method. 
-Regarding the distances a method using only locally defined methods/attributes have a high distance to the methods of other classes. 
-Whereas methods that use many attributes and/or methods of other classes have a low distance to them. 
-The attributes are compared by the methods that use them. 
-For example if an attribute is only used by methods of other classes, that attribute probably should be moved to other class.
-
-
-\subsection{Language-independent refactoring} %Review && Rewrite
-
+\subsubsection{Famix}
 FAMIX \cite{tichelaar2000meta} is a  Meta-model for Language-independent refactoring.
 The goal of the FAMIX is to check the preconditions of the refactorings supported and to analyze which changes need to be done for every supported refactoring at a language independent level.
 
@@ -434,7 +443,7 @@ With that it is possible to reuse the analysis and reduce the language specifics
 
 Based on this meta-model is possible to construct a refactoring engine that can do primitive refactorings for a few implementations such as smalltalk and java.
 
-\subsubsection{Difficulties}
+%\subsubsection{Difficulties}
 However there are some downsides to this approach which leads to an increase of the algorithms complexity. 
 The complexity increases because the model needs to be general in order to deal with several languages. 
 
@@ -445,14 +454,14 @@ It is also difficult to abstract a language when there are apparent standards in
 Mapping back the language to the FAMIX is difficult in some languages because FAMIX meta-model does not have the concept of meta-classes or interfaces.
 However the most problematic issue was with dynamic languages. Dynamic languages have less information available at compile-time and that makes the dependency analysis  through invocations and accesses more difficult. For example the rename method can only be done if there is no other method with the same signature.
 
-\subsection{JunGL} %creating refactorings  
+\subsubsection{JunGL} %creating refactorings  
 
 
 The JunGL \cite{verbaere2006jungl} is a domain-specific language for refactoring. 
 It is a hybrid of a functional language and a logic query language. 
 The goal of this paper is to create a scripting language that allows the user to create their owns refactoring without errors.
 
-\subsubsection{Architecture}
+%\subsubsection{Architecture}
 The JunGL has a Program Graph as main data structure that is composed by nodes and edges and both nodes and edges can have a type. 
 For example: control flow successor. 
 This graph have all the relevant information about the program, including the ASTs, variable binding and control flow.
@@ -464,7 +473,7 @@ The lazy edges initially are only composed by the ASTs of the program, the rest 
 This lazy edges allow the tool to handle incomplete programs. 
 The tool can handle null branches, that means when the branch information of the graph is non existent. This means that the tool can handle incomplete programs.
 
-\subsubsection{Performance}
+%\subsubsection{Performance}
 
 The Lazy edges used allows a better performance of the refactoring because the tool will not need to compute unnecessary information and then save computations.
 
