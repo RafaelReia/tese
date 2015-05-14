@@ -15,21 +15,14 @@ Besides that, DrRacket only has one refactoring operation, that is the rename.
 A refactoring tool that would suit an unexperienced programmer who is learning how to program is needed. 
 That will motivate the unexperienced programmers to start using tool assisted refactoring operations and DrRacket seams to be the ideal candidate to have that refactoring tool.
 
-%s-exp and def-uses-relationships
-
-%An image will be awesome here
-The architecture of the refactoring tool will consist in an AST and in the def-use-relations of the program.
-The information gathered in the AST and in the def-use-relations with some preconditions is enough to ensure the correctness of the refactoring operations.
-The AST in the Racket programing language is composed of s-expressions. Because a program is a list of s-expressions.
-DrRacket provides the def-use-relations which is an important help to do the refactoring operations. The def-use-relations are visual represented as arrows in the DrRacket.
 
 
 %use cases: To validate the architecture.
-
+\subsextion{Refactoring Wanted}
 
 %introduce the validate cases xD
 % rename improved
-\subsection{Imported rename}
+\subsubsection{Imported rename}
 %this is a refactoring for racket
 When using functions exported from another file or library it is necessary to require them, in other words to import.
 After that the user can call the methods exported like they were defined in the file.
@@ -41,7 +34,7 @@ Making the program incorrect.
 
 
 % add-prefix
-\subsection{Add-prefix}
+\subsubsection{Add-prefix}
 %this is a refactoring for racket
 A programmer is using some functions from a library and then realizes that needs another library. when importing that library conflicts occur.
 both libraries have function with the same name. The solution add a prefix for one of the requires.
@@ -53,6 +46,33 @@ This is also useful when the name of the functions are similar, adding a prefix 
 
 
 % extract-function
-\subsection{extract-function}
+\subsubsection{extract-function}
 
-Extract functions is a simple and very useful refactoring as you can see in the use tables/overview. this is actually a good test to the architecture because it is largely used.
+Extract functions is a simple and very useful refactoring as you can see in the use tables/overview. 
+
+As said in the introduction extract-function is an important refactoring for unexperienced users.
+
+\subsubsection{Move expression}
+
+This is useful too.
+
+\subsection{Structure}
+%s-exp and def-uses-relationships
+
+%An image will be awesome here
+The architecture of the refactoring tool will consist in an AST and in the def-use-relations of the program.
+The information gathered in the AST and in the def-use-relations with some preconditions is enough to ensure the correctness of the refactoring operations.
+The AST in the Racket programing language is composed of s-expressions. Because a program is a list of s-expressions.
+DrRacket provides the def-use-relations which is an important help to do the refactoring operations. The def-use-relations are visual represented as arrows in the DrRacket.
+
+
+\subsection{Validation}
+
+In order to validate this architecture some refactoring operations were implemented. 
+This allows to validate the architecture and have more trust in this architecture.
+To do that it was only validated the refactoring operations that only used the def-use-relations.
+
+\subsubsection{Extract-method}
+\subsubsection{Imported renames}
+\subsubsection{Add-prefix}
+
