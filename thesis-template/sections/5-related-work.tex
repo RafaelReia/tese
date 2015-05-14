@@ -7,17 +7,12 @@
 \section{Related Work}
 
 
-The following section firstly presents the use of refactoring tools and an overview of static refactoring tools.
-Secondly it presents the different levels of refactorings.
-Thirdly it presents the refactoring tools for the dynamic languages such as, Scheme, JavaScript, Smalltalk, Python and Racket.
-%talks about multi-language refactorings
+The following section starts to present the use of refactoring tools and an overview of static refactoring tools.
+After that it presents the refactoring tools for the dynamic languages such as, Scheme, JavaScript, Smalltalk, Python and Racket.
+Then it presents multi-language refactorings.
 Finally it has a conclusion about the related work.
 
-%%ADD overview + refactoring tools for static languages
 %How we Refactor, and how we know it.
-
-
-
 \subsection{Use of static refactoring tools}
 
 Understanding how users refactor and use refactoring tools is an important step to better improve the refactoring tools.
@@ -146,71 +141,6 @@ However, even having significantly less refactoring operations available by defa
 Only Visual Studio has 2 out of 5 most used refactoring operations available by default, but there are easily installed plug-ins that cover the more important refactoring operations. 
 
 %It is easy to see all the effort to provide to the programmers refactoring operations to help them refactoring their projects. 
-
-\subsection{Levels of Refactoring}
-
-
-\subsubsection{Formal Pattern Language for Refactoring of Lisp Programs}
-%prof paper
-In this paper \cite{leitdo2002formal} it is proposed a pattern language refactoring tool that works well on lisp-like languages. 
-
-The pattern is composed by transformations that are described in a simple syntax and even that the pattern is composed by operations of simple syntax they are composable, which makes it easier for the programmer to extend the refactoring tool, and there is no impediment to create complex transformations.
-
-The tool also can induce transformation rules based on manual examples given by the programmer and then if needed the programmer can easily extend those rules.
-
-This tool is simple because it is focused on syntax transformations of the program. Meaning that it does not need semantic information such as bindings relations needed for transformations, making it a simpler tool.
-
-
-
-\subsubsection{Manual Refactoring}
-The case study \cite{thompson2003case} was done with the idea to show that refactoring is also important in functional programs.
-The case study consists in refactoring an Haskell program with 400 lines, written by a student.
-The program's goal is to build a semantic tableaux, which is a truth tree used to  for example to proof procedures for first order logic or solve satisfiability of finite sets.
-
-%\subsubsection{Refactoring of a program}
-In order to understand better what consists a refactoring they applied manually refactoring to the program.
-They started by changing the name of some variables to avoid misunderstandings and to be easier to read.
-After that they renamed some functions that reflect better what the function did. 
-Then they replaced explicit recursion by calls to higher order functions and they rename some variables and functions.
-In the end they generalized some functions and modified the representation type because it was giving a lots of work keeping the initial representation.
-
-%\subsubsection{What was learned}
-This case study shows that the order of the refactoring operations is somehow arbitrary.
-The refactoring operations were applied when they thought it made more sense at the moment.
-They also conclude that generally, refactoring a program, is as good way to find out more about the program. 
-And that the refactoring operations need to have a way of doing undo, redo or revert changes. 
-Otherwise it would be more difficult to correct mistakes.
-
-It is crucial to document the refactoring operations applied in detail. 
-This aspect was stressed because having documentation about the version previous to the refactoring or outdated is not good for the readability of the program because it can mislead the programmer.
-
-\subsubsection{Automated Refactoring}
-%84
-%Metrics based refactoring
-Using metrics can support the decision where to apply refactorings and which refactorings. \cite{simon2001metrics}
-A tool was created as proof of concept and it uses the metrics to identify where the code should be refactored.
-The tool takes into account the "bad smell" of a code to suggest a refactoring. The "bad smell" is a human intuition which that specific code should be refactored. 
-An example of a "bad smell" that would trigger a Move Method refactoring is when one method of a class is used more by other class in which it is defined.
-
-To quickly show to the user the identified "bad smells" it is generated a visualization of the objects, and those objects are linked to the corresponding source code. 
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.75\textwidth]{img/metricsbasedrefactoring.png}
-  \caption{Motivates the refactoring move method}
-  \label{fig:MetricsBasedRefactoring}
-\end{figure}
-
-
-
-%\subsubsection{Distance based cohesion on refactorings}
-In order to make an automated approach to identify "bad smells" it is used a distance based cohesion metric.
-With the distance based algorithm it is possible to identify violations to the rule "put together what belongs together". 
-There are some refactoring operations that are related to this rule such as, move attribute, extract class, in-line class and move method. 
-Regarding the distances a method using only locally defined methods/attributes have a high distance to the methods of other classes. 
-Whereas methods that use many attributes and/or methods of other classes have a low distance to them. 
-The attributes are compared by the methods that use them. 
-For example if an attribute is only used by methods of other classes, that attribute probably should be moved to other class.
 
 
 \subsection{Haskell}

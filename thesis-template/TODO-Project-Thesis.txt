@@ -1,18 +1,6 @@
 TODO Project Thesis:
 
-Related work:
 
-Create 2 sections
-
-One for languages and other for levels of refactoring.
-then relate the languages with the levels of refactoring, like for giving examples.
-
-Levels of refactoring have a little introduction which has the syntactic + case study and semantic.
-
-Find a place for:
-	Automated refactoring detection
-	Language-independent refactoring
-	Jungle/ Scripting language to create refactorings
 Conclusion of the related work
 
 Architecture
@@ -39,12 +27,6 @@ Evaluate has 2 components
 		run again the unit tests
 
 		Use a Racket program that already has unit tests and use that as a good use case!
-
-Objectives
-
-	Implement simple and useful refactoring operations
-	Correctness
-	Simple to use
 
 Conclusion
 Wrap up and conclue (I must decide what to write here)
