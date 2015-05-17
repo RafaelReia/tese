@@ -8,34 +8,51 @@
 
 %introduction
 
-%explain why is important and stuff
+A refactoring tool that would suit an unexperienced programmer who is learning how to program is needed. 
 Racket is a dynamic language that is known of being used as an introductory programming course in schools around the world. 
 Racket also has an IDE, DrRacket that is a pedagogic environment \cite{drscheme_pegadogy} and it also supports development and extension of other programming languages \cite{tobin2011languages} and recently it has an implementation of python \cite{ramos2014implementation}.
 Besides that, DrRacket only has one refactoring operation, that is the rename.
-A refactoring tool that would suit an unexperienced programmer who is learning how to program is needed. 
 That will motivate the unexperienced programmers to start using tool assisted refactoring operations and DrRacket seams to be the ideal candidate to have that refactoring tool.
 
 
-
 %use cases: To validate the architecture.
-\subsection{Refactoring Wanted}
-There are some refactoring operations that were already chosen/important.
+\subsection{Refactoring Operations Desired}
+There are some refactoring operations that were already chosen because of theirs importance.
 %introduce the validate cases xD
+
 % rename improved
-\subsubsection{Imported rename}
+\subsubsection{Rename}
 %this is a refactoring for racket
-When using functions exported from another file or library it is necessary to require them, in other words to import.
-After that the user can call the methods exported like they were defined in the file.
+The rename is the most used refactoring operation and it is indispensable to any refactoring tool.
+Nevertheless, DrRacket already has a rename operation, however the rename is not suit for renaming imported functions.
+When renaming a imported function the original rename of DrRacket renamed the name all the functions imported from the same file and the name of the file. However this is not the correct action, DrRacket should only rename the function with the selected name.
+This situation happens when using functions exported from another file or library it is necessary to require them, in other words to import.
+After that, the user can call the methods exported like they were defined in the file.
 However those methods could have name collision or change it for a more adequate name. To do that the user would do a rename.
 
-DrRacket already had implemented a rename, however the rename was not suit for renaming imported functions.
-When renaming a imported function the original rename of DrRacket renamed the name all the functions imported from the same file and the name of the file. 
-Making the program incorrect.
+
+% extract-function
+\subsubsection{extract-function}
+
+Extract functions is a simple and very useful refactoring, and it is shown previously in this document that is one of the most used refactoring operations.
+
+Extract-function is an important refactoring for unexperienced users since those users tend to create a big function that does all the work.
+
+By having a mean to restructure the code, unexperienced programmers will be able to create programs with better quality.
+
+
+
+
+\subsubsection{Move expression}
+
+Move expression is also one of the most used refactoring operations.
+This operation allows the user to move safely the expressions to the new location.
+
 
 
 % add-prefix
 \subsubsection{Add-prefix}
-%this is a refactoring for racket
+%this is a refactoring for racket only!
 A programmer is using some functions from a library and then realizes that needs another library. when importing that library conflicts occur.
 both libraries have function with the same name. The solution add a prefix for one of the requires.
 That is really annoying because the user has to remember and change one by one all functions invocations.
@@ -45,16 +62,8 @@ The Add Prefix refactoring does all that for the user.
 This is also useful when the name of the functions are similar, adding a prefix make it easier to distinguish between libraries.
 
 
-% extract-function
-\subsubsection{extract-function}
 
-Extract functions is a simple and very useful refactoring as you can see in the use tables/overview. 
 
-As said in the introduction extract-function is an important refactoring for unexperienced users.
-
-\subsubsection{Move expression}
-
-This is useful too.
 
 \subsection{Structure}
 %s-exp and def-uses-relationships
@@ -64,6 +73,7 @@ The architecture of the refactoring tool will consist in an AST and in the def-u
 The information gathered in the AST and in the def-use-relations with some preconditions is enough to ensure the correctness of the refactoring operations.
 The AST in the Racket programing language is composed of s-expressions. Because a program is a list of s-expressions.
 DrRacket provides the def-use-relations which is an important help to do the refactoring operations. The def-use-relations are visual represented as arrows in the DrRacket.
+
 
 
 \subsection{Validation}
