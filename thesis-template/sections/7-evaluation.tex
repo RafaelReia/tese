@@ -4,10 +4,19 @@
 % Evaluation
 % 
 
-\section{Evaluation (1/2pgs)}
+\section{Evaluation}
 
-Explain how you are going to show your results (statistical data, cpu performance etc). Answer the following questions:
-\begin{itemize}
-  \item Why is this solution going to be better than others.
-  \item How am I going to defend that it is better.
-\end{itemize}
+%Explain how you are going to show your results (statistical data, cpu performance etc). Answer the following questions:
+%\begin{itemize}
+%  \item Why is this solution going to be better than others.
+%  \item How am I going to defend that it is better.
+%\end{itemize}
+
+In order to evaluate the correctness of the refactoring operations the ideal would be to have a formal proof of the refactoring operations.
+However, formal proofs are hard to do and take too much time that I do not have for this thesis.
+The formal proofs that exist are usually done for theoretical languages and not for languages usually used.
+Nevertheles, even professional refactoring tools such as Eclipse or NetBeans have errors, as proven in here. 
+
+The solution to that problem is to prove informally. The prove consists in having a correct Racket program with unit tests, preferably developed with test-drive-developing, then apply some refactoring operations and then run the unit tests again. This allow to see that the refactoring operations are correct and do not introduce errors in the programs.
+
+To evaluate the simplicity and usability of the refactoring operations it will be tested by having users following some use cases and test the users response to the tasks.

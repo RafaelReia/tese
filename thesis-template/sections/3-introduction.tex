@@ -31,9 +31,9 @@ By having a refactoring tool that allows the user to extract functions the unexp
 
 %give the example
 % Example extract method. Unexperienced users create one big function that do all the program work. Create a function that should clearly have a function extracted from the inside.
-An example of how a user would use the extract function is below.
+An example of how a user would use the extract function in an implementation of the Fibonacci function.
 
-\begin{lstlisting}[frame=single, caption=Before, language=Python]
+\begin{lstlisting}[frame=single, caption=Fibonacci function first implementation, language=Python]
 def fibonacci(number=1):
 	previous = 0
 	current = 1
@@ -50,7 +50,7 @@ def fibonacci(number=1):
 \end{lstlisting}
 
 
-\begin{lstlisting}[frame=single, caption=After, language=Python]
+\begin{lstlisting}[frame=single, caption=Fibonacci function after using extract function, language=Python]
 def fibonacci_history(number):
 	previous = 0
 	current = 1
