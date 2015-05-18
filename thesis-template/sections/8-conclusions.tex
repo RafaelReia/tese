@@ -6,4 +6,26 @@
 
 \section{Conclusions}
 
-Wrap up what you wrote.
+% talk about the problem
+
+Refactoring operations are important in order to maintain the quality of the software but because they are error prone and time consuming, refactoring tools are needed.
+The objective of this overview is to show what exists regarding refactoring tools for dynamic languages and the difference between those tools and tools made for static object oriented languages.
+
+%Although almost every tool made for static object oriented languages has the refactoring operations for 90\% of the refactoring operations used by the users, but in the best case scenario only 27\% of the refactoring operations were tool assisted.
+
+Although almost every tool made for static languages supports 90\% of the refactoring operations, the users only use refactoring tools for 27\% of the cases. %showing that the major part of the refactoring operations are done manually]
+
+This survey also shows how few refactoring operations exist in general for dynamic languages and why it is more difficult to make a refactoring tool for dynamic languages.
+
+This document shows the importance of having a refactoring tool concerned about the unexperienced users. 
+Besides having dynamic languages as the recommended languages to learn how to program, the dynamic languages are growing. 
+And that tool might help the users start to use the refactoring tools and refactoring their programs alongside with programming.
+
+% talk about the solution
+The solution uses the informations given by the compiler, namely the AST and the def-use-relation. With this it is possible to create correct refactoring operations necessary for a refactoring tool to unexperienced users.
+
+% talk about what was done
+To validate the solution some refactoring operations were already implemented, such as extract-function, add-prefix and rename. However this operations do not cover all the desirable refactoring operations, for example the move expression.
+
+% talk about future work?
+In the future, we will add more refactoring operations to the work already done.

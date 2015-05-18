@@ -17,6 +17,7 @@ That will motivate the unexperienced programmers to start using tool assisted re
 
 %use cases: To validate the architecture.
 \subsection{Refactoring Operations Desired}
+%Das operacoes para a refactoring tool vamos falar particularmente destas, ou por exemplo destas.
 There are some refactoring operations that were already chosen because of theirs importance.
 %introduce the validate cases xD
 
@@ -32,7 +33,7 @@ However those methods could have name collision or change it for a more adequate
 
 
 % extract-function
-\subsubsection{extract-function}
+\subsubsection{Extract-function}
 
 Extract functions is a simple and very useful refactoring, and it is shown previously in this document that is one of the most used refactoring operations.
 
@@ -53,7 +54,8 @@ This operation allows the user to move safely the expressions to the new locatio
 % add-prefix
 \subsubsection{Add-prefix}
 %this is a refactoring for racket only!
-A programmer is using some functions from a library and then realizes that needs another library. when importing that library conflicts occur.
+This is 
+A programmer when using some functions from a library and then realizes that needs another library. when importing that library conflicts occur.
 both libraries have function with the same name. The solution add a prefix for one of the requires.
 That is really annoying because the user has to remember and change one by one all functions invocations.
 
@@ -74,10 +76,15 @@ The information gathered in the AST and in the def-use-relations with some preco
 The AST in the Racket programing language is composed of s-expressions. Because a program is a list of s-expressions.
 DrRacket provides the def-use-relations which is an important help to do the refactoring operations. The def-use-relations are visual represented as arrows in the DrRacket.
 
-
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.95\textwidth]{img/arquitectura.png}
+	\caption{Solution's architecture}
+	\label{fig:label}
+\end{figure}
 
 \subsection{Validation}
-
+%In order to evaluate it was implemented a prototype in DrRacket.
 In order to validate this architecture some refactoring operations were implemented. 
 This allows to validate the architecture and have more trust in this architecture.
 To do that it was only validated the refactoring operations that only used the def-use-relations.

@@ -6,20 +6,133 @@
 
 \section{Introduction}
 
-General description of the problem and its context, current solutions, and road map of the project.
 
 %Introduce the Refactoring Tools
+Over time, software tends to change, new requirements appear or are adapted. 
+Even after development new bugs are found or some critical new features are added.
+%A piece of software that is used never stops changing and evolving.
+These changes makes the artifact drift apart from its original design.
+Typically these changes increase the complexity of the software, making it less readable and harder to change. 
+Consequently making the quality lower and the maintenance costs higher.
 
+These changes creates a need for continuously improving the software structure.
 
-%talk about refactoring for static languages and dynamic languages
+Refactoring is a meaning-preserving transformation or a set of meaning-preserving transformations that are meant to improve the program structure and the software quality \cite{bourquin2007high}.
+Refactoring is a tedious and error prone activity, and because of that it is preferable to use a tool that provides automated support. %to the refactoring operations that the programmer intends to do. 
+Therefore saving time and preventing the addition of errors to a previous correct program.
 
-%talk about the lack of refactoring tools for dynamic languages
-
+%
 %talk about the lack of refactoring tools for unexperienced users and maybe the importance of using refactoring tools while learning how to program.
+There is also a lack of tools designed for unexperienced users. 
+Mainly because there is a lack of tools for dynamic languages and dynamic languages are the more adequate languages for learning.
+An important refactoring operation an unexperienced user would do besides the rename is the extract-method. 
+Unexperienced users tend to create one big function that does all the program work.
+By having a refactoring tool that allows the user to extract functions the unexperienced users would improve the quality of the program in a safe way.
 
 %give the example
 % Example extract method. Unexperienced users create one big function that do all the program work. Create a function that should clearly have a function extracted from the inside.
+An example of how a user would use the extract function is below.
+
+\begin{lstlisting}[frame=single, caption=Before, language=Python]
+def fibonacci(number=1):
+	previous = 0
+	current = 1
+	history = []
+
+	for i in range (0, number):
+		aux = current + previous
+		previous = current
+		current = aux
+		history.append(current)
+
+	for i in range(number):
+		print history[i]
+\end{lstlisting}
+
+
+\begin{lstlisting}[frame=single, caption=After, language=Python]
+def fibonacci_history(number):
+	previous = 0
+	current = 1
+	history = []
+	for i in range (0, number):
+		aux = current + previous
+		previous = current
+		current = aux
+		history.append(current)
+	return history
+
+def print_history(history, number):
+	for i in range(number):
+		print history[i]
+
+def fibonacci(number=1):
+	history = fibonacci_history(number)
+	print_history(history, number)
+\end{lstlisting}
+
+
+The user starts by choosing a set of expressions to extract, usually it is a  basic block or a set of basic blocks. 
+%talk about refactoring for static languages and dynamic languages
+
+The use of the refactoring tools is fully adopted by the object oriented and static programming languages with their IDEs (integrated development environment) support.
+For example, languages such as Java with the IDEs, Eclipse\footnote{https://eclipse.org/}, IntelliJ\footnote{https://www.jetbrains.com/idea/} or NetBeans\footnote{https://netbeans.org/} and C\# with Visual Studio\footnote{https://www.visualstudio.com/}.
+%When compared to the dynamic languages there is a lack of refactoring tools and refactoring operations.
+%talk about the lack of refactoring tools for dynamic languages
+The lack of information available during the refactoring about the program is the biggest difference between refactoring tools for static languages and refactoring tools for dynamic languages.
+This difference is the main difficulty that made the refactoring tools for dynamic languages not evolve like the ones made for static languages. 
+Therefore making the refactoring tools for static languages largely used and considered a common tool in contrast with the refactoring tools for dynamic languages.  %Does not sound good.
+
+Despite that, the importance of dynamic languages is growing.
+Mainly because they are becoming popular among unexperienced programmers, they are used a lot among the scientific community and there are new dynamic languages everyday. 
+Dynamic languages are good for creating prototypes because it is easy and fast to create one. 
+Finally they are easy to adopt and often used as a learning language, such as Scheme, Racket and Python. %% ADD REFS! use PEDRO RAMOS
 
 %Conclude with the need of having such refactoring tool
 
+
+
 %say what will be addressed in the next sections.
+
+The Section 2 addresses the objectives for this thesis work. 
+Section 3 describe some definitions related to refactoring tools, such as the types of refactoring tools.
+Section 4 describes how the users refactoring, it compares refactoring tools for static languages, it describes refactoring tools for dynamic languages and languages independent refactoring tools.
+Section 5 describes the architecture of the proposed solution. 
+Section 6 explains how the tool will be evaluated and finally section 7 sums up the work.
+
+
+
+
+
+
+%[REF]evolution survey do ments.
+%\cite{drscheme} teste  \cite{drscheme_pegadogy} \cite{languages_scheme}
+%Over time, software artifacts tends to change, in order to develop gradually, to expand %quando se esta a usar, depois de se usar durante algum tempo
+%while being used and even during development, new requirements appear, the existing ones change, new bugs are found or some critical %SHINY! important
+%new features are added.
+
+ %[REF] Case study in refactoring functional programs.&& [REF] Refactoring: current research and future trends.
+
+
+%Preserving the meaning is important because if the meaning changes, it transforms the program in a different program.
+
+%[REF] FIND IT 
+%The difference between Refactoring and restructuring is that Refactoring is used in literature to define the transformations that improve the program preserving the behavior in Object Oriented paradigm \cite{opdyke1992refactoring} \cite{fowlerrefactoring1999} whereas Restructuring is used for the rest. \cite{griswold1993automated} \cite{softrest1986} %[REF] 
+
+
+%why we need refactoring tools[ref JunGL]
+
+
+
+
+
+
+%The purpose of this paper is to show which refactoring tools exist for dynamic languages. %change this.
+
+
+
+
+%The Section 2 addresses the objectives for this thesis work. Section 3 explore related work in refactoring and restructuring programs, some implemented restructuring tools and some implementations of language independent refactoring tools. Section 4 describes the architecture of the proposed solution. Section 5 explains how the tool will be evaluated and we conclude on section 6.
+
+
+
