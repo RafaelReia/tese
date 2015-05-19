@@ -1,21 +1,27 @@
 
 
+
 \begin{table}[h]
-\begin{tabular}{l|l|l|}
-\cline{2-3}
-                                                 & Example                             &  \\ \hline
-\multicolumn{1}{|l|}{Manual Refactoring}         & The user experienced talked in here &  \\ \hline
-\multicolumn{1}{|l|}{Semi-Automated Suggestions}  &                                     &  \\ \hline
-\multicolumn{1}{|l|}{Semi-Automated Application} &                                     &  \\ \hline
-\multicolumn{1}{|l|}{Automated}                  &                                     &  \\ \hline
+\caption{Refactoring Types}
+\label{tab-Refactoring-Types}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Type of Refactoring} & \textbf{Example}                                                                             \\ \hline
+Manual Refactoring           & The user experienced explained in the Manual Refactoring ~\ref{ssub:Manual-Refactoring}      \\ \hline
+Semi-Automated Suggestions   & Metrics based refactoring \cite{simon2001metrics}                                            \\ \hline
+Semi-Automated Application   & The Refactoring Browser \cite{roberts1997refactoring}, Griswold \cite{griswold1993automated} \\ \hline
+Automated                    & Casais[1994] \cite{casais1994automatic} or Moore[1996] \cite{moore1996automatic}             \\ \hline
 \end{tabular}
 \end{table}
 
 
+%The atomated ones are used to improve internal software quality by removing the duplication of methods and attributes. However this tools have problems in preserving the understandability.
+%There is no current or little practical relevance for full-automated approaches.
 
-The automated refactoring tool because changes the program and the user might be lost after that. %fix this
-The automated refactoring tool when used by unexperienced users is not good because, like the Semi-Automated with suggestions might led the user to do the wrong refactoring.
-Because it is an unexperienced user, it is highly probable that the user will blindly follow the suggestions given by the tools. 
+{\bf Table.~\ref{tab-Refactoring-Types}} has a summary of each type of refactoring tool and examples of tools of that type.
+
+\subsubsection{Analyze:}
+Having the automated refactoring tool for unexperienced users is not what is intended. Like the Semi-Automated with suggestions, the unexperienced user probably will blindly follow the suggestions which might led the user to do the wrong refactoring operations.
 This is not what we want because the suggestions might be wrong and it might transform in a wrong program or in a program with less quality than the original one.
 The manual refactoring is not desired too, besides being faster to use a tool, because the user is unexperienced is way more safer to use a tool to apply the refactoring operations. 
 Unexperienced users tend to do more errors and might forgot some changes that put a correct program incorrect.

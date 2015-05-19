@@ -7,7 +7,7 @@ This section presents Refactoring definitions and their description.
 
 \subsection{Classification of the refactoring}
 There are several levels of refactoring, a high level refactoring like design refactoring or a low level refactoring such as extract method refactoring operation. 
-In between, exists combinational refactoring that is a combination of several low level refactoring operations
+In between, exists combinational refactoring that is a combination of several low level refactoring operations.
 The refactoring operations can also be classified by the effect that they have on software quality attributes, however that is a complex task to do. \cite{elish2011classification}
 
 \subsection{Refactoring as a Process}
@@ -36,13 +36,13 @@ Regardless when is done, the refactoring can always be decomposed in this differ
 \subsection{Refactoring Correctness}
 %survey of software refactoring tools \cite{erb2010survey} %add citation
 Refactoring must be correct and for some authors it means preserving the program behavior. %switch /for some authors/ to /that/ 
-However there is no consensual definition for what is behavior preservation.
+However there is no consensual definition for what behavior preservation is.
 Some authors say that the behavior of the program is the output and preserving the output preserves the program behavior. 
 Unfortunately that is not always true. \cite{erb2010survey} 
 For example in a class, if a method name is renamed and the program consists in printing that method name, by renaming that method the behavior of the program changes.
 
 Another way do define it is to say that in order to preserve behavior it is needed to preserve the syntactic and semantic properties.
-By preserving the syntactic properties is to preserve the syntax, and it is common sense that a refactoring should not invalidate a syntactic correct program.
+Preserving the syntactic properties is to preserve the syntax, and it is common sense that a refactoring should not invalidate a syntactic correct program.
 
 Preserving the semantic of the program is to preserve the meaning of the program in the basic concept of the language. 
 In other words, is to  maintain the semantic properties of all declarations after a refactoring and it should resolve to the same declarations they resolved before the refactoring operation.
@@ -59,20 +59,25 @@ Because preserving the syntax is easily seen, in this document focus on the mean
 
 
 \subsection{Classification of refactoring tools} %\cite{erb2010survey}
-Refactoring tools can be subdivided in two types.
-The Fully-automated one, that detects refactoring opportunities and executes the refactoring operations. And the semi-automated one in which the user chooses which refactoring operation wants to do or this tools may assist the user by suggesting the refactoring operations, but the decision to apply the refactoring operation belongs to the user. \cite{erb2010survey}
-There is no such thing as a manual refactoring tool, because if the user has to do everything it is not considered a tool.
+Refactoring tools can be subdivided in Fully-automated, semi-automated and manual according to the degree of automation.
+Manual, which has no automation. If the transformation is left to the user the tool can not be considered a refactoring tool.
+The Fully-automated one, that detects refactoring opportunities and executes the refactoring operations. 
+And the semi-automated one in which the user chooses which refactoring operation wants to do or this tools may assist the user by suggesting the refactoring operations, but the decision to apply the refactoring operation belongs to the user. \cite{erb2010survey}
 
 
-\subsection{Levels of Refactoring}
-There are different kinds of refactoring. 
-There is manual, that is refactoring without tool support. 
-Syntactic, refactoring only focused on the syntax transformations.
-Semantic, the most common one, takes into account the syntactic and semantic information in the transformations. 
-And finally there is the Automated, that automatically detects the possible refactoring operations to be applied.
 
+%\subsection{Levels of Refactoring}
+%There are different kinds of refactoring. 
+%There is manual, that is refactoring without tool support. 
+%Syntactic, refactoring only focused on the syntax transformations.
+%Semantic, the most common one, takes into account the syntactic and semantic information in the transformations. 
+%And finally there is the Automated, that automatically detects the possible refactoring operations to be applied.
+
+
+% subsubsection subsubsection_name (end)
 
 \subsubsection{Manual Refactoring}
+\label{ssub:Manual-Refactoring}
 The case study \cite{thompson2003case} was done with the idea to show that refactoring is also important in functional programs.
 The case study consists in refactoring an Haskell program with 400 lines, written by a student.
 The program's goal is to build a semantic tableaux, which is a truth tree used to  for example to proof procedures for first order logic or solve satisfiability of finite sets.
@@ -95,24 +100,24 @@ It is crucial to document the refactoring operations applied in detail.
 This aspect was stressed because having documentation about the version previous to the refactoring or outdated is not good for the readability of the program because it can mislead the programmer.
 
 
-\subsubsection{Syntactic refactorings}
+%\subsubsection{Syntactic refactorings}
 %prof paper
 
-In this paper \cite{leitdo2002formal} it is proposed a pattern language refactoring tool that works well on lisp-like languages. 
+%In this paper \cite{leitdo2002formal} it is proposed a pattern language refactoring tool that works well on lisp-like languages. 
 
-The pattern is composed by transformations that are described in a simple syntax and even that the pattern is composed by operations of simple syntax they are composable, which makes it easier for the programmer to extend the refactoring tool, and there is no impediment to create complex transformations.
+%The pattern is composed by transformations that are described in a simple syntax and even that the pattern is composed by operations of simple syntax they are composable, which makes it easier for the programmer to extend the refactoring tool, and there is no impediment to create complex transformations.
 
-The tool also can induce transformation rules based on manual examples given by the programmer and then if needed the programmer can easily extend those rules.
+%The tool also can induce transformation rules based on manual examples given by the programmer and then if needed the programmer can easily extend those rules.
 
-This tool is simple because it is focused on syntax transformations of the program. 
-Meaning that it does not need semantic information such as bindings relations needed for transformations, making it a simpler tool.
+%This tool is simple because it is focused on syntax transformations of the program. 
+%Meaning that it does not need semantic information such as bindings relations needed for transformations, making it a simpler tool.
 
 
 
 \subsubsection{Automated Refactoring}
 %84
 %Metrics based refactoring
-Metrics can support the decision where and which refactorings to apply. \cite{simon2001metrics}
+Metrics can support the decision where and which refactoring operations to apply. \cite{simon2001metrics}
 A tool was created as proof of concept and it uses the metrics to identify where the code should be refactored.
 The tool takes into account the "bad smell" of a code to suggest a refactoring. The "bad smell" is a human intuition which that specific code should be refactored. 
 An example of a "bad smell" that would trigger a Move Method refactoring is when one method of a class is used more by other class in which it is defined.
@@ -126,7 +131,7 @@ To quickly show to the user the identified "bad smells" it is generated a visual
   \label{fig:MetricsBasedRefactoring}
 \end{figure}
 
-%\subsubsection{Distance based cohesion on refactorings}
+%\subsubsection{Distance based cohesion on refactoring operations}
 In order to make an automated approach to identify "bad smells" it is used a distance based cohesion metric.
 With the distance based algorithm it is possible to identify violations to the rule "put together what belongs together". 
 There are some refactoring operations that are related to this rule such as, move attribute, extract class, in-line class and move method. 
@@ -135,14 +140,12 @@ Whereas methods that use many attributes and/or methods of other classes have a 
 The attributes are compared by the methods that use them. 
 For example if an attribute is only used by methods of other classes, that attribute probably should be moved to other class.
 
-\subsubsection{Semantic Refactoring}
+\subsubsection{Semi-Automated Refactoring}
 
-Semantic refactoring is available for all kind of languages and it is largely used among object oriented languages.
+Semi-Automated Refactoring is available for all kind of languages and it is largely used among object oriented languages.
 It is the most common level of refactoring.
 Besides that, and in contrast with the object oriented languages, there is a lack of semantic refactoring tools for dynamic languages.
 
-The semantic refactoring requires semantic and syntactic information about the program to have a correct refactoring.
-The tools use structures such as AST, PDG to reason about the program and use preconditions to ensure correct refactoring operations.
 There are several examples of this tools, including Eclipse and ItelliJ that are focused in static languages and the refactoring browser for Smalltalk.
 This kind of tools will be further explained. 
 

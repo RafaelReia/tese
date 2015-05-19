@@ -11,10 +11,9 @@
 Over time, software tends to change, new requirements appear or are adapted. 
 Even after development new bugs are found or some critical new features are added.
 %A piece of software that is used never stops changing and evolving.
-These changes makes the artifact drift apart from its original design.
+These changes makes the software drift apart from its original design.
 Typically these changes increase the complexity of the software, making it less readable and harder to change. 
 Consequently making the quality lower and the maintenance costs higher.
-
 These changes creates a need for continuously improving the software structure.
 
 Refactoring is a meaning-preserving transformation or a set of meaning-preserving transformations that are meant to improve the program structure and the software quality \cite{bourquin2007high}.
@@ -23,7 +22,7 @@ Therefore saving time and preventing the addition of errors to a previous correc
 
 %
 %talk about the lack of refactoring tools for unexperienced users and maybe the importance of using refactoring tools while learning how to program.
-There is also a lack of tools designed for unexperienced users. 
+Refactoring tools are important, however there is a lack of refactoring tools designed for unexperienced users. 
 Mainly because there is a lack of tools for dynamic languages and dynamic languages are the more adequate languages for learning.
 An important refactoring operation an unexperienced user would do besides the rename is the extract-method. 
 Unexperienced users tend to create one big function that does all the program work.
@@ -37,42 +36,43 @@ An example of how a user would use the extract function in an implementation of 
 def fibonacci(number=1):
 	previous = 0
 	current = 1
-	history = []
+	fib_numbers = []
 
 	for i in range (0, number):
 		aux = current + previous
 		previous = current
 		current = aux
-		history.append(current)
+		fib_numbers.append(current)
 
 	for i in range(number):
-		print history[i]
+		print fib_numbers[i]
 \end{lstlisting}
 
 
 \begin{lstlisting}[frame=single, caption=Fibonacci function after using extract function, language=Python]
-def fibonacci_history(number):
+def fibonacci_seq(number):
 	previous = 0
 	current = 1
-	history = []
+	fib_numbers = []
 	for i in range (0, number):
 		aux = current + previous
 		previous = current
 		current = aux
-		history.append(current)
-	return history
+		fib_numbers.append(current)
+	return fib_numbers
 
-def print_history(history, number):
+def print_fibonacci(fib_numbers, number):
 	for i in range(number):
-		print history[i]
+		print fib_numbers[i]
 
 def fibonacci(number=1):
-	history = fibonacci_history(number)
-	print_history(history, number)
+	fib_numbers = fibonacci_seq(number)
+	print_fibonacci(fib_numbers, number)
 \end{lstlisting}
 
 
-The user starts by choosing a set of expressions to extract, usually it is a  basic block or a set of basic blocks. 
+In the refactoring, the user starts by choosing a set of expressions to extract, usually it is a  basic block or a set of basic blocks.
+There is two functions extracted, the print\_fibonacci and fibonacci\_seq.
 %talk about refactoring for static languages and dynamic languages
 
 The use of the refactoring tools is fully adopted by the object oriented and static programming languages with their IDEs (integrated development environment) support.
@@ -89,7 +89,7 @@ Dynamic languages are good for creating prototypes because it is easy and fast t
 Finally they are easy to adopt and often used as a learning language, such as Scheme, Racket and Python. %% ADD REFS! use PEDRO RAMOS
 
 %Conclude with the need of having such refactoring tool
-
+A refactoring tool for a dynamic language designed for unexperienced users would be an important step in filling the gap of refactoring tools for dynamic languages and it also would help the unexperienced users to have the first contact with refactoring tools and improve their code quality.
 
 
 %say what will be addressed in the next sections.
