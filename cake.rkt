@@ -1,9 +1,9 @@
 #lang racket
  
 (provide print-cake)
-(provide rafael)
+(provide a-function)
 
-(define (rafael)
+(define (a-function)
   (void))
 
 ; draws a cake with n candles
