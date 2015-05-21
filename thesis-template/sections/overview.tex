@@ -3,7 +3,7 @@
 %add refferences
 
 %[REF] Survey of software refactoring tools \cite{erb2010survey}
-This section presents Refactoring definitions and their description.
+This section presents some definitions regarding refactoring activities.
 
 \subsection{Classification of the refactoring}
 There are several levels of refactoring, a high level refactoring like design refactoring or a low level refactoring such as extract method refactoring operation. 
@@ -14,7 +14,7 @@ The refactoring operations can also be classified by the effect that they have o
 Refactoring can be done in two ways. %add citations
 One is doing the refactoring in between programming and constantly performed. 
 The other one is to do the refactoring as a different activity and in bulks
-Regardless when is done, the refactoring can always be decomposed in this different activities:
+Regardless when is done, the refactoring can always be decomposed in this different activities: \cite{erb2010survey}
 
 \begin{enumerate}
  \item Identify where to change the software
@@ -35,10 +35,9 @@ Regardless when is done, the refactoring can always be decomposed in this differ
 
 \subsection{Refactoring Correctness}
 %survey of software refactoring tools \cite{erb2010survey} %add citation
-Refactoring must be correct and for some authors it means preserving the program behavior. %switch /for some authors/ to /that/ 
+Refactoring must be correct and for some authors it means preserving the program behavior.
 However there is no consensual definition for what behavior preservation is.
-Some authors say that the behavior of the program is the output and preserving the output preserves the program behavior. 
-Unfortunately that is not always true. \cite{erb2010survey} 
+Some authors say that the behavior of the program is the output and preserving the output preserves the program behavior, but unfortunately that is not always true. \cite{erb2010survey} 
 For example in a class, if a method name is renamed and the program consists in printing that method name, by renaming that method the behavior of the program changes.
 
 Another way do define it is to say that in order to preserve behavior it is needed to preserve the syntactic and semantic properties.
@@ -46,7 +45,7 @@ Preserving the syntactic properties is to preserve the syntax, and it is common 
 
 Preserving the semantic of the program is to preserve the meaning of the program in the basic concept of the language. 
 In other words, is to  maintain the semantic properties of all declarations after a refactoring and it should resolve to the same declarations they resolved before the refactoring operation.
-Because preserving the syntax is easily seen, in this document focus on the meaning-preservation of the refactoring operations. 
+Because preserving the syntax is easily seen, this document focus on the meaning-preservation of the refactoring operations. 
 
 
 %suvey mens 2003 \cite{mens2003refactoring}
@@ -59,9 +58,9 @@ Because preserving the syntax is easily seen, in this document focus on the mean
 
 
 \subsection{Classification of refactoring tools} %\cite{erb2010survey}
-Refactoring tools can be subdivided in Fully-automated, semi-automated and manual according to the degree of automation.
+Refactoring tools can be subdivided in fully-automated, semi-automated and manual according to the degree of automation.
 Manual, which has no automation. If the transformation is left to the user the tool can not be considered a refactoring tool.
-The Fully-automated one, that detects refactoring opportunities and executes the refactoring operations. 
+The fully-automated one, that detects refactoring opportunities and executes the refactoring operations. 
 And the semi-automated one in which the user chooses which refactoring operation wants to do or this tools may assist the user by suggesting the refactoring operations, but the decision to apply the refactoring operation belongs to the user. \cite{erb2010survey}
 
 

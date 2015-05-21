@@ -145,44 +145,41 @@ Only Visual Studio has 2 out of 5 most used refactoring operations available by 
 
 \subsection{Haskell}
 
-The HaRe system is a refactoring tool for Haskell that integrates with Emacs and Vim.
+The HaRe  \cite{thompson2005refactoring} system is a refactoring tool for Haskell that integrates with Emacs and Vim.
 This tool was made for the working programmers instead of being a prof of concept prototype and it is implemented in Haskell.
 
 The HaRe system also allows the users to design their own refactoring operations using the HaRe API.
 
-\subsubsection{Representation}
-\hfill \break
-
-The HaRe \cite{thompson2005refactoring} system uses an AST of the program to be refactored in order to reason about the transformations to do.
+The HaRe system uses an AST of the program to be refactored in order to reason about the transformations to do.
 The system also have a token stream in order to preserve the comments and the program layout by keep information about the source code location and the comments of all tokens.
 
-\subsubsection{Stages of Refactoring}
-\hfill \break
+%\subsubsection{Stages of Refactoring}
+%\hfill \break
 
-{\bf Information gathering and condition checking:} The Refactoring will only be performed if it preserves the semantics of the program.
-It is needed some information, such as a set of identifiers of the scope, that information is gathered trough transversing the AST.
+%{\bf Information gathering and condition checking:} The Refactoring will only be performed if it preserves the semantics of the program.
+%It is needed some information, such as a set of identifiers of the scope, that information is gathered trough transversing the AST.
 
-{\bf Transformation:} After the conditions are verified, it is possible to apply the refactoring operation, which is a transformation of the AST.
+%{\bf Transformation:} After the conditions are verified, it is possible to apply the refactoring operation, which is a transformation of the AST.
 
-{\bf Program rendering:} After the refactoring operation the source code of the new program needs to be generated, keeping the original program layout as much as possible.
+%{\bf Program rendering:} After the refactoring operation the source code of the new program needs to be generated, keeping the original program layout as much as possible.
 
 %insert pic?
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.75\textwidth]{img/HaReStagesOfRefactoring.png}
-  \caption{Stages of Refactoring}
-  \label{fig:HaReStages}
-\end{figure}
+%\begin{figure}[h!]
+%  \centering
+%  \includegraphics[width=0.75\textwidth]{img/HaReStagesOfRefactoring.png}
+%  \caption{Stages of Refactoring}
+%  \label{fig:HaReStages}
+%\end{figure}
 %add structural refactorings, module-aware? 
 
-\subsubsection{Refactorings Available} %review and change title
-\hfill \break
+%\subsubsection{Refactorings Available} %review and change title
+%\hfill \break
 
-Initially the HaRe system only had structural refactorings. 
-Structural refactorings care about the objects defined in the program, the name and the scope of those objects. Examples of this are: Delete, Duplicate, Rename, Promote, Demote, etc \ldots
-Then it was added module awareness to those refactorings. 
-Module awareness is important because in Haskell it is possible to import definitions from other modules.
-With module awareness it was possible to add new refactorings to the module like Clean the imported list, move a definition to another module or add and remove items of the export list.
+%Initially the HaRe system only had structural refactorings. 
+%Structural refactorings care about the objects defined in the program, the name and the scope of those objects. Examples of this are: Delete, Duplicate, Rename, Promote, Demote, etc \ldots
+%Then it was added module awareness to those refactorings. 
+%Module awareness is important because in Haskell it is possible to import definitions from other modules.
+%With module awareness it was possible to add new refactorings to the module like Clean the imported list, move a definition to another module or add and remove items of the export list.
 
 
 \subsection{Scheme}
@@ -265,22 +262,19 @@ However the tool is created for static languages and it is not that trivial to c
 \subsection{JavaScript}
 
 A framework \cite{feldthaus2011tool} for refactoring JavaScript programs was created because there are few refactoring tools for JavaScript. 
-The problem that might be responsible for that is the additional difficulty that the refactoring tools have to deal with, when compared with refactoring tools made for static languages. 
+One reason for that is the additional difficulty that the refactoring tools have to deal with, when compared with refactoring tools made for static languages. 
 E.g. when refactoring JavaScript the refactoring tools do not have information about the bindings in compile time.
 
 %TODO add the refactoring that they create!
 
-In order to guarantee the correctness of the refactoring operation the framework uses conditions expressed in query analyses.
-To define those queries, the framework uses pointer analysis. The framework also uses preconditions, under and over approximations of sets in a safe way to help to define a correct refactoring operation.
-If it is not possible for the framework to guarantee behavior preservations, the refactoring operation is prevented.
+In order to guarantee the correctness of the refactoring operation the framework uses conditions expressed in query analyses defined by using pointer analysis.
+The framework also uses under approximations and over approximations of sets in a safe way  and preconditions to help define a correct refactoring operation.
+If, for some reason, it is not possible for the framework to guarantee behavior preservations, the refactoring operation is prevented.
 With this approach it is possible to be sure when a refactoring operation is valid but it has the catch of not making every possible refactoring operations because it is an approximation to the set.
 
 
-
 To prove the concept it was implemented three refactoring operations, namely the rename, encapsulate property and extract module.
-
 %Talk about the tests made, that count what it counts.
-
 Because the framework uses approximations sets to decide if the refactoring is possible to do it has a certain percentage of refactoring operations that will be unjustifiably rejected.
 However, after testing with 50 JavaScript programs, the overall unjustified rejections were of 6.2\%. 
 The rejections regarding to imprecise preconditions represent 8.2\%.
@@ -348,7 +342,7 @@ Rope uses an AST in order to store the syntax information about the programs.
 Racket\footnote{http://racket-lang.org/} programming language is a dialect of lisp and a descendant of Scheme and it supports objects, types and lazy evaluation.
 For the Racket language the most used IDE is DrRacket. 
 DrRacket is an IDE, that was formerly known as DrScheme. 
-It is a simple IDE that was initially build for Racket programming language and it is aimed at inexperienced programmers.
+It is a simple IDE that was initially build for Racket programming language and it is aimed at unexperienced programmers.
 
 Regarding refactoring operations DrRacket only has one, namely the rename. 
 It could be viewed in two ways: the first is they only implemented one refactoring operation and forgot the other ones.
@@ -363,15 +357,16 @@ In the worst case it represents 29\% of the refactoring operations for experienc
 
 
 \subsection{Language-independent Refactoring} %Review && Rewrite
+Some refactoring operations make sense in different types of languages, such as the rename, move, etc. In order to use that similarity there are some tools that aim to create refactoring operations independently of the language. 
 
 \subsubsection{Famix}
 FAMIX \cite{tichelaar2000meta} is a  Meta-model for Language-independent refactoring.
-The goal of the FAMIX is to check the preconditions of the refactorings supported and to analyze which changes need to be done for every supported refactoring at a language independent level.
+The goal of the FAMIX is to check the preconditions of the refactoring operations supported and to analyze which changes need to be done for every supported refactoring at a language independent level.
 
-Language independence is useful because a large part of the refactorings are described and analyzed on a language-independent level and similar concepts in different languages are treated in the same way. 
+Language independence is useful because a large part of the refactoring operations are described and analyzed on a language-independent level and similar concepts in different languages are treated in the same way. 
 With that it is possible to reuse the analysis and reduce the language specifics to only the modifications in the source code.
 
-Based on this meta-model is possible to construct a refactoring engine that can do primitive refactorings for a few implementations such as smalltalk and java.
+Based on this meta-model is possible to construct a refactoring engine that can do primitive refactoring operations for a few implementations such as Smalltalk and Java.
 
 %\subsubsection{Difficulties}
 However there are some downsides to this approach which leads to an increase of the algorithms complexity. 
@@ -382,7 +377,9 @@ For example the invocation of methods in Java is different that the constructors
 It is also difficult to abstract a language when there are apparent standards in all languages but needs language-specific interpretation such as when a name is a valid name for a class in that specific language.
 
 Mapping back the language to the FAMIX is difficult in some languages because FAMIX meta-model does not have the concept of meta-classes or interfaces.
-However the most problematic issue was with dynamic languages. Dynamic languages have less information available at compile-time and that makes the dependency analysis  through invocations and accesses more difficult. For example the rename method can only be done if there is no other method with the same signature.
+However the most problematic issue was with dynamic languages. 
+Dynamic languages have less information available at compile-time and that makes the dependency analysis  through invocations and accesses more difficult. 
+For example the rename method can only be done if there is no other method with the same signature.
 
 \subsubsection{JunGL} %creating refactorings  
 
