@@ -31,7 +31,7 @@ is the most used refactoring operation and it is indispensable to any refactorin
 DrRacket environment already has a rename operation, however the rename has a bug when renaming imported functions.
 When renaming a imported function the original rename of DrRacket renamed the name of all the imported functions from the same file and it also renamed the name of the file imported.
 This is not a correct refactoring, this makes the program syntactic incorrect because it renames the name of the file imported and DrRacket should only rename the function with the selected name, not every function from that file.
-This situation happens when using functions exported from another file or library it is necessary to require them.
+This situation may occur when using functions from other file, whether because there is a name conflict or it is better for the readability to rename that function name.
 %After that, the user can call the methods exported like they were defined in the file.
 %However those methods could have name collision or change it for a more adequate name. To do that the user would do a rename.
 
@@ -59,10 +59,14 @@ This operation allows the user to move safely the expressions to the new locatio
 \subsubsection{Add-prefix}
 %this is a refactoring for racket only!
 is a particular refactoring operation for Racket.
-When using two libraries that have functions with the same name there is a naming conflict.
-This happens when a programmer is using some functions from a library and then realizes that needs another function.
-The new function has the same name of one of the used functions and that creates a conflict error.
-The solution is to add a prefix for one of the imported libraries.
+%When using two libraries that have functions with the same name there is a naming conflict.
+%This happens when a programmer is using some functions from a library and then realizes that needs another function.
+%The new function has the same name of one of the used functions and that creates a conflict error.
+%The solution is to add a prefix for one of the imported libraries.
+
+When there several functions are imported from several different libraries the code starts to became confusing because it is hard to remember where a specific function came from.
+To solve that problem Racket as a prefix that can be added to the imported functions.
+This prefix helps improving the readability of the code and therefore the quality.
 That is really annoying because the user has to remember and change one by one all functions invocations.
 
 The Add Prefix refactoring does all that for the user.
@@ -79,7 +83,7 @@ This is also useful when the name of the functions are similar, adding a prefix 
 The architecture of the refactoring tool will consist in an AST and in the def-use-relations of the program to be refactored.
 The information gathered in the AST and in the def-use-relations with some preconditions is enough to ensure the correctness of the refactoring operations.
 The AST in the Racket programing language is composed of s-expressions. Because a program is a list of s-expressions.
-DrRacket provides the def-use-relations which is an important help to do the refactoring operations. The def-use-relations are visual represented as arrows in the DrRacket.
+DrRacket provides the def-use-relations which is an important help to do the refactoring operations. The def-use-relations are visually represented as arrows in the DrRacket.
 
 \begin{figure}[htbp]
 	\centering
@@ -129,7 +133,7 @@ This example regards only when renaming an imported function. The user selects t
 	\includegraphics[width=0.95\textwidth]{img/rename2.png}
 	\caption{After the Rename}
 	\label{fig:renameAfter}
-\end{figure}s
+\end{figure}
 
 \subsubsection{Add-prefix}
 
