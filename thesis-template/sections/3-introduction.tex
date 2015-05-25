@@ -14,17 +14,20 @@ Even after development new bugs are found or some critical new features are adde
 This changes makes the software drift apart from its original design.
 Typically these changes increase the complexity of the software, making it less readable and harder to change. 
 Consequently, it makes the quality lower and the maintenance costs higher.
-Continuous changes create the a need for continuously improving the software structure.
+Continuous changes create the a need for continuously improving of the software structure.
 
 Refactoring is a meaning-preserving transformation or a set of meaning-preserving transformations that are meant to improve the program structure and the software quality \cite{bourquin2007high}.
-Refactoring is a very desirable operation to maintain the software quality but it is a tedious and error prone activity, and because of that, it is preferable to use a tool that provides automated support. %to the refactoring operations that the programmer intends to do. 
+Thus, making refactoring a very desirable operation to maintain the software quality, but because it is a tedious and error prone activity it is preferable to use a tool that provides automated support. %to the refactoring operations that the programmer intends to do. 
 Therefore saving time and preventing the addition of errors to a previous correct program.
 
 %
 %talk about the lack of refactoring tools for unexperienced users and maybe the importance of using refactoring tools while learning how to program.
 Refactoring tools are important, however there is a lack of refactoring tools designed for unexperienced users.
-An important refactoring operation an unexperienced user would do besides the rename is the extract-method. 
-They tend to create one big function that does all the program work.
+They tend to create one big function that does all the program work and often use try and error to get the program correct.
+This makes the program quality weak and needing a refactoring. 
+By having refactoring operations available they could easily improve the program structure.
+Because of the way unexperienced users usually program, by creating one big function, an important refactoring operation an unexperienced user would do besides the rename is the extract-method. 
+
 By having a refactoring tool that allows the user to extract functions the unexperienced users would improve the quality of the program in a safe way.
 
 %give the example
@@ -71,13 +74,14 @@ def fibonacci(number=1):
 
 
 In the refactoring, the user starts by choosing a set of expressions to extract, usually it is a  basic block or a set of basic blocks.
-There is two functions extracted, the print\_fibonacci and fibonacci\_seq.
+There are two functions extracted, the ``print\_fibonacci'' and ``'fibonacci\_seq''.
 %talk about refactoring for static languages and dynamic languages
 
 The use of the refactoring tools is fully adopted by the object oriented and static programming languages with their IDEs (integrated development environment) support.
 For example, languages such as Java with the IDEs, Eclipse\footnote{https://eclipse.org/}, IntelliJ\footnote{https://www.jetbrains.com/idea/} or NetBeans\footnote{https://netbeans.org/} and C\# with Visual Studio\footnote{https://www.visualstudio.com/}.
 %When compared to the dynamic languages there is a lack of refactoring tools and refactoring operations.
 %talk about the lack of refactoring tools for dynamic languages
+Unfortunately that is not the case for the refactoring tools for dynamic languages. 
 The lack of information available during the refactoring about the program is the biggest difference between refactoring tools for static languages and refactoring tools for dynamic languages.
 This difference is the main difficulty that made the refactoring tools for dynamic languages not evolve like the ones made for static languages. 
 Therefore making the refactoring tools for static languages largely used and considered a common tool in contrast with the refactoring tools for dynamic languages.  %Does not sound good.
@@ -92,8 +96,8 @@ A refactoring tool for a dynamic language concerned with unexperienced users wou
 %say what will be addressed in the next sections.
 
 The Section 2 addresses the objectives for this thesis work. 
-Section 3 describe some definitions related to refactoring tools, such as the types of refactoring tools.
-Section 4 describes how the users refactoring, it compares refactoring tools for static languages, it describes refactoring tools for dynamic languages and languages independent refactoring tools.
+Section 3 describes some definitions related to refactoring tools, such as the types of refactoring tools.
+Section 4 describes how the users refactoring, it compares refactoring tools for static languages, it describes refactoring tools for dynamic languages, and it describes language-independent refactoring tools.
 Section 5 describes the architecture of the proposed solution. 
 Section 6 explains how the tool will be evaluated and finally section 7 sums up the work.
 

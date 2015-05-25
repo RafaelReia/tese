@@ -13,7 +13,7 @@ The refactoring operations can also be classified by the effect that they have o
 \subsection{Refactoring as a Process}
 Refactoring can be done in two ways. %add citations
 One is doing the refactoring in between programming and constantly performed. 
-The other one is to do the refactoring as a different activity and in bulks.
+The other one is to do the refactoring as a different activity and done in bulks.
 Regardless when is done, the refactoring can always be decomposed in this different activities: \cite{erb2010survey}
 
 \begin{enumerate}
@@ -43,7 +43,7 @@ For example in a class, if a method name is renamed and the program consists in 
 Another way do define it is to say that in order to preserve behavior it is needed to preserve the syntactic and semantic properties.
 Preserving the syntactic properties is to preserve the syntax, and it is common sense that a refactoring should not invalidate a syntactic correct program.
 
-Preserving the semantic of the program is to preserve the meaning of the program in the basic concept of the language. 
+Preserving the semantic of the program means to preserve the meaning of the program in the basic concept of the language. 
 In other words, is to  maintain the semantic properties of all declarations after a refactoring and it should resolve to the same declarations they resolved before the refactoring operation.
 Because preserving the syntax is easily seen, this document focus on the meaning-preservation of the refactoring operations. 
 
@@ -59,9 +59,10 @@ Because preserving the syntax is easily seen, this document focus on the meaning
 
 \subsection{Classification of refactoring tools} %\cite{erb2010survey}
 Refactoring tools can be subdivided in manual, semi-automated and fully-automated according to the degree of automation.
-Manual, which has no automation. If the transformation is left to the user the tool can not be considered a refactoring tool.
+Manual, which has no automation. If the transformation itself is left to the user the tool can not be considered a refactoring tool.
 The fully-automated one, that detects refactoring opportunities and executes the refactoring operations. 
-And the semi-automated one in which the user chooses which refactoring operation wants to do or this tools may assist the user by suggesting the refactoring operations, but the decision to apply the refactoring operation belongs to the user. \cite{erb2010survey}
+And the semi-automated one in which the user chooses which refactoring operation wants to do. 
+This tools may assist the user by suggesting the refactoring operations, but the decision to apply the refactoring operation belongs to the user. \cite{erb2010survey}
 
 
 
@@ -77,8 +78,9 @@ And the semi-automated one in which the user chooses which refactoring operation
 
 \subsubsection{Manual Refactoring}
 \label{ssub:Manual-Refactoring}
-The case study \cite{thompson2003case} was done with the idea to show that refactoring is also important in functional programs.
-The case study consists in refactoring an Haskell program with 400 lines, written by a student.
+One way to learn how the users manually refactoring is to do it while taking notes.
+%The case study \cite{thompson2003case} was done with the idea to show that refactoring is also important in functional programs.
+The case study\cite{thompson2003case} consists in refactoring an Haskell program with 400 lines, written by a student.
 The program's goal is to build a semantic tableaux, which is a truth tree used to  for example to proof procedures for first order logic or solve satisfiability of finite sets.
 
 %\subsubsection{Refactoring of a program}
@@ -114,7 +116,7 @@ This aspect was stressed because having documentation about the version previous
 
 \subsubsection{Semi-Automated Refactoring}
 
-Semi-Automated Refactoring is available for all kind of languages and it is largely used among object oriented languages.
+ is available for all kind of languages and it is largely used among object oriented languages.
 It is the most common level of refactoring.
 Besides that, and in contrast with the object oriented languages, there is a lack of semantic refactoring tools for dynamic languages.
 
@@ -124,8 +126,9 @@ This kind of tools will be further explained.
 \subsubsection{Automated Refactoring}
 %84
 %Metrics based refactoring
-Metrics can support the decision where and which refactoring operations to apply. \cite{simon2001metrics}
-A tool was created as proof of concept and it uses the metrics to identify where the code should be refactored.
+Automated Refactoring eliminates the user as middle-man and decides what refactoring operations to do.
+In order to know what refactoring operations to do the tools use metrics that can support the decision where and which refactoring operations to apply. 
+A tool\cite{simon2001metrics} was created as proof of concept and it uses the metrics to identify where the code should be refactored.
 The tool takes into account the "bad smell" of a code to suggest a refactoring. The "bad smell" is a human intuition which that specific code should be refactored. 
 An example of a "bad smell" that would trigger a Move Method refactoring is when one method of a class is used more by other class in which it is defined.
 
@@ -142,7 +145,7 @@ To quickly show to the user the identified "bad smells" it is generated a visual
 In order to make an automated approach to identify "bad smells" it is used a distance based cohesion metric.
 With the distance based algorithm it is possible to identify violations to the rule "put together what belongs together". 
 There are some refactoring operations that are related to this rule such as, move attribute, extract class, in-line class and move method. 
-Regarding the distances a method using only locally defined methods/attributes have a high distance to the methods of other classes. 
+Regarding the distances a method using only locally defined methods or attributes have a high distance to the methods of other classes. 
 Whereas methods that use many attributes and/or methods of other classes have a low distance to them. 
 The attributes are compared by the methods that use them. 
 For example if an attribute is only used by methods of other classes, that attribute probably should be moved to other class.

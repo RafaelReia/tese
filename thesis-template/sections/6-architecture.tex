@@ -76,13 +76,14 @@ This is also useful when the name of the functions are similar, adding a prefix 
 
 
 
-\subsection{Structure}
+\subsection{Proposed Architecture}
 %s-exp and def-uses-relationships
 
 %An image will be awesome here
-The architecture of the refactoring tool will consist in an AST and in the def-use-relations of the program to be refactored.
+The Figure~\ref{fig:architecture} is the proposed architecture of the proposed tool. The refactoring tool uses mainly two important informations gathered by the compiler, the AST and the def-use-relations.
 The information gathered in the AST and in the def-use-relations with some preconditions is enough to ensure the correctness of the refactoring operations.
-The AST in the Racket programing language is composed of s-expressions. Because a program is a list of s-expressions.
+The compiler generates the AST and the Def-use-relations of a program version. Then the refactoring tool uses that and some conditions to ensure that the refactoring is correct. After that it changes the program creating another version.
+The AST in the Racket programing language is composed of s-expressions. Because a program in Racket is a list of s-expressions.
 DrRacket provides the def-use-relations which is an important help to do the refactoring operations. The def-use-relations are visually represented as arrows in the DrRacket.
 
 \begin{figure}[htbp]
@@ -92,7 +93,6 @@ DrRacket provides the def-use-relations which is an important help to do the ref
 	\label{fig:architecture}
 \end{figure}
 
-As described in {\bf Figure~\ref{fig:architecture}}, the compiler generates the AST and the Def-use-relations of a program version. Then the refactoring tool uses that and some conditions to ensure that the refactoring is correct. After that it changes the program creating another version.
 
 \subsection{Validation}
 %In order to evaluate it was implemented a prototype in DrRacket.

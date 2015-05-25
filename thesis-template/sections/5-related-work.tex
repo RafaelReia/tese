@@ -9,7 +9,7 @@
 
 This section starts to present the use of refactoring tools and an overview of static refactoring tools.
 After that it presents the refactoring tools for the dynamic languages such as, Scheme, JavaScript, Smalltalk, Python and Racket.
-Then it presents multi-language refactorings.
+Then it presents the language-independent refactorings.
 Finally it has a conclusion about the related work.
 
 %How we Refactor, and how we know it.
@@ -358,7 +358,7 @@ In the worst case it represents 29\% of the refactoring operations for experienc
 Some refactoring operations make sense in different types of languages, such as the rename, move, etc. In order to use that similarity there are some tools that aim to create refactoring operations independently of the language. 
 
 \subsubsection{Famix}
-FAMIX \cite{tichelaar2000meta} is a  Meta-model for Language-independent refactoring.
+\cite{tichelaar2000meta} is a  Meta-model for Language-independent refactoring.
 The goal of the FAMIX is to check the preconditions of the refactoring operations supported and to analyze which changes need to be done for every supported refactoring at a language independent level.
 
 Language independence is useful because a large part of the refactoring operations are described and analyzed on a language-independent level and similar concepts in different languages are treated in the same way. 
@@ -382,7 +382,7 @@ For example the rename method can only be done if there is no other method with 
 \subsubsection{JunGL} %creating refactorings  
 
 
-The JunGL \cite{verbaere2006jungl} is a domain-specific language for refactoring. 
+\cite{verbaere2006jungl} is a domain-specific language for refactoring. 
 It is a hybrid of a functional language and a logic query language. 
 The goal of this paper is to create a scripting language that allows the user to create their owns refactoring without errors.
 
@@ -425,14 +425,14 @@ The Lazy edges used allows a better performance of the refactoring because the t
 %they are made for several text editors/ IDEs whereas static refactoring tools are made for usually one specific IDE.
 
 Dynamic languages, like Racket and Python are used in introductory courses across the world.
-However even being recognized as good languages to learn programming there are few refactoring tools for dynamic languages. 
+However even being recognized as good languages to learn to program there are few refactoring tools for dynamic languages. 
 Consequently making the unexperienced programmer contact with refactoring tools latter on and not while learning.
 %To make it worse, additionally
 Additionally refactoring tools for dynamic languages are still far away from the capabilities offered by the refactoring tools for static languages. 
 In average, they have less refactoring operations than the refactoring tools for static languages.
 
 The biggest difficulty of the refactoring tools for dynamic languages is the lack of information available. 
-This happens because the dynamic languages only have type information in runtime. 
+This happens because the dynamic languages only know type information in runtime. 
 That makes the refactoring operations more difficult when compared with the refactoring operations for static languages, where the information is always available.
 
 In addition, dynamic languages are very different from each other whereas the static languages are more similar.
