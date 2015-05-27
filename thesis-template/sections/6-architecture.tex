@@ -7,13 +7,13 @@
 \section{Architecture}
 
 %introduction
-This is the proposed solution to solve the need of a refactoring tool designed for unexperienced users.
+This proposes a solution to solve the need of a refactoring tool designed for unexperienced users.
 %A refactoring tool that would suit an unexperienced programmer who is learning how to program is needed.
 The choice of language and environment is important, so it was chosen the Racket programing language and the DrRacket environment.
 Racket is a dynamic language that is known of being used as an introductory programming course in schools around the world. 
 Racket also has an IDE, DrRacket that is a pedagogic environment \cite{drscheme_pegadogy} and it also supports development and extension of other programming languages \cite{tobin2011languages} and recently it has an implementation of python \cite{ramos2014implementation}.
 Besides that, DrRacket only has one refactoring operation, that is the rename.
-That will motivate the unexperienced programmers to start using tool assisted refactoring operations and DrRacket seams to be the ideal candidate to have that refactoring tool.
+This tool will motivate the unexperienced programmers to start using tool assisted refactoring operations and DrRacket seams to be the ideal candidate to have that refactoring tool.
 
 
 %use cases: To validate the architecture.
@@ -80,7 +80,8 @@ This is also useful when the name of the functions are similar, adding a prefix 
 %s-exp and def-uses-relationships
 
 %An image will be awesome here
-The Figure~\ref{fig:architecture} is the proposed architecture of the proposed tool. The refactoring tool uses mainly two important informations gathered by the compiler, the AST and the def-use-relations.
+The Figure~\ref{fig:architecture} presents the proposed architecture of the proposed tool. 
+The refactoring tool uses mainly two important informations gathered by the compiler, the AST and the def-use-relations.
 The information gathered in the AST and in the def-use-relations with some preconditions is enough to ensure the correctness of the refactoring operations.
 The compiler generates the AST and the Def-use-relations of a program version. Then the refactoring tool uses that and some conditions to ensure that the refactoring is correct. After that it changes the program creating another version.
 The AST in the Racket programing language is composed of s-expressions. Because a program in Racket is a list of s-expressions.
