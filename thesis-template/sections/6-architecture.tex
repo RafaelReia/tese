@@ -11,7 +11,7 @@ This proposes a solution to solve the need of a refactoring tool designed for un
 %A refactoring tool that would suit an unexperienced programmer who is learning how to program is needed.
 The choice of language and environment is important, so it was chosen the Racket programing language and the DrRacket environment.
 Racket is a dynamic language that is known of being used as an introductory programming course in schools around the world. 
-Racket also has an IDE, DrRacket that is a pedagogic environment \cite{drscheme_pegadogy} and it also supports development and extension of other programming languages \cite{tobin2011languages} and recently it has an implementation of python \cite{ramos2014implementation}.
+Racket has an IDE, DrRacket that is a pedagogic environment \cite{drscheme_pegadogy} and it also supports development and extension of other programming languages \cite{tobin2011languages}. Recently it was added an implementation of Python for Racket \cite{ramos2014implementation}.
 Besides that, DrRacket only has one refactoring operation, that is the rename.
 This tool will motivate the unexperienced programmers to start using tool assisted refactoring operations and DrRacket seams to be the ideal candidate to have that refactoring tool.
 
@@ -29,9 +29,9 @@ This describes some of the refactoring operations desired and their use.
 %this is a refactoring for racket
 is the most used refactoring operation and it is indispensable to any refactoring tool.
 DrRacket environment already has a rename operation, however the rename has a bug when renaming imported functions.
-When renaming a imported function the original rename of DrRacket renamed the name of all the imported functions from the same file and it also renamed the name of the file imported.
-This is not a correct refactoring, this makes the program syntactic incorrect because it renames the name of the file imported and DrRacket should only rename the function with the selected name, not every function from that file.
-This situation may occur when using functions from other file, whether because there is a name conflict or it is better for the readability to rename that function name.
+This bug happens when the user renames an imported function, with the original rename operation of DrRacket, it renames all the imported functions from the same file and it also renames the name of the imported file.
+This is not a correct refactoring because it makes the program syntactic incorrect. It should only rename the function with the selected name, not every function from that file.
+This situation may occur when using functions from other file, whether there is a name conflict or because it is better for the readability to rename that function name.
 %After that, the user can call the methods exported like they were defined in the file.
 %However those methods could have name collision or change it for a more adequate name. To do that the user would do a rename.
 
@@ -50,7 +50,7 @@ By having a mean to restructure the code, unexperienced programmers will be able
 
 \subsubsection{Move expression}
 
-Move expression is also one of the most used refactoring operations.
+is also one of the most used refactoring operations.
 This operation allows the user to move safely the expressions to the new location.
 
 
@@ -63,9 +63,9 @@ is a particular refactoring operation for Racket.
 %This happens when a programmer is using some functions from a library and then realizes that needs another function.
 %The new function has the same name of one of the used functions and that creates a conflict error.
 %The solution is to add a prefix for one of the imported libraries.
-
-When there several functions are imported from several different libraries the code starts to became confusing because it is hard to remember where a specific function came from.
-To solve that problem Racket as a prefix that can be added to the imported functions.
+When several functions are imported from several different libraries the code starts to become confusing.
+With so many functions from different libraries it is hard to remember where a specific function came from.
+To solve that problem, Racket as a prefix that can be added to the imported functions.
 This prefix helps improving the readability of the code and therefore the quality.
 That is really annoying because the user has to remember and change one by one all functions invocations.
 
@@ -99,12 +99,13 @@ DrRacket provides the def-use-relations which is an important help to do the ref
 %In order to evaluate it was implemented a prototype in DrRacket.
 In order to validate this architecture some refactoring operations were implemented. 
 This allows to validate the architecture and have more trust in this architecture.
-To do that it was only validated the refactoring operations that only used the def-use-relations.
+To do that it was only validated the refactoring operations that use exclusively the def-use-relations.
 
 \subsubsection{Extract-function}
 The user selects the expressions that wants to extract and chooses a name for the new function as seen in {\bf Figure~\ref{fig:extractBefore}}.
-Then the user pastes the result of the extraction where he thinks it's the best place for the function. {\bf Figure~\ref{fig:extractAfter}}.
-The extract function refactoring could already paste the extracted function, however this way the user can choose the function's location.
+Then the user pastes the result of the extraction where he thinks it's the best place for the function. 
+The final result is seen in {\bf Figure~\ref{fig:extractAfter}}.
+The extract function refactoring could automatically paste the extracted function, however this way the user can choose the function's location.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.95\textwidth]{img/extract1.png}
@@ -120,8 +121,9 @@ The extract function refactoring could already paste the extracted function, how
 \end{figure}
 
 \subsubsection{Imported renames}
-As explained in ~\ref{ssub:Rename} the DrRacket only refactoring operation the Rename has bugs when it has to rename imported functions.
-This example regards only when renaming an imported function. The user selects the function that wants to be renamed, {\bf Figure~\ref{fig:renameBefore}} in this case the user chose ``print-cake'', then the user chooses the new name and the end result is shown in {\bf Figure~\ref{fig:renameAfter}}.
+As explained in ~\ref{ssub:Rename} the DrRacket only refactoring operation, the Rename, has bugs when it has to rename imported functions.
+This example regards only when renaming an imported function. 
+The user selects the function that wants to be renamed, as seen in {\bf Figure~\ref{fig:renameBefore}} and in this case the user chose ``print-cake'', then the user chooses the new name and the end result is shown in {\bf Figure~\ref{fig:renameAfter}}.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.95\textwidth]{img/rename1.png}
