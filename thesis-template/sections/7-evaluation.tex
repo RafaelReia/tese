@@ -13,12 +13,12 @@
 %\end{itemize}
 
 In order to evaluate the correctness of the refactoring operations the ideal would be to have a formal proof for each refactoring operation.
-However, formal proofs are hard to do and take too much time that I do not have for this thesis.
+However, formal proofs are hard to do and take too much time, that I do not have for this thesis.
 The formal proofs that exist are usually done for theoretical languages and not for languages actually used.
 Nevertheless, even professional refactoring tools such as IntelliJ, Eclipse or NetBeans have errors. \cite{verbaere2006jungl} 
 
 One solution to that problem is to prove informally. 
-The prove consists in having a correct Racket program with unit tests, preferably developed with test-driven-development, then apply some refactoring operations and then run the unit tests again. 
-This allows to test if the refactoring operations are correct and do not introduce errors in the programs neither changes the program's meaning.
+The prove consists in having several correct Racket programs with unit tests, preferably developed with test-driven-development, then apply some refactoring operations and then run the unit tests again. 
+This allows to test if the refactoring operations are correct and do not introduce errors in the programs neither changes the programs' meaning.
 
 To evaluate the simplicity and usability of the refactoring operations it will be tested by having users following a set of use cases and test the users response to the tasks.

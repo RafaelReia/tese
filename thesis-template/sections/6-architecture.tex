@@ -9,10 +9,11 @@
 %introduction
 This proposes a solution to solve the need of a refactoring tool designed for unexperienced users.
 %A refactoring tool that would suit an unexperienced programmer who is learning how to program is needed.
-The choice of language and environment is important, so it was chosen the Racket programing language and the DrRacket environment.
+The choice of language and environment is important, so the Racket programing language and the DrRacket environment were chosen.
 Racket is a dynamic language that is known of being used as an introductory programming course in schools around the world. 
-Racket has an IDE, DrRacket that is a pedagogic environment \cite{drscheme_pegadogy} and it also supports development and extension of other programming languages \cite{tobin2011languages}. Recently it was added an implementation of Python for Racket \cite{ramos2014implementation}.
-Besides that, DrRacket only has one refactoring operation, that is the rename.
+Racket has an IDE, DrRacket, that is a pedagogic environment \cite{drscheme_pegadogy} and it also supports development and extension of other programming languages \cite{tobin2011languages}. 
+Recently  an implementation of Python for Racket was added \cite{ramos2014implementation}.
+Besides that, DrRacket has only one refactoring operation, that is the rename.
 This tool will motivate the unexperienced programmers to start using tool assisted refactoring operations and DrRacket seams to be the ideal candidate to have that refactoring tool.
 
 
@@ -20,7 +21,7 @@ This tool will motivate the unexperienced programmers to start using tool assist
 \subsection{Refactoring Operations}
 %Das operacoes para a refactoring tool vamos falar particularmente destas, ou por exemplo destas.
 The refactoring tool consists in a set of refactoring operations.
-This describes some of the refactoring operations desired and their use.
+This section describes some of the refactoring operations desired and their use.
 %introduce the validate cases xD
 
 % rename improved
@@ -30,7 +31,7 @@ This describes some of the refactoring operations desired and their use.
 is the most used refactoring operation and it is indispensable to any refactoring tool.
 DrRacket environment already has a rename operation, however the rename has a bug when renaming imported functions.
 This bug happens when the user renames an imported function, with the original rename operation of DrRacket, it renames all the imported functions from the same file and it also renames the name of the imported file.
-This is not a correct refactoring because it makes the program syntactic incorrect. It should only rename the function with the selected name, not every function from that file.
+This is not a correct refactoring because it makes the program syntactically incorrect. It should only rename the function with the selected name, not every function from that file.
 This situation may occur when using functions from other file, whether there is a name conflict or because it is better for the readability to rename that function name.
 %After that, the user can call the methods exported like they were defined in the file.
 %However those methods could have name collision or change it for a more adequate name. To do that the user would do a rename.
@@ -39,7 +40,7 @@ This situation may occur when using functions from other file, whether there is 
 % extract-function
 \subsubsection{Extract-function}
 
-is a simple and very useful refactoring, and it is shown previously in this document that is one of the most used refactoring operations.
+is a simple and very useful refactoring, shown previously in this document, that it is one of the most used refactoring operations.
 
 Extract-function is an important refactoring for unexperienced users since those users tend to create a big function that does all the work.
 
@@ -65,9 +66,9 @@ is a particular refactoring operation for Racket.
 %The solution is to add a prefix for one of the imported libraries.
 When several functions are imported from several different libraries the code starts to become confusing.
 With so many functions from different libraries it is hard to remember where a specific function came from.
-To solve that problem, Racket as a prefix that can be added to the imported functions.
+To solve that problem, Racket has a prefix that can be added to the imported functions.
 This prefix helps improving the readability of the code and therefore the quality.
-That is really annoying because the user has to remember and change one by one all functions invocations.
+However, doing that manually is really annoying because the user has to remember and change one by one all functions invocations.
 
 The Add Prefix refactoring does all that for the user.
 This is also useful when the name of the functions are similar, adding a prefix make it easier to distinguish between libraries.
@@ -84,7 +85,7 @@ The Figure~\ref{fig:architecture} presents the proposed architecture of the prop
 The refactoring tool uses mainly two important informations gathered by the compiler, the AST and the def-use-relations.
 The information gathered in the AST and in the def-use-relations with some preconditions is enough to ensure the correctness of the refactoring operations.
 The compiler generates the AST and the Def-use-relations of a program version. Then the refactoring tool uses that and some conditions to ensure that the refactoring is correct. After that it changes the program creating another version.
-The AST in the Racket programing language is composed of s-expressions. Because a program in Racket is a list of s-expressions.
+The AST in the Racket programing language composed a list s-expressions, which are basically a nested list of basic data, and have the syntax information about the program and other useful information such as in which line and column a term is declared.
 DrRacket provides the def-use-relations which is an important help to do the refactoring operations. The def-use-relations are visually represented as arrows in the DrRacket.
 
 \begin{figure}[htbp]
@@ -104,7 +105,7 @@ To do that it was only validated the refactoring operations that use exclusively
 \subsubsection{Extract-function}
 The user selects the expressions that wants to extract and chooses a name for the new function as seen in {\bf Figure~\ref{fig:extractBefore}}.
 Then the user pastes the result of the extraction where he thinks it's the best place for the function. 
-The final result is seen in {\bf Figure~\ref{fig:extractAfter}}.
+The final result can be seen in {\bf Figure~\ref{fig:extractAfter}}.
 The extract function refactoring could automatically paste the extracted function, however this way the user can choose the function's location.
 \begin{figure}[htbp]
 	\centering
@@ -140,7 +141,7 @@ The user selects the function that wants to be renamed, as seen in {\bf Figure~\
 
 \subsubsection{Add-prefix}
 
-This is a particular refactoring operation for Racket. Adding a prefix is usually used when there is naming conflicts with two different libraries. The user goes to the library name, and add a prefix.
+This is a particular refactoring operation for Racket. Adding a prefix is usually used when there is naming conflicts with two different libraries. The user goes to the library name, and adds a prefix.
 In the {\bf Figure~\ref{fig:addPrefixBefore}} the arrows show which functions belong to the ``pict3d'' library.
 Then the user selects a name for the prefix that will be added, as shown in {\bf Figure~\ref{fig:addPrefixDuring}}. The final result is shown in {\bf Figure~\ref{fig:addPrefixAfter}}.
 

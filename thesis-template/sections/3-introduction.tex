@@ -8,26 +8,26 @@
 
 
 %Introduce the Refactoring Tools
-Over time, software tends to change, for instance new requirements appear or are adapted. 
-Even after development bugs are found or some critical new features are added.
+Over time, software tends to change, for instance when existing requirements are changed or new requirements are adopted. 
+Even after development, bugs are found or some critical new features are added.
 %A piece of software that is used never stops changing and evolving.
 These changes make the software drift apart from its original design.
 Typically these changes increase the complexity of the software, making it less readable and harder to change \cite{mens2003refactoring}. 
 Consequently, it makes the quality lower and the maintenance costs higher.
 Continuous changes create the need for continuously improving the software structure.
 
-Refactoring is a meaning-preserving transformation or a set of meaning-preserving transformations that are meant to improve the program structure and the software quality \cite{bourquin2007high}.
+Refactoring is a meaning-preserving transformation or a set of meaning-preserving transformations that are meant to improve the program structure and therefore the software quality \cite{bourquin2007high}.
 %However, because refactoring is a tedious and error prone activity, for example renaming one variable if the user forgets one it generates and error, it is preferable to use a too that provides automated support.
-Thus, making refactoring a very desirable operation to maintain the software quality, but because it is a tedious and error prone activity it is preferable to use a tool that provides automated support. 
+Thus, making refactoring a very desirable operation to maintain the software quality, but because it is a tedious and error prone activity, it is preferable to use a tool that provides automated support. 
 Therefore saving time and preventing the addition of errors to a previously correct program.
 
 %
 %talk about the lack of refactoring tools for unexperienced users and maybe the importance of using refactoring tools while learning how to program.
 Refactoring tools are important, however there is a lack of refactoring tools designed for unexperienced users.
 They tend to create one big function that does all the program work and often follow the try-and-error paradigm to get the program correct.
-This negatively affects the program quality, but, fortunately, refactoring operations can improve the program structure.
+This negatively affects the program quality, but fortunately, refactoring operations can improve the program structure.
 By having refactoring operations available they could easily improve the program structure.
-Because of the way unexperienced users usually program, by creating one big function, an important refactoring operation an unexperienced user would do besides the rename is the extract-function.
+Because of the way unexperienced users usually program, by creating one big function, an important refactoring operation an unexperienced user would apply is the extract-function.
 %Connecting phrase, if the unexperienced users decides to do that by hand, besides the tedious work that he has to do, he probably could forget stuff.
 %By having a refactoring tool it would be quicker and safer.
 
@@ -76,12 +76,13 @@ def fibonacci(number=1):
 \end{lstlisting}
 
 
-In the refactoring, the user starts by choosing a set of expressions to extract, usually it is a  basic block or a set of basic blocks.
-There are two functions extracted, the ``print\_fibonacci'' and ``'fibonacci\_seq''.
+In the extract function refactoring operation, the user starts by choosing a set of expressions to extract, usually it is a  basic block or a set of basic blocks.
+A basic block is a portion of code that only has one entry point and only one exit point.
+There are two functions extracted in the Listing~\ref{lst:FibonnacciRefactored}, the ``print\_fibonacci'' and ``'fibonacci\_seq''.
 %talk about refactoring for static languages and dynamic languages
 
-The use of the refactoring tools is fully adopted by the object oriented and static programming languages with their IDEs (integrated development environment) support.
-For example, languages such as Java with the IDEs, Eclipse\footnote{https://eclipse.org/}, IntelliJ\footnote{https://www.jetbrains.com/idea/} or NetBeans\footnote{https://netbeans.org/} and C\# with Visual Studio\footnote{https://www.visualstudio.com/}.
+The use of the refactoring tools is fully adopted by the object oriented and static programming languages with their IDEs (integrated development environments) support.
+For example, languages such as Java have IDEs like, Eclipse\footnote{https://eclipse.org/}, IntelliJ\footnote{https://www.jetbrains.com/idea/} or NetBeans\footnote{https://netbeans.org/} and C\# has Visual Studio\footnote{https://www.visualstudio.com/}.
 %When compared to the dynamic languages there is a lack of refactoring tools and refactoring operations.
 %talk about the lack of refactoring tools for dynamic languages
 Unfortunately that is not the case for the refactoring tools for dynamic languages. 

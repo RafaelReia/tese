@@ -237,24 +237,25 @@ It was considered that the user of this tool is intelligent therefore automated 
 Automated refactorings do not suit the user because they could generate code that does not make sense in the domain.
 For example, the tool would generate new classes in order to eliminate duplicated code, by creating an abstract class, which might not make sense in the domain. Instead of doing that, the tool points out possible refactoring operations and let the user decide whether or not to do those operations.
 
-In order to ensure behavior preservation the tool checks the preconditions of each refactoring before execution. 
+In order to ensure behavior preservation the tool checks the preconditions of each refactoring operation before execution. 
 However, there are some conditions that are more difficult to determine statically, such as dynamic typing and cardinality relationships between objects. 
 Instead of checking the precondition statically the refactoring browser checks the preconditions dynamically. 
 
 The preconditions checks are done using method wrappers to collect runtime information. 
 The Refactoring Browser starts by doing the refactoring operation and then it adds a wrapper method to the original method. 
-While the program is running, the wrapper detects the source code that called the original method and change it for the new method.
+While the program is running, the wrapper detects the source code that called the original method and changes it for the new method.
 For example, in the rename operation, after applying the rename and while the program is running, whenever the old method is called, the browser suspends the execution and changes the code that called the old method by the new method. 
 The problem of this approach is that the dynamically analysis is only as good as the test suit used by the programmer.
 
 
 %\input{sections/related-work/Making-refactoring-safer.tex}
-However there is already a tool \cite{soares2010making} for Eclipse that receives the source code that a refactoring is applied to, generates unit tests to the code being refactored and at the end it reports if the refactoring is safe to apply or not.
+However, there is already a tool \cite{soares2010making} for Eclipse that receives as input the source code and the refactoring operation to be applied. 
+Then it generates unit tests to the code being and at the end it reports if the refactoring is safe to apply or not.
 
-The tool uses a static analysis that identifies methods that have exactly the same modifier, return type, qualified name, parameters types and exceptions thrown in source and target programmers.
+The tool uses a static analysis to identify methods that have exactly the same modifier, return type, qualified name, parameters types and exceptions thrown in source and target programmers.
 After identifying those methods it uses Randoop \cite{pacheco2007feedback}, a tool that generates unit tests for classes within a time limit.
 
-Pairing this tool with the smalltalk refactoring browser would remove the limitation of the refactoring browser.
+Pairing this tool with the Refactoring Browser would remove the main limitation of the Refactoring Browser.
 However the tool is created for static languages and it is not that trivial to create one for dynamic languages because the tools have less information in compile time.
 
 \subsection{JavaScript}
@@ -282,8 +283,8 @@ Unjustified rejections due to imprecise pointer analysis were of 5.9\% for the r
 \subsection{Python}
 
 The following section presents two refactoring tools for Python. 
-It starts with Bicycle-Repair-Man, a refactoring tool that attempts to create a refactoring browser. 
-Afterwards it presents Rope, a refactoring tool that works like a Python library.
+It starts with Bicycle-Repair-Man\footnote{https://pypi.python.org/pypi/bicyclerepair/0.7.1}, a refactoring tool that attempts to create a refactoring browser. 
+Afterwards it presents Rope\footnote{https://github.com/python-rope/rope}, a refactoring tool that works like a Python library.
 
 \subsubsection{Bicycle Repair Man}
 
@@ -297,7 +298,7 @@ Bicycle Repair Man is an attempt to create the refactoring browser functionality
 The tool has an AST and it does its own parsing so it replaces the Python's parser with its own wrapper to be easier to develop the refactoring operations.
 
 
-\subsubsection{Rope}
+\subsubsection{Rope }
 
  is a Python refactoring tool written in Python, which works like a Python library.
 In order to make it easier to create refactoring operations Rope assumes that a Python program only has assignments and functions calls. %(can this be a bad thing?)
@@ -355,7 +356,7 @@ In the worst case it represents 29\% of the refactoring operations for experienc
 
 
 \subsection{Language-independent Refactoring} %Review && Rewrite
-Some refactoring operations make sense in different types of languages, such as the rename, move, etc. In order to use that similarity there are some tools that aim to create refactoring operations independently of the language. 
+Some refactoring operations make sense in different types of languages, such as the rename, the move or even the extract function. In order to use that similarity there are some tools that aim to create refactoring operations independently of the language. 
 
 \subsubsection{Famix}
 \cite{tichelaar2000meta} is a  Meta-model for Language-independent refactoring.
