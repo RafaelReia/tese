@@ -1,25 +1,26 @@
 \section{Definitions}
 
+
 %add refferences
 
 %[REF] Survey of software refactoring tools \cite{erb2010survey}
 This section presents some definitions regarding refactoring activities.
 
 \subsection{Classification of the refactoring}
-There are several levels of refactoring, a high level refactoring like design refactoring or a low level refactoring such as extract method refactoring operation. 
+There are several levels of refactoring, from a high level refactoring like design refactoring to a low level refactoring such as the extract method refactoring operation. 
 In between, exists combinational refactoring that is a combination of several low level refactoring operations.
 The refactoring operations can also be classified by the effect they have on software quality attributes, however that is a complex task to do. \cite{elish2011classification}
 
 \subsection{Refactoring as a Process}
 Refactoring can be done in two ways. %add citations
 One is doing the refactoring in between programming and constantly performing it. 
-The other one is to do the refactoring as a different activity and done in bulks.
-Regardless when is done, the refactoring can always be decomposed in this different activities: \cite{erb2010survey}
+The other one is to do the refactoring as a separate activity and done in bulks.
+Regardless when is done, the refactoring can always be decomposed in different activities: \cite{erb2010survey}
 
 \begin{enumerate}
  \item Identify where to change the software
  \item Determine the adequate refactoring operation
- \item Have a way to protect the planned changes (e.g automated tests)
+ \item Have a way to protect the planned changes (e.g, automated tests)
  \item Make the planned changes
  \item Access the refactoring benefits
  \item Maintain consistency between refactored and non-refactored code 
@@ -37,14 +38,14 @@ Regardless when is done, the refactoring can always be decomposed in this differ
 %survey of software refactoring tools \cite{erb2010survey} %add citation
 Refactoring must be correct and for some authors it means preserving the program behavior.
 However there is no consensual definition for what behavior preservation is.
-Some authors say that the behavior of the program is the output and preserving the output preserves the program behavior, but unfortunately that is not always true \cite{erb2010survey}.
+Some authors say that the behavior of the program is the output and preserving the output preserves the program behavior, but unfortunately that is not always true \cite{waite1984compiler}.
 For example in a class, if a method name is renamed and the program consists in printing that method name, by renaming that method the behavior of the program changes.
 
-Another way do define it is to say that in order to preserve behavior it is needed to preserve the syntactic and semantic properties.
-Preserving the syntactic properties is to preserve the syntax, and it is common sense that a refactoring should not invalidate a syntactic correct program.
+Another way do define it is to say that in order to preserve behavior it is necessary to preserve the syntactic and semantic properties.
+Preserving the syntactic properties is to still have a well-formed program after the transformation, and it is common sense that a refactoring should not invalidate a syntactic correct program.
 
 Preserving the semantic of the program means to preserve the meaning of the program in the basic concept of the language. 
-In other words, is to  maintain the semantic properties of all declarations after a refactoring and it should resolve to the same declarations they resolved before the refactoring operation.
+In other words, the semantic properties of all declarations after a refactoring should resolve to the same declarations they resolved before the transformation.
 Because preserving the syntax is easily seen, this document focus on the meaning-preservation of the refactoring operations. 
 
 
@@ -54,33 +55,11 @@ Because preserving the syntax is easily seen, this document focus on the meaning
 %for example, for Real time systems it is important the time that a (sequence of) operations takes, for embedded systems it takes into account the memory and the power consumption and for safety-critical systems there is a defined safety that must be preserved. 
 %In a theoretical world all this properties should be preserved by a refactoring, however in practice that is not the case. 
 
+\subsection{Case Study - Manual Refactoring}
 
-
-
-\subsection{Classification of refactoring tools} %\cite{erb2010survey}
-Refactoring tools can be subdivided in manual, semi-automated and fully-automated according to the degree of automation.
-Manual, which has no automation. If the transformation itself is left to the user, the tool can not be considered a refactoring tool.
-The fully-automated one, that detects refactoring opportunities and executes the refactoring operations. 
-And the semi-automated one in which the user chooses which refactoring operation wants to do. 
-This tools may assist the user by suggesting the refactoring operations, but the decision to apply the refactoring operation belongs to the user. \cite{erb2010survey}
-
-
-
-%\subsection{Levels of Refactoring}
-%There are different kinds of refactoring. 
-%There is manual, that is refactoring without tool support. 
-%Syntactic, refactoring only focused on the syntax transformations.
-%Semantic, the most common one, takes into account the syntactic and semantic information in the transformations. 
-%And finally there is the Automated, that automatically detects the possible refactoring operations to be applied.
-
-
-% subsubsection subsubsection_name (end)
-
-\subsubsection{Manual Refactoring}
-\label{ssub:Manual-Refactoring}
-One way to learn how the users manually refactoring is to do it while taking notes.
+One way to learn how the users manually refactor is to do it while taking notes.
 %The case study \cite{thompson2003case} was done with the idea to show that refactoring is also important in functional programs.
-The case study\cite{thompson2003case} consists in refactoring an Haskell program with 400 lines, written by a student.
+The case study \cite{thompson2003case} consists in refactoring an Haskell program with 400 lines, written by a student.
 The program's goal is to build a semantic tableaux, which is a truth tree used for example to proof procedures for first order logic or solve satisfiability of finite sets.
 
 %\subsubsection{Refactoring of a program}
@@ -94,13 +73,37 @@ In the end they generalized some functions and modified the representation type 
 This case study shows that the order of the refactoring operations is somehow arbitrary.
 The refactoring operations were applied whenever they thought it made more sense.
 They also conclude that generally, refactoring a program, is as good way to find out more about the program. 
-And that the refactoring operations need to have a way of doing undo, redo or revert changes. 
-Otherwise it would be more difficult to correct mistakes.
+And that the refactoring operations need to have a way of doing undo, redo or revert changes, otherwise it would be more difficult to correct mistakes.
 
 It is crucial to document the refactoring operations applied in detail. 
 This aspect was stressed because having documentation about the version previous to the refactoring, or outdated, is not good for the readability of the program since it can mislead the programmer.
 
 
+\subsection{Classification of refactoring tools} %\cite{erb2010survey}
+Refactoring tools can be subdivided in manual, semi-automated and fully-automated according to the degree of automation.
+In the manual case there is no support for detecting refactoring opportunities, but the transformation is applied by the refactoring tool. If the transformation itself is left to the user, the tool can not be considered a refactoring tool.
+The fully-automated one, automatically identifies refactoring opportunities and automatically applies them.
+Finally the semi-automated one identifies refactoring opportunities but waits for the user to decide the application of the refactoring.
+
+
+
+%\subsection{Levels of Refactoring}
+%There are different kinds of refactoring. 
+%There is manual, that is refactoring without tool support. 
+%Syntactic, refactoring only focused on the syntax transformations.
+%Semantic, the most common one, takes into account the syntactic and semantic information in the transformations. 
+%And finally there is the Automated, that automatically detects the possible refactoring operations to be applied.
+
+
+% subsubsection subsubsection_name (end)
+
+\subsubsection{Manual Refactoring Tool}
+is a refactoring tool that applies the refactoring operations selected by the user.
+Is available for all kind of languages and it is the most common level of refactoring.
+Besides that, and in contrast with the object oriented languages, there is a lack of semantic refactoring tools for dynamic languages.
+There are several examples of this tools, including Eclipse and IntelliJ that are focused in static languages and for dynamic languages there is the refactoring browser for Smalltalk.
+This kind of tools will be further detailed in the related work section.
+%Semi-Automated Application   & The Refactoring Browser \cite{roberts1997refactoring}, Griswold \cite{griswold1993automated} \\ \hline
 %\subsubsection{Syntactic refactorings}
 %prof paper
 
@@ -114,26 +117,15 @@ This aspect was stressed because having documentation about the version previous
 %Meaning that it does not need semantic information such as bindings relations needed for transformations, making it a simpler tool.
 
 
-\subsubsection{Semi-Automated Refactoring}
-
- is available for all kind of languages and it is largely used among object oriented languages.
-It is the most common level of refactoring.
-Besides that, and in contrast with the object oriented languages, there is a lack of semantic refactoring tools for dynamic languages.
-
-There are several examples of this tools, including Eclipse and ItelliJ that are focused in static languages and the refactoring browser for Smalltalk.
-This kind of tools will be further explained. 
-
-\subsubsection{Automated Refactoring}
-%84
-%Metrics based refactoring
-Automated Refactoring eliminates the user as middle-man and decides what refactoring operations to do.
-In order to know what refactoring operations to do, the tools use metrics that can support the decision of where and which refactoring operations to apply. 
-A tool\cite{simon2001metrics} was created as proof of concept and it uses the metrics to identify where the code should be refactored.
+\subsubsection{Semi-Automated Refactoring Tool}
+is a refactoring tool that suggests refactoring opportunities to the user and applies the refactoring operations that the users selected. 
+In order to know what refactoring operations to do, the tools can use metrics that can support the decision of where and which refactoring operations to apply. 
+A tool \cite{simon2001metrics} was created as proof of concept and it uses the metrics to identify where the code should be refactored.
 The tool takes into account the "bad smell" of a code to suggest a refactoring. 
 A "bad smell" is a human intuition in which a specific code should be refactored. 
-An example of a "bad smell" that would trigger a Move Method refactoring is when one method of a class is used more by other class in which it is defined.
+An example of a "bad smell" that would trigger a Move Method, that moves a method from one location to another, refactoring is when one method of a class is used more by other class in which it is defined.
 
-To quickly show to the user the identified "bad smells" a visualization of the objects is generated, and those objects are linked to the corresponding source code. 
+To quickly show to the user the identified "bad smells" a visualization of the methods and attributes is generated and those objects are linked to the corresponding source code, as it can be seen in the Figure~\ref{fig:MetricsBasedRefactoring}. 
 
 \begin{figure}[h!]
   \centering
@@ -151,6 +143,29 @@ Whereas methods that use many attributes and/or methods of other classes have a 
 The attributes are compared by the methods that use them. 
 For example if an attribute is only used by methods of other classes, that attribute probably should be moved to other class.
 
+\subsubsection{Automated Refactoring Tool}
+is a refactoring tool that automatically does the refactoring opportunities that the tool detects. 
+This kind of tools are useful when doing a source to source transformation, eliminating features that are not necessary and translating them into equivalent ones. 
+For example, if there is a profiling tool that only works in the previous versions of Java 1.4 and the user wants to use such profiling tool, an automated refactoring tool can be used in order to refactor the program by translating the new features, such as anonymous classes, into equivalent ones.
+However, automated refactoring tools can also be used like a normal refactoring tool but has some restrictions because the user do not know what the refactoring tool is doing.
+Casais \cite{casais1994automatic} or Moore \cite{moore1996automatic} are good examples of those refactoring tools.
+
+%finding common attributes of classes and pulling those up into new super-classes
+%GURU is a fully automated  tool for refactoring inheritance hierarchies and refactoring methods in SELF programs
+
+%refactoring automaticas, source to source, e alinguagem source tem features que nao quero tratar. e elimina essa features, eg traducao pos 1.4 to pre 1.4 classes internas anonimas. ferramenta so funciona com versao antiga eg profiling.
+%Automated                    & Casais \cite{casais1994automatic} or Moore \cite{moore1996automatic}
+
+%The automated ones are used to improve internal software quality by removing the duplication of methods and attributes. However this tools have problems in preserving the understandability.
+%There is no current or little practical relevance for full-automated approaches.
 
 
-\input{sections/Related-work/refactoringTypes.tex}
+\subsubsection{Analysis:}
+Having the automated refactoring tool for inexperienced users is not what is intended. 
+Transforming automatically the program will create a new program that the user might not comprehend, especially if the user is inexperienced.
+
+The Semi-automated tool with the suggestions would be an advantage to inexperienced users that are still learning what refactoring operations exists and that way the users would learn new refactoring operations and have programs with better quality.
+However, detecting refactoring opportunities is highly dependent on the application domain, this invalidates this type of tools because this refactoring tool is not meant for only one type of application.
+
+The ideal approach is a Manual Refactoring tool that applies exactly what the user wants to do. 
+This type of tool do not automatically detects refactoring opportunities, but it is faster and safer than doing the refactoring operation without any support.

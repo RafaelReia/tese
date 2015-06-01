@@ -8,7 +8,7 @@
 
 
 This section starts to present the use of refactoring tools and an overview of static refactoring tools.
-After that it presents the refactoring tools for the dynamic languages such as, Scheme, JavaScript, Smalltalk, Python and Racket.
+Afterwards it presents the refactoring tools for the dynamic languages such as, Scheme, JavaScript, Smalltalk, Python and Racket.
 Then it presents the language-independent refactorings.
 Finally it has a conclusion about the related work.
 
@@ -20,9 +20,9 @@ The information necessary to reason about how the users refactor was gathered by
 
 
 %Murphy et al \cite{murphy2012we} collected some data sets in order to understand how the users refactor.
-The User data set was collected \cite{murphy2006java} in 2005, it has records of 41 volunteer programmers using eclipse, from which, 95\% of them programmed in Java. %Whit this we implied that Refactoring tools are underused [10]
+The User data set was collected \cite{murphy2006java} in 2005. It has records of 41 volunteer programmers using eclipse, from which, 95\% of them programmed in Java. %Whit this we implied that Refactoring tools are underused [10]
 
-The Everyone data set was collected from the Eclipse Usage Collector, the data used aggregates activity from over 13000 Java developers between April 2008 to January 2009 and it also includes non-Java developers.
+The Everyone data set was collected from the Eclipse Usage Collector. The data used aggregates activity from over 13000 Java developers between April 2008 and January 2009 and it also includes non-Java developers.
 
 The Toolsmiths data set that consists in information about 4 developers who primarily maintain eclipse's refactoring tools from December 2005 to August 2007. 
 However, it is not publicly available and it is not described in other papers.
@@ -137,7 +137,7 @@ The {\bf table.~\ref{tab-Comparing-Static}} compares refactoring tools with each
 The {\bf table.~\ref{tab-Comparing-Static}} compares the Visual Studio refactoring operations for C\# with Refactoring tools that have refactoring operations for Java because the languages are similar. It also compares with the Eclipse CDT  refactoring operations for C++ because in some aspects the languages are also similar and the refactoring operations compared are similar to the refactoring operations for Java or C\#. 
 The table only lists the refactoring operations that each IDE has by default in order to have a fairer way to compare them with each other.
 It is easy to see that IntelliJ has almost all the refactoring operations in this table, followed by Eclipse and NetBeans.
-However, even having significantly less refactoring operations available by default than the other tools, JBuilder has the most used ones as shown above.
+However, even having significantly less refactoring operations available by default than the other tools, JBuilder\cite{armstrong1998jbuilder} has the most used ones as shown above.
 Visual Studio has only 2 out of the 5 most used refactoring operations available by default, but there are easily installed plug-ins that cover the more important refactoring operations. 
 
 %It is easy to see all the effort to provide to the programmers refactoring operations to help them refactoring their projects. 
@@ -149,7 +149,7 @@ HaRe \cite{thompson2005refactoring} is a refactoring tool for Haskell that integ
 This tool was made for being used instead of being a proof of concept prototype and it is implemented in Haskell.
 The system also allows the users to design their own refactoring operations using the HaRe API.
 
-The HaRe system uses an AST of the program to be refactored in order to reason about the transformations to do.
+The HaRe system uses an AST (abstract syntax tree) of the program to be refactored in order to reason about the transformations to do.
 The system has also a token stream in order to preserve the comments and the program layout by keeping information about the source code location and the comments of all tokens.
 
 %\subsubsection{Stages of Refactoring}
@@ -231,14 +231,14 @@ With these structures it is possible to combine them and have a single formalism
 The Refactoring Browser \cite{roberts1997refactoring} is a refactoring tool for smalltalk programs which goal was to make refactoring known and used by everyone.
 To quote them  \textit{"The goal of our research is to move refactoring into the mainstream of program development. The only way this can occur is to present refactorings to developers in such a way that they cannot help but use them".} 
 
-To do that they implemented the refactoring browser with the concern that the refactoring operations did by the programmer using the refactoring browser needed to be faster then by hand.
+To do that they implemented the refactoring browser with the concern that the refactoring operations did by the programmer using the refactoring browser needed to be faster by hand.
 
 It was considered that the user of this tool is intelligent therefore automated refactorings would not suit them. 
-Automated refactorings do not suit the user because they could generate code that does not make sense in the domain.
+Automated refactorings do not suit the user because they could generate code that would not make sense in the domain.
 For example, the tool would generate new classes in order to eliminate duplicated code, by creating an abstract class, which might not make sense in the domain. Instead of doing that, the tool points out possible refactoring operations and let the user decide whether or not to do those operations.
 
 In order to ensure behavior preservation the tool checks the preconditions of each refactoring operation before execution. 
-However, there are some conditions that are more difficult to determine statically, such as dynamic typing and cardinality relationships between objects. 
+However, there are some conditions that are more difficult to determine statically, such as dynamic typing and relationships cardinality between objects. 
 Instead of checking the precondition statically the refactoring browser checks the preconditions dynamically. 
 
 The preconditions checks are done using method wrappers to collect runtime information. 
@@ -250,7 +250,7 @@ The problem of this approach is that the dynamically analysis is only as good as
 
 %\input{sections/related-work/Making-refactoring-safer.tex}
 However, there is already a tool \cite{soares2010making} for Eclipse that receives as input the source code and the refactoring operation to be applied. 
-Then it generates unit tests to the code being and at the end it reports if the refactoring is safe to apply or not.
+Then it generates unit tests to the code and at the end it reports if the refactoring is safe to apply or not.
 
 The tool uses a static analysis to identify methods that have exactly the same modifier, return type, qualified name, parameters types and exceptions thrown in source and target programmers.
 After identifying those methods it uses Randoop \cite{pacheco2007feedback}, a tool that generates unit tests for classes within a time limit.
@@ -272,7 +272,7 @@ If, for some reason, it is not possible for the framework to guarantee behavior 
 With this approach it is possible to be sure when a refactoring operation is valid but it has the catch of not making every possible refactoring operations because it is an approximation to the set.
 
 
-To prove the concept it was implemented three refactoring operations, namely the rename, encapsulate property and extract module.
+To prove the concept three refactoring operations were implemented, namely the rename, encapsulate property and extract module.
 %Talk about the tests made, that count what it counts.
 Because the framework uses approximations sets to decide if the refactoring is possible to do it has a certain percentage of refactoring operations that will be unjustifiably rejected.
 However, after testing with 50 JavaScript programs, the overall unjustified rejections were of 6.2\%. 
@@ -341,7 +341,7 @@ Rope uses an AST in order to store the syntax information about the programs.
 Racket\footnote{http://racket-lang.org/} programming language is a dialect of lisp and a descendant of Scheme and it supports objects, types and lazy evaluation.
 For the Racket language the most used IDE is DrRacket. 
 DrRacket is an IDE, that was formerly known as DrScheme. 
-It is a simple IDE that was initially build for Racket programming language and it is aimed at unexperienced programmers.
+It is a simple IDE that was initially build for Racket programming language and it is aimed at inexperienced programmers.
 
 Regarding refactoring operations DrRacket only has one, namely the rename. 
 It could be viewed in two ways: the first is they only implemented one refactoring operation and forgot the other ones.
@@ -372,7 +372,7 @@ However there are some downsides to this approach which leads to an increase of 
 The complexity increases because the model needs to be general in order to deal with several languages. 
 
 There are difficulties in mapping the changes to the actual code, because sometimes the concepts that are generalized in the language-independent level need to be mapped back to their language-specific.
-For example the invocation of methods in Java is different that the constructors.
+For example the invocation of methods in Java is different for the constructors.
 It is also difficult to abstract a language when there are apparent standards in all languages but needs language-specific interpretation such as when a name is a valid name for a class in that specific language.
 
 Mapping back the language to the FAMIX is difficult in some languages because FAMIX meta-model does not have the concept of meta-classes or interfaces.
@@ -396,9 +396,7 @@ It defines the Program Dependence Graph using path queries.
 This allows the correct application of many transformations that reorder statements.
 The language has lazy edges. 
 The lazy edges initially are only composed by the ASTs of the program, the rest of the information will be added later to the edges as it may be necessary, like lazy evaluation but for the Program Graph.
-This lazy edges allow the tool to handle incomplete programs. 
-The tool can handle null branches, that means when the branch information of the graph is non existent. This means that the tool can handle incomplete programs.
-
+The tool can handle incomplete programs, when the branch information of the graph is non existent, because of the lazy edges used. 
 %\subsubsection{Performance}
 
 The Lazy edges used allows a better performance of the refactoring because the tool will not need to compute unnecessary information and then save computations.
@@ -427,7 +425,7 @@ The Lazy edges used allows a better performance of the refactoring because the t
 
 Dynamic languages, like Racket and Python are used in introductory courses across the world.
 However even being recognized as good languages to learn to program there are few refactoring tools for dynamic languages. 
-Consequently making the unexperienced programmer contact with refactoring tools latter on and not while learning.
+Consequently making the inexperienced programmer contact with refactoring tools latter on and not while learning.
 %To make it worse, additionally
 Additionally refactoring tools for dynamic languages are still far away from the capabilities offered by the refactoring tools for static languages. 
 In average, they have less refactoring operations than the refactoring tools for static languages.
@@ -465,7 +463,6 @@ Even having way less refactoring operations available, when compared with static
 %motivar pessoas para fazer refactoring, usar o IDE pedagogico e linguagem altamente pedagogico e fazer refactorings pedagogicos.
 
 
-To conclude, there is a lack of refactoring tools for dynamic languages and none of the existent ones cares about unexperienced users that are starting to program. 
-And there are some dynamic languages such as Scheme, Racket and Python that are used to teach unexperienced programmers how to program.
-Without a refactoring tool that helps those users in the refactoring operations delays the contact of the users with a refactoring tool and that might influence the low use of the refactoring tools.
-
+To conclude, there is a lack of refactoring tools for dynamic languages and none of the existent ones cares about inexperienced users that are starting to program. 
+And there are some dynamic languages such as Scheme, Racket and Python that are used to teach inexperienced programmers how to program.
+Without a refactoring tool for these languages, the users first contact with these tools is postponed and that might influence the low adoption of refactoring tools.
