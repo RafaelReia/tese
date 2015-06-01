@@ -9,11 +9,12 @@
 %introduction
 This section proposes a solution to solve the need of a refactoring tool designed for inexperienced users.
 %A refactoring tool that would suit an inexperienced programmer who is learning how to program is needed.
-The choice of language and environment is important, so the Racket programing language and the DrRacket environment were chosen.
+Because it is targeted for inexperienced users it is important to have an environment that is not complex like Eclipse and to be for a programing language that is used in introductory courses, such as Python and Racket.
 Racket is a dynamic language that is known of being used as an introductory programming course in schools around the world. 
 Racket has an IDE, DrRacket, that is a pedagogic environment \cite{drscheme_pegadogy} and it also supports development and extension of other programming languages \cite{tobin2011languages}. 
-Recently  an implementation of Python for Racket was added \cite{ramos2014implementation}.
-Besides that, DrRacket has only one refactoring operation, that is the rename.
+Recently  an implementation of Python for Racket was added \cite{ramos2014implementation}. 
+This addition makes it possible to have Python programs in DrRacket and with that the pedagogical environment gains another language that is used in introductory courses around the world. Because of that DrRacket environment was chosen. 
+Racket programming language was chosen because it is easier to create refactoring operations for Racket in the DrRacket environment.
 This tool will motivate the inexperienced programmers to start using tool assisted refactoring operations and DrRacket seams to be the ideal candidate to have that refactoring tool.
 
 
@@ -52,7 +53,7 @@ By having a way to restructure the code, inexperienced programmers will be able 
 \subsubsection{Move expression}
 
 is also one of the most used refactoring operations.
-This operation allows the user to move safely the expressions to the new location.
+This operation allows the user to move safely the expressions, by correcting all references, to the new location. 
 
 
 
@@ -91,7 +92,7 @@ DrRacket provides the def-use-relations which is an important help to do the ref
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.95\textwidth]{img/arquitectura.png}
-	\caption{v0 is a computer programs, the arrows determines the information flow, the compiler produces two databases, AST and the Def-use-relations that are used by the refactoring tool that transforms the v0 program.}
+	\caption{v0 is the initial program; v1 is the refactored program; the arrows determines the information flow; the compiler produces two databases the AST and the Def-use-relations; The Refactoring Tool use the AST and the Def-use-relations produced by the compiler and then transforms the v0 program into the v1.}
 	\label{fig:architecture}
 \end{figure}
 
@@ -99,7 +100,7 @@ DrRacket provides the def-use-relations which is an important help to do the ref
 \subsection{Validation}
 %In order to evaluate it was implemented a prototype in DrRacket.
 In order to validate this architecture some refactoring operations were implemented. 
-This allows to validate the architecture and have more trust in this architecture.
+This allow us to validate the architecture and have more trust in this architecture.
 Only the refactoring operations that use exclusively the def-use-relations were validated.
 
 \subsubsection{Extract-function}
@@ -123,7 +124,9 @@ The extract function refactoring could automatically paste the extracted functio
 
 \subsubsection{Imported renames}
 As explained in ~\ref{ssub:Rename} the only refactoring operation supported by DrRacket, the Rename, has bugs when it has to rename imported functions.
-The user selects the function that wants to be renamed, as seen in {\bf Figure~\ref{fig:renameBefore}} and in this case the user chose ``print-cake'', then the user chooses the new name and the end result is shown in {\bf Figure~\ref{fig:renameAfter}}.
+To do the rename, the user selects the function that wants to be renamed, as seen in {\bf Figure~\ref{fig:renameBefore}} and in this case the user chose ``print-cake''.
+Afterwards the user chooses the name that wants go give and finally it renames all the functions. 
+The end result is shown in {\bf Figure~\ref{fig:renameAfter}}.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.95\textwidth]{img/rename1.png}

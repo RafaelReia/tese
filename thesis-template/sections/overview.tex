@@ -9,7 +9,12 @@ This section presents some definitions regarding refactoring activities.
 \subsection{Classification of the refactoring}
 There are several levels of refactoring, from a high level refactoring like design refactoring to a low level refactoring such as the extract method refactoring operation. 
 In between, exists combinational refactoring that is a combination of several low level refactoring operations.
-The refactoring operations can also be classified by the effect they have on software quality attributes, however that is a complex task to do. \cite{elish2011classification}
+The refactoring operations can also be classified by the effect they have on software quality attributes, however that is a complex task to.
+In order to classify the effect based on software quality attributes it is necessary to map the changes in the internal software quality metrics, e.g. Lines of Code, cohesion or coupling, to the external software quality attributes, e.g. adaptability, reusability or testability. \cite{elish2011classification}
+
+%(i) internal software quality metrics and (ii) external software quality attributes (adaptability, completeness, maintainability,
+%understandability, reusability and testability). The classification is done by mapping the changes in the
+%internal quality metrics, caused by applying refactoring methods, to the external quality attributes. 
 
 \subsection{Refactoring as a Process}
 Refactoring can be done in two ways. %add citations
@@ -123,7 +128,7 @@ In order to know what refactoring operations to do, the tools can use metrics th
 A tool \cite{simon2001metrics} was created as proof of concept and it uses the metrics to identify where the code should be refactored.
 The tool takes into account the "bad smell" of a code to suggest a refactoring. 
 A "bad smell" is a human intuition in which a specific code should be refactored. 
-An example of a "bad smell" that would trigger a Move Method, that moves a method from one location to another, refactoring is when one method of a class is used more by other class in which it is defined.
+An example of a "bad smell" that would trigger a Move Method refactoring, that moves a method from one location to another, is when one method of a class is used more by other class in which it is defined.
 
 To quickly show to the user the identified "bad smells" a visualization of the methods and attributes is generated and those objects are linked to the corresponding source code, as it can be seen in the Figure~\ref{fig:MetricsBasedRefactoring}. 
 
