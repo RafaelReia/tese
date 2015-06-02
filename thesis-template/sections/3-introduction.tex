@@ -20,15 +20,18 @@ Continuous changes create the need for continuously improving the software struc
 
 Refactoring is a meaning-preserving transformation or a set of meaning-preserving transformations that are meant to improve the program structure and therefore the software quality \cite{bourquin2007high}.
 %However, because refactoring is a tedious and error prone activity, for example renaming one variable if the user forgets one it generates and error, it is preferable to use a too that provides automated support.
-Refactoring is a very desirable activity to maintain the software quality, but because it is a tedious and error prone activity, it is preferable to use a tool that provides automated support for it, saving time and preventing the addition of errors to a previously correct program.
+Refactoring is a very desirable activity to maintain the software quality, but because it is tedious and error prone, it is preferable to use a tool that provides automated support for it, saving time and preventing the addition of errors to a previously correct program.
 
 %
 %talk about the lack of refactoring tools for inexperienced users and maybe the importance of using refactoring tools while learning how to program.
-There are many refactoring tools are available but, unfortunately, there is a lack of refactoring tools designed for inexperienced users.
-When inexperienced users are creating a function they tend to create one big function that does all the work, for example Listing~\ref{lst:Fibonnacci} which is an implementation in Python of the Fibonacci function.
-However that can be improved, instead of having one big function it can be subdivided in smaller functions that do the same job.
-To do that the user needs to extract functions from the big function, which is a refactoring operation called extract function.
-By having a refactoring tool that allows the user to extract functions the inexperienced users would improve the quality of the program in a safe way.
+There are many refactoring tools available but, unfortunately, they require considerable programing experience, making them unsuitable for inexperienced programmers.
+
+However, these are the programmers that would definitely benefit from these tools.
+Indeed, when an inexperienced programmer implements a solution to a given problem, it tens to write large fragments of code, lacking the modularity that an experienced programmer would do.
+For example Listing~\ref{lst:Fibonacci} which is an implementation in Python of a algorithm to print the first N Fibonacci numbers.
+This implementation can be improved, if instead of having one big function, we subdivide it in smaller functions that do the same job.
+To do that the user needs to extract functions, which is a refactoring operation called extract function.
+By having a refactoring tool that allows the user to extract functions the inexperienced users would improve the quality of the program in a safe way, as is visible in Listing~\ref{lst:FibonacciRefactored}
 
 
 
@@ -38,9 +41,9 @@ By having a refactoring tool that allows the user to extract functions the inexp
 
 %give the example
 % Example extract method. inexperienced users create one big function that do all the program work. Create a function that should clearly have a function extracted from the inside.
-Listing~\ref{lst:Fibonnacci} is an implementation of the Fibonacci function in Python and Listing~\ref{lst:FibonnacciRefactored} is an example of how a user would use the extract function refactoring operation.
 
-\begin{lstlisting}[frame=single, caption=Fibonacci function first implementation, label={lst:Fibonnacci}, language=Python]
+
+\begin{lstlisting}[frame=single, caption=Fibonacci function first implementation, label={lst:Fibonacci}, language=Python]
 def fibonacci(number=1):
 	previous = 0
 	current = 1
@@ -57,7 +60,7 @@ def fibonacci(number=1):
 \end{lstlisting}
 
 
-\begin{lstlisting}[frame=single, caption=Fibonacci function after using extract function, label={lst:FibonnacciRefactored}, language=Python]
+\begin{lstlisting}[frame=single, caption=Fibonacci function after using extract function, label={lst:FibonacciRefactored}, language=Python]
 def fibonacci_seq(number):
 	previous = 0
 	current = 1
@@ -79,13 +82,12 @@ def fibonacci(number=1):
 \end{lstlisting}
 
 
-In the extract function refactoring operation, the user starts by choosing a set of expressions to extract and transform into a function, usually it is a  basic block or a set of basic blocks.
-A basic block is a portion of code that only has one entry point and only one exit point.
-There are two functions extracted in the Listing~\ref{lst:FibonnacciRefactored}, the ``print\_fibonacci'' and ``'fibonacci\_seq''.
+In the extract function refactoring operation, the user starts by choosing a set of expressions to extract and transform into a function, usually it is a  basic block or a set of basic blocks where a basic block is a portion of code that only has one entry point and only one exit point.
+In the function that prints the first N Fibonacci numbers example in Listing~\ref{lst:FibonacciRefactored}, the two functions extracted are the ``print\_fibonacci'' and ``'fibonacci\_seq''.
 %talk about refactoring for static languages and dynamic languages
 
-The use of the refactoring tools is fully adopted by the object oriented and statically typed programming languages with their IDEs (integrated development environments) support.
-For example, languages such as Java have IDEs such as, Eclipse \cite{carlson2005eclipse}, IntelliJ \cite{bock2011intellij} or NetBeans \cite{boudreau2002netbeans} and C\# has Visual Studio \cite{guckenheimer2006software}.
+The use of refactoring tools is fully adopted by the object oriented and statically typed programming languages with their IDEs (integrated development environments) support.
+For example, languages such as Java have IDEs such as, Eclipse \cite{carlson2005eclipse}, IntelliJ \cite{bock2011intellij} or NetBeans \cite{boudreau2002netbeans}, while C\# has Visual Studio \cite{guckenheimer2006software}.
 %When compared to the dynamic languages there is a lack of refactoring tools and refactoring operations.
 %talk about the lack of refactoring tools for dynamic languages
 Unfortunately that is not the case for the refactoring tools for dynamic languages. 

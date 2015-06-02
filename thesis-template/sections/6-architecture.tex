@@ -31,21 +31,21 @@ This section describes some of the refactoring operations desired and their use.
 %this is a refactoring for racket
 is the most used refactoring operation and it is indispensable to any refactoring tool.
 DrRacket environment already has a rename operation, however the rename has a bug when renaming imported functions.
-This bug happens when the user renames an imported function, with the original rename operation of DrRacket, it renames all the imported functions from the same file and it also renames the name of the imported file.
+This bug, as it can be seen in Figure~\ref{fig:RacketBug} happens when the user renames an imported function, with the original rename operation of DrRacket, it renames all the imported functions from the same file and it also renames the name of the imported file.
 This is an incorrect refactoring because it makes the program syntactically incorrect. It should only rename the function with the selected name, not every function from that file.
 This situation may occur when using functions from other file, whether there is a name conflict or because it is better for the readability to rename that function name.
 %After that, the user can call the methods exported like they were defined in the file.
 %However those methods could have name collision or change it for a more adequate name. To do that the user would do a rename.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/renameV2-1.png}
+	\includegraphics[width=0.9\textwidth]{img/renameV2-1.png}
 	\caption{Before the Rename}
 	\label{fig:renameBefore}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/rename-error.png}
+	\includegraphics[width=0.9\textwidth]{img/rename-error.png}
 	\caption{DrRacket rename's error}
 	\label{fig:RacketBug}
 \end{figure}
@@ -103,7 +103,7 @@ DrRacket provides the def-use-relations which is an important help to do the ref
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/arquitectura.png}
+	\includegraphics[width=0.9\textwidth]{img/arquitectura.png}
 	\caption{v0 is the initial program; v1 is the refactored program; the arrows determines the information flow; the compiler produces two databases the AST and the Def-use-relations; The Refactoring Tool use the AST and the Def-use-relations produced by the compiler and then transforms the v0 program into the v1.}
 	\label{fig:architecture}
 \end{figure}
@@ -122,14 +122,14 @@ The final result can be seen in {\bf Figure~\ref{fig:extractAfter}}.
 The extract function refactoring could automatically paste the extracted function, however this way the user can choose the function's location.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/extractV2-1.png}
+	\includegraphics[width=0.9\textwidth]{img/extractV2-1.png}
 	\caption{Before the Extract function}
 	\label{fig:extractBefore}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/extractV2-2.png}
+	\includegraphics[width=0.9\textwidth]{img/extractV2-2.png}
 	\caption{After the Extract function}
 	\label{fig:extractAfter}
 \end{figure}
@@ -142,7 +142,7 @@ The end result is shown in {\bf Figure~\ref{fig:renameAfter}}.
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/renameV2-2.png}
+	\includegraphics[width=0.9\textwidth]{img/renameV2-2.png}
 	\caption{After the Rename}
 	\label{fig:renameAfter}
 \end{figure}
@@ -155,7 +155,7 @@ Then the user selects a name for the prefix that name will be added, and then th
 
 \begin{figure}[hb!]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/add-prefixV2-1.png}
+	\includegraphics[width=0.9\textwidth]{img/add-prefixV2-1.png}
 	\caption{Before adding the prefix}
 	\label{fig:addPrefixBefore}
 \end{figure}
@@ -169,7 +169,7 @@ Then the user selects a name for the prefix that name will be added, and then th
 
 \begin{figure}[hb!]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/add-prefixV2-3.png}
+	\includegraphics[width=0.9\textwidth]{img/add-prefixV2-3.png}
 	\caption{After the Add-prefix refactoring}
 	\label{fig:addPrefixAfter}
 \end{figure}
