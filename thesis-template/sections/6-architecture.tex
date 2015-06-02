@@ -10,7 +10,7 @@
 This section proposes a solution to solve the need of a refactoring tool designed for inexperienced users.
 %A refactoring tool that would suit an inexperienced programmer who is learning how to program is needed.
 Because it is targeted for inexperienced users it is important to have an environment that is not complex like Eclipse and to be for a programing language that is used in introductory courses, such as Python and Racket.
-Racket is a dynamic language that is known of being used as an introductory programming course in schools around the world. 
+Racket is a dynamic language that is known for being used as in introductory programming courses in schools around the world. 
 Racket has an IDE, DrRacket, that is a pedagogic environment \cite{drscheme_pegadogy} and it also supports development and extension of other programming languages \cite{tobin2011languages}. 
 Recently  an implementation of Python for Racket was added \cite{ramos2014implementation}. 
 This addition makes it possible to have Python programs in DrRacket and with that the pedagogical environment gains another language that is used in introductory courses around the world. Because of that DrRacket environment was chosen. 
@@ -104,7 +104,7 @@ DrRacket provides the def-use-relations which is an important help to do the ref
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.9\textwidth]{img/arquitectura.png}
-	\caption{v0 is the initial program; v1 is the refactored program; the arrows determines the information flow; the compiler produces two databases the AST and the Def-use-relations; The Refactoring Tool use the AST and the Def-use-relations produced by the compiler and then transforms the v0 program into the v1.}
+	\caption{The arrows determines the information flow; v0 is the initial program; The compiler produces two databases the AST and the Def-use-relations; The Refactoring Tool use the AST and the Def-use-relations produced by the compiler to generate v1, which is the refactored program}
 	\label{fig:architecture}
 \end{figure}
 
@@ -122,7 +122,7 @@ The final result can be seen in {\bf Figure~\ref{fig:extractAfter}}.
 The extract function refactoring could automatically paste the extracted function, however this way the user can choose the function's location.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.9\textwidth]{img/extractV2-1.png}
+	\includegraphics[width=0.9\textwidth]{img/extractV3.png}
 	\caption{Before the Extract function}
 	\label{fig:extractBefore}
 \end{figure}
