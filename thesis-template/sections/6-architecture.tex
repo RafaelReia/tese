@@ -36,7 +36,19 @@ This is an incorrect refactoring because it makes the program syntactically inco
 This situation may occur when using functions from other file, whether there is a name conflict or because it is better for the readability to rename that function name.
 %After that, the user can call the methods exported like they were defined in the file.
 %However those methods could have name collision or change it for a more adequate name. To do that the user would do a rename.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{img/renameV2-1.png}
+	\caption{Before the Rename}
+	\label{fig:renameBefore}
+\end{figure}
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{img/rename-error.png}
+	\caption{DrRacket rename's error}
+	\label{fig:RacketBug}
+\end{figure}
 
 % extract-function
 \subsubsection{Extract-function}
@@ -91,7 +103,7 @@ DrRacket provides the def-use-relations which is an important help to do the ref
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.95\textwidth]{img/arquitectura.png}
+	\includegraphics[width=0.8\textwidth]{img/arquitectura.png}
 	\caption{v0 is the initial program; v1 is the refactored program; the arrows determines the information flow; the compiler produces two databases the AST and the Def-use-relations; The Refactoring Tool use the AST and the Def-use-relations produced by the compiler and then transforms the v0 program into the v1.}
 	\label{fig:architecture}
 \end{figure}
@@ -110,14 +122,14 @@ The final result can be seen in {\bf Figure~\ref{fig:extractAfter}}.
 The extract function refactoring could automatically paste the extracted function, however this way the user can choose the function's location.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.95\textwidth]{img/extract1.png}
+	\includegraphics[width=0.8\textwidth]{img/extractV2-1.png}
 	\caption{Before the Extract function}
 	\label{fig:extractBefore}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.95\textwidth]{img/extract2.png}
+	\includegraphics[width=0.8\textwidth]{img/extractV2-2.png}
 	\caption{After the Extract function}
 	\label{fig:extractAfter}
 \end{figure}
@@ -127,16 +139,10 @@ As explained in ~\ref{ssub:Rename} the only refactoring operation supported by D
 To do the rename, the user selects the function that wants to be renamed, as seen in {\bf Figure~\ref{fig:renameBefore}} and in this case the user chose ``print-cake''.
 Afterwards the user chooses the name that wants go give and finally it renames all the functions. 
 The end result is shown in {\bf Figure~\ref{fig:renameAfter}}.
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.95\textwidth]{img/rename1.png}
-	\caption{Before the Rename}
-	\label{fig:renameBefore}
-\end{figure}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.95\textwidth]{img/rename2.png}
+	\includegraphics[width=0.8\textwidth]{img/renameV2-2.png}
 	\caption{After the Rename}
 	\label{fig:renameAfter}
 \end{figure}
@@ -145,25 +151,25 @@ The end result is shown in {\bf Figure~\ref{fig:renameAfter}}.
 
 This is a particular refactoring operation for Racket. Adding a prefix is normally used when there are naming conflicts with two different libraries. The user goes to the library name, and adds a prefix.
 In {\bf Figure~\ref{fig:addPrefixBefore}} the arrows show which functions belong to the ``pict3d'' library.
-Then the user selects a name for the prefix that name will be added, as shown in {\bf Figure~\ref{fig:addPrefixDuring}}. The final result is shown in {\bf Figure~\ref{fig:addPrefixAfter}}.
+Then the user selects a name for the prefix that name will be added, and then the final result is shown in {\bf Figure~\ref{fig:addPrefixAfter}}.
 
-\begin{figure}[htbp]
+\begin{figure}[hb!]
 	\centering
-	\includegraphics[width=0.95\textwidth]{img/add-prefix.png}
+	\includegraphics[width=0.8\textwidth]{img/add-prefixV2-1.png}
 	\caption{Before adding the prefix}
 	\label{fig:addPrefixBefore}
 \end{figure}
 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.95\textwidth]{img/add-prefix1.png}
-	\caption{Choosing the prefix}
-	\label{fig:addPrefixDuring}
-\end{figure}
+%\begin{figure}[htbp]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{img/add-prefixV2-2.png}
+%	\caption{Choosing the prefix}
+%	\label{fig:addPrefixDuring}
+%\end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[hb!]
 	\centering
-	\includegraphics[width=0.95\textwidth]{img/add-prefix2.png}
+	\includegraphics[width=0.8\textwidth]{img/add-prefixV2-3.png}
 	\caption{After the Add-prefix refactoring}
 	\label{fig:addPrefixAfter}
 \end{figure}

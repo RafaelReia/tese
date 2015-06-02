@@ -5,6 +5,9 @@
 \usepackage[nolist,nohyperlinks]{acronym}
 % Maintain images and tables within their respective sections
 \usepackage[section]{placeins}
+\setcounter{secnumdepth}{5} 
+
+
 
 %used in introduction in code
 \usepackage{listings}
@@ -46,7 +49,9 @@
 
 % replace example.bib with your .bib
 \bibliography{example.bib} 
-%\newpage
+\newpage
+%\let\cleardoublepage\clearpage
+\appendix
 \input{sections/9-appendix.tex}
 
 \end{document}
