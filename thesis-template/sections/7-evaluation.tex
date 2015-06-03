@@ -15,6 +15,7 @@
 In order to evaluate the correctness of the refactoring operations it would be preferable to have a formal proof for each refactoring operation.
 However, formal proofs are hard to do and take too much time.
 Moreover, formal proofs that exist are usually done for theoretical languages and not for languages actually used, which might explain why even professional refactoring tools such as IntelliJ, Eclipse or NetBeans have errors. \cite{verbaere2006jungl} 
+%the formal proofs become useless when a language has introspective actions and has reflexion. even making the alpha conversion possible incorrect if the user lists all the all the variables in the program and renames one it changes the program output. Better example: extracting functions and the program prints all the functions that exists and only uses that functions as input. then it has bugs.
 
 One solution to that problem is to prove correctness informally. 
 The proof consists in having several correct Racket programs with unit tests, preferably developed with test-driven-development, then apply some refactoring operations and then run the unit tests again. 

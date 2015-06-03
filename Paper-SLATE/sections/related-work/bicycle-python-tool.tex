@@ -8,9 +8,24 @@
  However, even having a version for sublime this tool did not improve since 2004.
 
 Bicycle Repair Man is an attempt to create the refactoring browser functionality for Python. 
-%Bicycle Repair Man has the following refactoring operations: extract method, extract variable, inline variable, move to module and rename.
 
 The tool has an AST and it does its own parsing so it replaces the Python's parser with its own wrapper to be easier to develop the refactoring operations.
 
 
 %http://c2.com/cgi-bin/wiki?PythonRefactoringBrowser old ref
+
+
+For example, the Python refactoring tool Bicycle Repair Man (see 3.3) is
+built on a framework which replaces python’s own parser module with its own
+wrapper, giving a set of higher level tools to the programmer who wants to
+implement refactorings. To change the name of a variable local to a module, one
+calls the parser function to evaluate the module, then walks the parse tree to find
+and rename all instances of the identifier, and re-emits the source code from the
+parse tree. All of this requires only a few dozen lines of code. Although native
+python does provide basic access to its own parser, the functions in the above
+example which rename identifiers and re-emit source code were implemented in
+the wrapper code. It’s not hard to imagine that structured support for these
+types of operations in other languages could make both refactoring and smell
+detection more easily and widely implemented
+
+See Don Roberts PhD thesis on the refactoring browser. Some of the key ideas are that you need an abstract syntax tree representation of a program and you need a database that can let you answer questions like what is inherited by a particular class. http://st-www.cs.uiuc.edu/~droberts/thesis.pdf
