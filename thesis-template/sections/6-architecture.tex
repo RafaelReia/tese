@@ -9,13 +9,12 @@
 %introduction
 This section proposes a solution to solve the need of a refactoring tool designed for inexperienced users.
 %A refactoring tool that would suit an inexperienced programmer who is learning how to program is needed.
-Because it is targeted for inexperienced users it is important to have an environment that is not complex like Eclipse and to be for a programing language that is used in introductory courses, such as Python and Racket.
-Racket is a dynamic language that is known for being used as in introductory programming courses in schools around the world. 
+Because it is targeted for inexperienced users it is important to have an environment that is not complex, like Eclipse, and to be for a programing language that is used in introductory courses, such as Python and Racket.
 Racket has an IDE, DrRacket, that is a pedagogic environment \cite{drscheme_pegadogy} and it also supports development and extension of other programming languages \cite{tobin2011languages}. 
 Recently  an implementation of Python for Racket was added \cite{ramos2014implementation}. 
-This addition makes it possible to have Python programs in DrRacket and with that the pedagogical environment gains another language that is used in introductory courses around the world. Because of that DrRacket environment was chosen. 
+This addition makes it possible to have Python programs in DrRacket, and with that the pedagogical environment gains another language that is used in introductory courses around the world. Because of that DrRacket environment was chosen. 
 Racket programming language was chosen because it is easier to create refactoring operations for Racket in the DrRacket environment.
-This tool will motivate the inexperienced programmers to start using tool assisted refactoring operations and DrRacket seams to be the ideal candidate to have that refactoring tool.
+This tool will motivate the inexperienced programmers to start using tool assisted refactoring operations while they are learning.
 
 
 %use cases: To validate the architecture.
@@ -124,7 +123,7 @@ The final result can be seen in {\bf Figure~\ref{fig:extractAfter}}.
 The extract function refactoring could automatically paste the extracted function, however this way the user can choose the function's location.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.9\textwidth]{img/extractV3.png}
+	\includegraphics[width=0.9\textwidth]{img/extractV2-1.png}
 	\caption{Before the Extract function}
 	\label{fig:extractBefore}
 \end{figure}
@@ -151,11 +150,12 @@ The end result is shown in {\bf Figure~\ref{fig:renameAfter}}.
 
 \subsubsection{Add-prefix}
 
-This is a particular refactoring operation for Racket. Adding a prefix is normally used when there are naming conflicts with two different libraries. The user goes to the library name, and adds a prefix.
-In {\bf Figure~\ref{fig:addPrefixBefore}} the arrows show which functions belong to the ``pict3d'' library.
-Then the user selects a name for the prefix that name will be added, and then the final result is shown in {\bf Figure~\ref{fig:addPrefixAfter}}.
+The user selects the library name that wants to add the prefix, in this case the ``pict3d''.
+In {\bf Figure~\ref{fig:addPrefixBefore}} shows the the arrows pointing to the functions belong to the library.
+Then the user selects a name for the prefix that name will be added to each function.
+The final result can be seen in {\bf Figure~\ref{fig:addPrefixAfter}}.
 
-\begin{figure}[hb!]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.9\textwidth]{img/add-prefixV2-1.png}
 	\caption{Before adding the prefix}
@@ -169,7 +169,7 @@ Then the user selects a name for the prefix that name will be added, and then th
 %	\label{fig:addPrefixDuring}
 %\end{figure}
 
-\begin{figure}[hb!]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.9\textwidth]{img/add-prefixV2-3.png}
 	\caption{After the Add-prefix refactoring}

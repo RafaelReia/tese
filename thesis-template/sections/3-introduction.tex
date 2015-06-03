@@ -43,7 +43,7 @@ By having a refactoring tool that allows the user to extract functions the inexp
 % Example extract method. inexperienced users create one big function that do all the program work. Create a function that should clearly have a function extracted from the inside.
 
 
-\begin{lstlisting}[frame=single, caption=Fibonacci function first implementation, label={lst:Fibonacci}, language=Python]
+\begin{lstlisting}[frame=single, caption=Algorithm first implementation, label={lst:Fibonacci}, language=Python]
 def fibonacci(number=1):
 	previous = 0
 	current = 1
@@ -60,7 +60,7 @@ def fibonacci(number=1):
 \end{lstlisting}
 
 
-\begin{lstlisting}[frame=single, caption=Fibonacci function after using extract function, label={lst:FibonacciRefactored}, language=Python]
+\begin{lstlisting}[frame=single, caption=Algorithm after using extract function, label={lst:FibonacciRefactored}, language=Python]
 def fibonacci_seq(number):
 	previous = 0
 	current = 1

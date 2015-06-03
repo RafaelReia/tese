@@ -93,7 +93,7 @@ Inheritance to delegation &               &         &     & x        &          
 \begin{table}[htbp]
 \caption{Refactoring operations definitions:}
 \label{tab-Refactoring-Definitions}
-\begin{tabular}{ p{2.95cm}| p{9.15cm}}
+\begin{tabular}{ |p{2.95cm}| p{9.15cm}|}
 \hline\noalign{\smallskip}
 Refactoring name 		  & Definition \\
 \noalign{\smallskip}
@@ -254,17 +254,16 @@ The problem of this approach is that the dynamically analysis is only as good as
 However, there is already a tool \cite{soares2010making} for Eclipse that receives as input the source code and the refactoring operation to be applied. 
 Then it generates unit tests to the code and at the end it reports if the refactoring is safe to apply or not.
 
-The tool uses a static analysis to identify methods that have exactly the same modifier, return type, qualified name, parameters types and exceptions thrown in source and target programmers.
+The tool uses a static analysis to identify methods that have exactly the same modifier, return type, qualified name, parameters types and exceptions thrown.
 After identifying those methods it uses Randoop \cite{pacheco2007feedback}, a tool that generates unit tests for classes within a time limit.
 
 Pairing this tool with the Refactoring Browser would remove the main limitation of the Refactoring Browser.
 However the tool is created for static languages and it is not that trivial to create one for dynamic languages because the tools have less information in compile time.
 
 \subsection{JavaScript}
-
-A framework \cite{feldthaus2011tool} for refactoring JavaScript programs was created because there are few refactoring tools for JavaScript. 
-One reason for that is the additional difficulty that the refactoring tools have to deal with, when compared with refactoring tools made for static languages. 
-For example, when refactoring JavaScript the refactoring tools do not have information about the bindings in compile time.
+There are few refactoring tools for JavaScript but, there is a framework \cite{feldthaus2011tool} for refactoring JavaScript programs.
+One reason for the low number of refactoring tools is the additional difficulty that the refactoring tools have to deal with, when compared with refactoring tools made for static languages. 
+For example, when refactoring JavaScript, the refactoring tools do not have information about the bindings in compile time.
 
 %TODO add the refactoring that they create!
 
@@ -273,7 +272,7 @@ The pointer analysis produces over-approximations of sets in a safe way to have 
 For example in the rename, it over-approximations the set of expressions that must be modified when a property is renamed.
 By using over-approximations it is possible to be sure when a refactoring operation is valid. 
 However, it has the catch of not applying every possible refactoring operation, because the refactoring operations that the framework cannot guarantee behavior preservation are prevented.
-To prove the concept, three refactoring operations were implemented, namely the rename, encapsulate property and extract module.
+To prove the concept, three refactoring operations were implemented, namely rename, encapsulate property and extract module.
 
 It was expectable that this framework would prevent a big percentage of refactoring operations, however, after testing with 50 JavaScript programs, the overall unjustified rejections were 6.2\% of all the rejections. 
 The rejections regarding to imprecise preconditions represent 8.2\%.
@@ -288,9 +287,8 @@ Afterwards it presents Rope\footnote{https://github.com/python-rope/rope}, a ref
 
 \subsubsection{Bicycle Repair Man}
 
- is a Refactoring Tool for Python written in Python.  % and it was based on the ideas of Don Roberts PhD thesis. 
-It is a library that can be added to IDEs and editors to provide refactoring capabilities such as Emacs, Vi, Eclipse, and Sublime Text. 
-However, even having a version for sublime this tool did not improve since 2004.
+ is a Refactoring Tool for Python written in Python.
+ This refactoring tool can be added to IDEs and editors, such as Emacs, Vi, Eclipse, and Sublime Text. However, this tool did not improve since 2004.
 
 Bicycle Repair Man is an attempt to create the refactoring browser functionality for Python and has the following refactoring operations: extract method, extract variable, inline variable, move to module and rename.
 
@@ -377,8 +375,7 @@ For example the invocation of methods in Java is different for the constructors.
 It is also difficult to abstract a language when there are apparent standards in all languages but needs language-specific interpretation such as when a name is a valid name for a class in that specific language.
 
 Mapping back the language to the FAMIX is difficult in some languages because FAMIX meta-model does not have the concept of meta-classes or interfaces.
-However the most problematic issue was with dynamic languages. 
-Dynamic languages have less information available at compile-time and that makes the dependency analysis  through invocations and accesses more difficult. 
+However, the most problematic issue was with dynamic languages, because they have less information available at compile-time and that makes the dependency analysis  through invocations and accesses more difficult. 
 For example the rename method can only be done if there is no other method with the same signature.
 
 \subsubsection{JunGL} %creating refactorings  
@@ -394,13 +391,13 @@ For example: control flow successor.
 This graph have all the relevant information about the program, including the ASTs, variable binding and control flow.
 
 It defines the Program Dependence Graph using path queries. 
-This allows the correct application of many transformations that reorder statements.
+This allows the correct application of transformations that reorder statements.
 The language has lazy edges. 
 The lazy edges initially are only composed by the ASTs of the program, the rest of the information will be added later to the edges as it may be necessary, like lazy evaluation but for the Program Graph.
 The tool can handle incomplete programs, when the branch information of the graph is non existent, because of the lazy edges used. 
 %\subsubsection{Performance}
 
-The Lazy edges used allows a better performance of the refactoring because the tool will not need to compute unnecessary information and then save computations.
+%The Lazy edges used allows a better performance of the refactoring because the tool will not need to compute unnecessary information and then save computations.
 
 
 
@@ -437,16 +434,17 @@ That makes the refactoring operations more difficult when compared with the refa
 
 In addition, dynamic languages are very different from each other whereas the static languages are more similar.
 For example, Java and C\# are very similar and they have similar refactoring operations.
-Even C++ that is not that similar to Java or C\# have some refactoring operations available that are similar to Java and C\#. 
+%Even C++ that is not that similar to Java or C\# have some refactoring operations available that are similar to Java and C\#. 
 This difference makes it a bit more difficult for the refactoring tools for dynamic languages when compared to the static one's. %they can't use the same refactoring bases/preconditions
 
 %IDEs help with the refactoring operations.
-Another difference between refactoring tools is the IDE support. 
-Static refactoring tools have an IDE support for the refactoring operations, thus making it easier when compared to the usual refactoring tools for dynamic languages, which help managing the information. 
-However this becomes an advantage when considering the interoperability of the refactoring tools, thus making it easier to use in different text-editors or IDEs.
+Another difference between refactoring tools is the IDE support that helps managing the program's information.
+%Static refactoring tools have an IDE support for the refactoring operations, thus making it easier when compared to the usual refactoring tools for dynamic languages.
+Usually dynamic refactoring tools do not have that support, making it harder to create refactoring operations when compared to the static refactoring tools.
+However, this becomes an advantage when considering the interoperability of the refactoring tools, thus making it easier to use in different text-editors or IDEs.
 
 %Dynamic even having way less refactoring operations when compared with static refactoring tools, they at least have the most used refactoring operation.
-Even having way less refactoring operations available, when compared with static refactoring tools, the refactoring tools for dynamic languages at least have the most used refactoring operation, namely the rename.
+Even having way less refactoring operations available, when compared with static refactoring tools, the refactoring tools for dynamic languages at least have the most used refactoring operation, which is the rename.
 
 
 %Meta-models
@@ -462,6 +460,6 @@ Even having way less refactoring operations available, when compared with static
 %motivar pessoas para fazer refactoring, usar o IDE pedagogico e linguagem altamente pedagogico e fazer refactorings pedagogicos.
 
 
-To conclude, there is a lack of refactoring tools for dynamic languages and none of the existent ones cares about inexperienced users that are starting to program. 
+To conclude, there is a lack of refactoring tools for dynamic languages and none of the existent ones is adequate for inexperienced users. 
 And there are some dynamic languages such as Scheme, Racket and Python that are used to teach inexperienced programmers how to program.
-Without a refactoring tool for these languages, the users first contact with these tools is postponed and that might explain the low adoption of refactoring tools.
+Without a refactoring tool for these languages, the first contact with these tools is postponed and that might explain the low adoption of refactoring tools.
