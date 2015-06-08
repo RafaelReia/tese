@@ -1,0 +1,11 @@
+pdflatex presentation
+pdflatex presentation
+pdflatex presentation
+rm *.aux
+rm *.lof
+rm *.log
+rm *.lot
+rm *.nlo
+rm *.out
+rm *.toc
+pdfopen presentation.pdf
