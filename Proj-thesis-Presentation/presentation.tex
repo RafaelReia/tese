@@ -10,7 +10,9 @@
 % modify this file as you see fit and even to delete this copyright
 % notice. 
 
-\documentclass{beamer}
+\documentclass[xcolor=dvipsnames]{beamer}
+\usepackage{listings}
+%\usepackage[usenames,dvipsnames]{xcolor}
 %\usepackage{graphicx}
 %\usepackage{textpos}
 % There are many different themes available for Beamer. A comprehensive
@@ -90,22 +92,41 @@
 
 % Delete this, if you do not want the table of contents to pop up at
 % the beginning of each subsection:
-\AtBeginSubsection[]
+\AtBeginSection[]
 {
-  \begin{frame}<beamer>{Introduction}
+  \begin{frame}<beamer>{Outline}
     \tableofcontents[currentsection,currentsubsection]
   \end{frame}
 }
 
 % Let's get started
 \begin{document}
+\defverbatim[colored]\mycode{%
+\begin{lstlisting}[frame=single, caption=Algorithm first implementation, label={lst:Fibonacci}, emph={define, let, if, cons, for, displayln, in-list},  emphstyle={\bf\color{blue}}] %\color{blue}
+
+(define (fibs n)
+  (let ((fibs
+         (let loop ((previous 0)
+                    (current 1)
+                    (index 0))
+           (if (= index n)
+               (list)
+               (cons current
+                     (loop current
+                           (+ previous current)
+                           (+ index 1)))))))
+    (for ([fib (in-list fibs)])
+      (displayln fib))))
+\end{lstlisting}
+}
+
 
 \begin{frame}
   \titlepage
 \end{frame}
 
 \begin{frame}{Outline}
-  \tableofcontents[subsectionsonly] %, pausesections
+  \tableofcontents[] % subsectionsonly , pausesections
   % You might wish to add the option [pausesections]
 \end{frame}
 
@@ -115,6 +136,7 @@
 \subsection{Motivation}
 \begin{frame}{Motivation}
 %Fibonacci example
+\mycode
 \end{frame}
 \subsection{Objectives}
 
@@ -136,7 +158,7 @@
 \begin{frame}{Definitions}
 \end{frame}
 
-\subsection{Related Work}
+\section{Related Work}
 % You can reveal the parts of a slide one at a time
 % with the \pause command:
 \begin{frame}{Related Work}
@@ -164,6 +186,22 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}{DrRacket's Rename}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/renameV2-1.png}
+  %\caption{Before the Rename}
+  \label{fig:renameBefore}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/rename-error.png}
+  %\caption{Rename error on DrRacket}
+  \label{fig:RacketBug}
+\end{figure}
+\end{frame}
+
 \section{Solution}
 %architecture image
 \subsection{Architecture}
@@ -171,7 +209,7 @@
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.65\textwidth]{img/arquitectura.png}
-  \caption{System Architecture}
+  %\caption{System Architecture}
   \label{fig:label}
 \end{figure}
 \end{frame}

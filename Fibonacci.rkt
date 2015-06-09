@@ -1,4 +1,24 @@
 #lang racket
+(define (fibs n)
+  (let ((fibs
+         (let loop ((previous 0)
+                    (current 1)
+                    (index 0))
+           (if (= index n)
+               (list)
+               (cons current
+                     (loop current
+                           (+ previous current)
+                           (+ index 1)))))))
+    (for ([fib (in-list fibs)])
+      (displayln fib))))
+
+
+
+
+
+
+
 #;#;(define (fib n)
   (define fib_numbers (list))
   (let ((previous 0)
@@ -17,21 +37,6 @@
 
 (define (append-element lst elem)
   (foldr cons (list elem) lst))
-
-(define (fibs n)
-  (let ((fibs
-         (let loop ((previous 0)
-                    (current 1)
-                    (index 0))
-           (if (= index n)
-               (list)
-               (cons current
-                     (loop current
-                           (+ previous current)
-                           (+ index 1)))))))
-    (for ([fib (in-list fibs)])
-      (displayln fib))))
-
 
 ;cons + reverse
 ;usar vector
