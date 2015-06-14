@@ -8,7 +8,7 @@
 % template and not specifically distribute it as part of a another
 % package/program, I grant the extra permission to freely copy and
 % modify this file as you see fit and even to delete this copyright
-% notice. 
+% notice.
 
 \documentclass[xcolor=dvipsnames]{beamer}
 \usepackage{listings}
@@ -23,7 +23,7 @@
 %\usetheme{AnnArbor}
 %\usetheme{Antibes}
 %\usetheme{Bergen}
-%\usetheme{Berkeley}
+%\usetheme{Berkelesdy}
 %\usetheme{Berlin}
 %\usetheme{Boadilla}
 %\usetheme{boxes}
@@ -81,7 +81,7 @@
 
 \subject{Refactoring for Dynamic Languages}
 % This is only inserted into the PDF information catalog. Can be left
-% out. 
+% out.
 
 % If you have a file called "university-logo-filename.xxx", where xxx
 % is a graphic format that can be processed by latex or pdflatex,
@@ -161,31 +161,70 @@
 \section{Related Work}
 % You can reveal the parts of a slide one at a time
 % with the \pause command:
-\begin{frame}{Related Work}
-  \begin{itemize}
-  \item {
-    First item.
-    \pause % The slide will pause after showing the first item
-  }
-  \item {   
-    Second item.
-  }
+\begin{frame}{Scheme}
+    \begin{figure}[htbp]
+      \centering
+      \includegraphics[width=0.7\textwidth]{img/SchemeCode.png}
+      %\caption{Before the Rename}
+      \label{fig:Scheme}
+    \end{figure}
+\end{frame}
+\begin{frame}{JavaScript}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/JavaScriptCode.png}
+    %\caption{Before the Rename}
+    \label{fig:JavaScript}
+  \end{figure}
+\end{frame}
+\begin{frame}{Python}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/pythonCode.png}
+    %\caption{Before the Rename}
+    \label{fig:Python}
+  \end{figure}
+\end{frame}
+\begin{frame}{SmallTalk}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/SmalltalkCode.gif}
+    %\caption{Before the Rename}
+    \label{fig:Smalltalk}
+  \end{figure}
+\end{frame}
+%\begin{frame}{Related Work}
+%  \begin{itemize}
+%  \item {
+%    First item.
+%    \pause % The slide will pause after showing the first item
+%  }
+%  \item {
+%    Second item.
+%  }
   % You can also specify when the content should appear
   % by using <n->:
-  \item<3-> {
-    Third item.
-  }
-  \item<4-> {
-    Fourth item.
-  }
+%  \item<3-> {
+%    Third item.
+%  }
+%  \item<4-> {
+%    Fourth item.
+%  }
   % or you can use the \uncover command to reveal general
   % content (not just \items):
-  \item<5-> {
-    Fifth item. \uncover<6->{Extra text in the fifth item.}
-  }
-  \end{itemize}
+%  \item<5-> {
+%    Fifth item. \uncover<6->{Extra text in the fifth item.}
+%  }
+%  \end{itemize}
+%\end{frame}
+
+\begin{frame}
+teste
 \end{frame}
 
+\begin{frame}
+teste
+\end{frame}
 \begin{frame}{DrRacket's Rename}
 \begin{figure}[htbp]
   \centering
@@ -249,7 +288,7 @@
   \item
     Perhaps a \alert{third message}, but not more than that.
   \end{itemize}
-  
+
   \begin{itemize}
   \item
     Outlook
@@ -264,7 +303,7 @@
 
 
 
-% All of the following is optional and typically not needed. 
+% All of the following is optional and typically not needed.
 \appendix
 \section<presentation>*{\appendixname}
 %\subsection<presentation>*{}
@@ -280,9 +319,9 @@
 
 %\begin{frame}[allowframebreaks]
 %  \frametitle<presentation>{For Further Reading}
-%    
+%
 %  \begin{thebibliography}{10}
-%    
+%
 %  \beamertemplatebookbibitems
 %  % Start with overview books.
 %
@@ -290,10 +329,10 @@
 %    A.~Author.
 %    \newblock {\em Handbook of Everything}.
 %    \newblock Some Press, 1990.
-% 
-%    
+%
+%
 %  \beamertemplatearticlebibitems
-%  % Followed by interesting articles. Keep the list short. 
+%  % Followed by interesting articles. Keep the list short.
 %
 %  \bibitem{Someone2000}
 %    S.~Someone.
@@ -304,5 +343,3 @@
 %\end{frame}
 
 \end{document}
-
-
