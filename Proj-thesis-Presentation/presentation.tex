@@ -138,9 +138,25 @@
 %Fibonacci example
 \mycode
 \end{frame}
+\begin{frame}{Copy Paste - What can go wrong}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/WhatCanGoWrongWithCopyPaste1.png}
+  %\caption{Before the Rename}
+  \label{fig:CopyPaste}
+\end{figure}
+\end{frame}
+\begin{frame}{Copy Paste - What can go wrong}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/WhatCanGoWrongWithCopyPaste.png}
+  %\caption{Before the Rename}
+  \label{fig:CopyPaste-error}
+\end{figure}
+\end{frame}
 \subsection{Objectives}
 
-\begin{frame}{Objectives}{Optional Subtitle}
+\begin{frame}{Objectives}%{Optional Subtitle}
   \begin{itemize}
   \item {
     Correct
@@ -156,6 +172,10 @@
 
 \subsection{Definitions}
 \begin{frame}{Definitions}
+\begin{itemize}
+\item Refactoring Correctness 
+\item Classification of Refactoring tools
+\end{itemize}
 \end{frame}
 
 \section{Related Work}
@@ -188,7 +208,7 @@
 \begin{frame}{SmallTalk}
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/SmalltalkCode.gif}
+    \includegraphics[width=0.7\textwidth]{img/SmalltalkCode.png}
     %\caption{Before the Rename}
     \label{fig:Smalltalk}
   \end{figure}
@@ -217,7 +237,14 @@
 %  }
 %  \end{itemize}
 %\end{frame}
-
+\begin{frame}{DrRacket's import}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/cat-definition.png}
+  %\caption{Before the Rename}
+  \label{fig:renameBefore}
+\end{figure}
+\end{frame}
 \begin{frame}{DrRacket's Rename}
 \begin{figure}[htbp]
   \centering
@@ -245,7 +272,61 @@
   \label{fig:label}
 \end{figure}
 \end{frame}
+\begin{frame}{Validation - Extract function}
+%extract-function
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/fibonacci.png}
+  %\caption{Rename error on DrRacket}
+  \label{fig:fib-extract}
+\end{figure}
 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/fibonacci-extracted-lprint.png}
+  %\caption{Rename error on DrRacket}
+  \label{fig:fib-extract-one}
+\end{figure}
+\end{frame}
+\begin{frame}{Validation - Extract function}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/fibonacci-extracted-compute.png}
+  %\caption{Rename error on DrRacket}
+  \label{fig:fib-extract-two}
+\end{figure}
+\end{frame}
+\begin{frame}{Validation - Rename}
+%Rename
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/renameV2-Correct-1.png}
+  %\caption{Rename error on DrRacket}
+  \label{fig:RenameCorrectBefore}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/renameV2-Correct-2.png}
+  %\caption{Rename error on DrRacket}
+  \label{fig:RenameCorrectAfter}
+\end{figure}
+\end{frame}
+\begin{frame}{Validation - Add prefix}
+%add-prefix
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/add-prefixV2-1.png}
+  %\caption{Rename error on DrRacket}
+  \label{fig:AddPrefixBefore}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/add-prefixV2-3.png}
+  %\caption{Rename error on DrRacket}
+  \label{fig:AddPrefixAfter}
+\end{figure}
+\end{frame}
 %\begin{frame}{Solution}
 %\begin{block}{Block Title}
 %You can also highlight sections of your presentation in a block, with it's own title
@@ -261,6 +342,10 @@
 \subsection{Evaluation}
 \begin{frame}{Evaluation}
 
+\begin{itemize}
+\item Refactoring Correctness
+\item Usability and Simplicity
+\end{itemize}
 \end{frame}
 \section{Conclusion}
 %\begin{frame}{test}
@@ -275,7 +360,7 @@
 \begin{frame}{Summary}
   \begin{itemize}
   \item
-    The \alert{first main message} of your talk in one or two lines.
+    There is a lack of refactoring tools adequate for inexperienced users
   \item
     The \alert{second main message} of your talk in one or two lines.
   \item

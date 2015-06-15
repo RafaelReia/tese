@@ -941,7 +941,6 @@ If the namespace does not, they are colored the unbound color.
                     (var-arrow-start-pos-left longest-var-arrow)
                     (var-arrow-start-pos-right longest-var-arrow)))
             
-            
             ;; find-parent : menu-item-container<%> -> (union #f (is-a?/c top-level-window<%>)
             (define/private (find-menu-parent menu)
               (let loop ([menu menu])
@@ -1535,6 +1534,14 @@ If the namespace does not, they are colored the unbound color.
                   (unless (null? binding-identifiers)
                     (define name-to-offer (find-name-to-offer binding-identifiers))
                     (define imported? #f)
+                    (for/or ([var-arrow (in-list binding-identifiers)])
+                                
+                                (when (eq? (var-arrow-level var-arrow) 'imported)
+                                  (displayln (var-arrow-level var-arrow))
+                                  (set! imported? #t)
+                                  ))
+                    (when imported?
+                        (set! name-to-offer (send text get-text start-selection end-selection)))
                     (new menu-item%
                          [parent menu]
                          [label (fw:gui-utils:format-literal-label (string-constant cs-rename-var)
@@ -1542,12 +1549,7 @@ If the namespace does not, they are colored the unbound color.
                          [callback
                           (λ (x y)
                             (let ([frame-parent (find-menu-parent menu)])
-                              (for/or ([var-arrow (in-list binding-identifiers)])
-                                
-                                (when (eq? (var-arrow-level var-arrow) 'imported)
-                                  (displayln (var-arrow-level var-arrow))
-                                  (set! imported? #t)
-                                  ))
+
                               (displayln name-to-offer)
                               (if imported?
                                   (rename-menu-callback-imported make-identifiers-hash
