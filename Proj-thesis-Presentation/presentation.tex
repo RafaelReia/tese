@@ -102,7 +102,7 @@
 % Let's get started
 \begin{document}
 \defverbatim[colored]\mycode{%
-\begin{lstlisting}[frame=single, caption=Algorithm first implementation, label={lst:Fibonacci}, emph={define, let, if, cons, for, displayln, in-list},  emphstyle={\bf\color{blue}}] %\color{blue}
+\begin{lstlisting}[frame=single, label={lst:Fibonacci}, emph={define, let, if, cons, for, displayln, in-list},  emphstyle={\bf\color{blue}}] %\color{blue}
 
 (define (fibs n)
   (let ((fibs
@@ -117,6 +117,51 @@
                            (+ index 1)))))))
     (for ([fib (in-list fibs)])
       (displayln fib))))
+\end{lstlisting}
+}
+
+\defverbatim[colored]\mycodeE{%
+\begin{lstlisting}[frame=single, label={lst:Fibonacci}, emph={define, let, if, cons, for, displayln, in-list},  emphstyle={\bf\color{blue}}] %\color{blue}
+
+(define (print-list fibs)
+  (for ([fib (in-list fibs)])
+      (displayln fib)))
+(define (fibs n)
+  (let ((fibs
+         (let loop ((previous 0)
+                    (current 1)
+                    (index 0))
+           (if (= index n)
+               (list)
+               (cons current
+                     (loop current
+                           (+ previous current)
+                           (+ index 1)))))))
+    (print-list fibs)))
+
+\end{lstlisting}
+}
+\defverbatim[colored]\mycodeEx{%
+\begin{lstlisting}[frame=single, label={lst:Fibonacci}, emph={define, let, if, cons, for, displayln, in-list},  emphstyle={\bf\color{blue}}] %\color{blue}
+
+(define (print-list fibs)
+  (for ([fib (in-list fibs)])
+      (displayln fib)))
+(define (compute-fibonacci n)
+  (let loop ((previous 0)
+                    (current 1)
+                    (index 0))
+           (if (= index n)
+               (list)
+               (cons current
+                     (loop current
+                           (+ previous current)
+                           (+ index 1))))))
+(define (fibs n)
+  (let ((fibs
+         (compute-fibonacci n)))
+    (print-list fibs)))
+
 \end{lstlisting}
 }
 
@@ -137,6 +182,12 @@
 \begin{frame}{Motivation}
 %Fibonacci example
 \mycode
+\end{frame}
+\begin{frame}{Motivation}
+\mycodeE
+\end{frame}
+\begin{frame}{Motivation}
+\mycodeEx
 \end{frame}
 \begin{frame}{Copy Paste - What can go wrong}
 \begin{figure}[htbp]
@@ -181,10 +232,13 @@
 \section{Related Work}
 % You can reveal the parts of a slide one at a time
 % with the \pause command:
+%\begin{frame}{How we Refactor}
+
+%\end{frame}
 \begin{frame}{Scheme}
     \begin{figure}[htbp]
       \centering
-      \includegraphics[width=0.7\textwidth]{img/SchemeCode.png}
+      \includegraphics[width=0.7\textwidth]{img/SchemeFact1.png}
       %\caption{Before the Rename}
       \label{fig:Scheme}
     \end{figure}
@@ -192,9 +246,18 @@
 \begin{frame}{JavaScript}
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/JavaScriptCode.png}
+    \includegraphics[width=0.5\textwidth]{img/JavaScript.png}
     %\caption{Before the Rename}
     \label{fig:JavaScript}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{SmallTalk}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/SmalltalkCode.png}
+    %\caption{Before the Rename}
+    \label{fig:Smalltalk}
   \end{figure}
 \end{frame}
 \begin{frame}{Python}
@@ -203,14 +266,6 @@
     \includegraphics[width=0.7\textwidth]{img/pythonCode.png}
     %\caption{Before the Rename}
     \label{fig:Python}
-  \end{figure}
-\end{frame}
-\begin{frame}{SmallTalk}
-  \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.7\textwidth]{img/SmalltalkCode.png}
-    %\caption{Before the Rename}
-    \label{fig:Smalltalk}
   \end{figure}
 \end{frame}
 %\begin{frame}{Related Work}
@@ -347,7 +402,7 @@
 \item Usability and Simplicity
 \end{itemize}
 \end{frame}
-\section{Conclusion}
+%\section{Conclusion}
 %\begin{frame}{test}
 %\end{frame}
 %\section*{this is another test}
@@ -355,29 +410,29 @@
 %\end{frame}
 % Placing a * after \section means it will not show in the
 % outline or table of contents.
-\section*{Summary}
+%\section*{Summary}
 
-\begin{frame}{Summary}
-  \begin{itemize}
-  \item
-    There is a lack of refactoring tools adequate for inexperienced users
-  \item
-    The \alert{second main message} of your talk in one or two lines.
-  \item
-    Perhaps a \alert{third message}, but not more than that.
-  \end{itemize}
+%\begin{frame}{Summary}
+%  \begin{itemize}
+%  \item
+%    There is a lack of refactoring tools adequate for inexperienced users
+%  \item
+%    The \alert{second main message} of your talk in one or two lines.
+%  \item
+%    Perhaps a \alert{third message}, but not more than that.
+%  \end{itemize}
 
-  \begin{itemize}
-  \item
-    Outlook
-    \begin{itemize}
-    \item
-      Something you haven't solved.
-    \item
-      Something else you haven't solved.
-    \end{itemize}
-  \end{itemize}
-\end{frame}
+%  \begin{itemize}
+%  \item
+%    Outlook
+%    \begin{itemize}
+%    \item
+%      Something you haven't solved.
+%    \item
+%      Something else you haven't solved.
+%    \end{itemize}
+%  \end{itemize}
+%\end{frame}
 
 
 
