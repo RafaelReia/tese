@@ -12,6 +12,7 @@
 
 \documentclass[xcolor=dvipsnames]{beamer}
 \usepackage{listings}
+\usepackage{fancyvrb}
 %\usepackage[usenames,dvipsnames]{xcolor}
 %\usepackage{graphicx}
 %\usepackage{textpos}
@@ -224,7 +225,7 @@
 \subsection{Definitions}
 \begin{frame}{Definitions}
 \begin{itemize}
-\item Refactoring Correctness 
+\item Refactoring Correctness
 \item Classification of Refactoring tools
 \end{itemize}
 \end{frame}
@@ -235,6 +236,19 @@
 %\begin{frame}{How we Refactor}
 
 %\end{frame}
+\begin{frame}{How we Refactor}
+  \begin{itemize}
+  \item {
+    Refactoring is constant
+  }
+  \item {
+    Refactoring differs among users
+  }
+  \item {
+    Refactoring tools are underused
+  }
+  \end{itemize}
+\end{frame}
 \begin{frame}{Scheme}
     \begin{figure}[htbp]
       \centering
@@ -243,31 +257,34 @@
       \label{fig:Scheme}
     \end{figure}
 \end{frame}
+
+\begin{frame}{SmallTalk}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/smalltalk.png}
+    %\caption{Before the Rename}
+    \label{fig:Smalltalk}
+  \end{figure}
+\end{frame}
+
 \begin{frame}{JavaScript}
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.5\textwidth]{img/JavaScript.png}
+    \includegraphics[width=0.7\textwidth]{img/Javascript.png}
     %\caption{Before the Rename}
     \label{fig:JavaScript}
   \end{figure}
 \end{frame}
 
-\begin{frame}{SmallTalk}
-  \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.7\textwidth]{img/SmalltalkCode.png}
+
+%\begin{frame}{Python}
+%  \begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.7\textwidth]{img/pythonCode.png}
     %\caption{Before the Rename}
-    \label{fig:Smalltalk}
-  \end{figure}
-\end{frame}
-\begin{frame}{Python}
-  \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.7\textwidth]{img/pythonCode.png}
-    %\caption{Before the Rename}
-    \label{fig:Python}
-  \end{figure}
-\end{frame}
+%    \label{fig:Python}
+%  \end{figure}
+%\end{frame}
 %\begin{frame}{Related Work}
 %  \begin{itemize}
 %  \item {

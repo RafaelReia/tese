@@ -1,0 +1,215 @@
+Slide 1:goal 2600-3000 words
+Boa tarde, Eu sou o Rafael Reia e venho apresentar o projecto tese Refactoring for Dynamic Languages que foi orientado pelo professor Antonio Leitao.
+
+Slide 2: Outline
+
+Slide 3:
+O software esta sempre a evoluir e a ser modificado. Sao descobertos bugs em
+projectos que ja nao estao em desenvolvimento e para os corrigir as vezes e necessario alterar bastante o codigo.
+
+Essas mudancas continuas fazem com que o design com que o software foi desenvolvido em primeiro lugar ja nao seja o mais adequado
+tornando o software mais ilegivel, ou seja com menos qualidade.
+
+Uma maneira para minimizar esse problema e' usando o refactoring.
+
+O refactoring e' um conjunto de operacoes que preservam o significado do programa
+e que sao usadas para melhorar a estrura/legibilidade do mesmo.
+Existem muitas ferramentas de refactoring, mas infelizmente necessitam que o utilizador tenha alguma experiencia.
+ Criando assim um obstaculo a sua utilizacao por utilizadores menos experientes.
+
+Os utilizadores menos experientes quando implementao uma solucao para um problema tendem a escrever grandes pedacos de codigo,
+  faltando a modularidade que um programador experiente iria ter.
+exibit A Slide 4
+Por exemplo, este programa e' uma implementacao em Racket de um algoritmo que imprime os primeiros N numeros de fibonacci.
+Contudo esta implementacao pode ser melhorada, ao subidivir em funcoes mais pequenas.
+Para fazer isso e' necessario extrair essas funcoes, o que e' uma operacao de refactoring.
+
+Comecando por extrair este for, que basicamente imprime listas.
+Exibit B Slide 5
+
+E ainda o for que calcula os numero de fibonacci.
+
+Exibit C Slide 6
+
+Ao extrair as funcoes sem usar uma ferramente de refactoring, o utilizador esta a cortar/colar codigo.
+
+Slide 7:
+Copy paste: what can go wrong??
+
+Na semana passada a EasyJet ao publicitar decidiu publicitar as rotas Manchester Porto e Manchester Kastasdasdasdsa
+E para isso seguiu a estrutura, imagem de fundo do destino, imagem do pais de origem e imagem do pais de destino.
+Contudo nao reparou que ao copiar para criar a nova publicidade na rota Manchester CENAS, de trocar o pais.
+
+Ou
+Ao publicitar as rotas cometeu o erro de nao trocar o pais, confundido Portugal com a Grecia que nao tem formas semelhantes.
+
+
+Slide 8:
+Criando um erro algo comico de copy/paste/refactoring?
+
+Isto mostra a facilidade de se cometer erros ao modificarmos as coisas, por muito pequenas que sejam as modificacoes.
+Agora num programa em que a complexidade e' maior e por vezes nem se ve o programa todo ao mesmo tempo
+a probabilidade desses erros acontecerem e' maior.
+
+como as operacoes de refactoring mexem na estrutura do programa e movem (copiando/cortando e colando)
+codigo ou renomeando sao bastante chatas e propricias a erros mostra a importancia da necessidade de ferramentas de refactoring.
+
+A utlizacao das ferramentas de refactoring esta completamente adoptada pelas linguages estaticamente tipificadas e orientadas a objectos.
+Pois tem um grande suport do IDE, por exemplo o java tem o Eclipse, o IntelliK e o NetBeans que tem ferramentas de refactoring incorporadas e bastante desenvolvidas.
+Contudo nao e' esse o caso das linguagens dinamicamente tipificadas.
+A grande dificiltudade e' a falta de informacao em compile time comparado com as linguages estaticas.
+Contudo a importancia das linguagens dinamicas esta a crescer e as linguagens dinamicas sao frequentemente usadas em cursos de introducao,
+como por exemplo o Scheme, o Racket e o Python.
+Uma ferramenta de refactoring para linguagens dinamicas e adequada aos utilizadores inexperientes e' um passo importante para preencher essa falta de ferramentas
+e assim, dar aos utilizadores inexperientes um primeiro contacto com esssas ferramentas mais cedo para os ajudar a melhorar a qualidade do codigo.
+
+Slide 9
+O objectivo e' criar uma ferramente de refactoring que seja util e simples de utilizar pelos utilizadores menos experientes e que seja correcta.
+Ou seja e' necessario ter um amibiente de desenvolvimento simples, que nao seja complicado como o Eclipse ou o Visual studio.
+e de preferencia que tivesse sido pensado para utilizadores inexperientes.
+A linguagem tambem tem de se ter em conta. Os utilizadores inexperientes a aprenderem/programarem irao usar preferencialmente linaguagens simples
+e faceis de utiluzar como as que sao usadas em cursos de introducao a programacao, como o Python e o Racket.
+
+
+Slide 10:
+
+
+Definicoes:
+
+Correctness:
+As operacoes de refactoring para serem correctas tem de manter o significado do programa.
+O ideal seria provar formalmente que o programa mantem toda a semantica,
+contudo as definicoes formais das linguagens sao demasiado complexas para defenir e muitas vezes esta defenido de maneira informal.
+Pode-se sempre provar informalmente que as operacoes de refactoring sao correctas.
+A maneira informal consiste em ter um conjunto extensivo de testes e se esses testes continuam a passar depois de aplicado a operacao de refactoring
+a probabilidade e' bastante alta que essa operacao de refactoring e' correcta.
+
+
+Classifications refactoring tools:
+Refactoring tools podem ser subidividads em manual. semi-automatica e totalmente automatica (isto soa estranho)
+Manual e' quando nao ha suporte a deteccao de possiveis operacoes de refactoring mas a ferramenta aplica a transformacao pelo utilizador.
+Semi-Automatica e' quando a ferramente sugere possiveis refactoring operations, mas deixa a escolha do utilizador aplica-los ou nao.
+Totalmente-automatica e' quando a ferramenta automaticametne identifica e aplica operacoes de refactoring.
+
+(falar da tabela)
+
+
+A totalmente automatica nao e' o desejado pois transformar automaticametne o programa, cria um programa "novo" que o utilizador pode nao compreender,
+Em especial se o utilizador for inexperiente.
+
+Semi automatica, as sugestoes sao uma vantagem (feature) para os utilizadores inexperientes que ainda estao a aprender que operacoes de refactoring existem,
+e permitia que cirassem programas com mais qualidade.
+Conutdo as sugestoes sao altamente dependentes do dominio do programa (eg web and stuff) e nao e' isso que e' pertendido para este projecto.
+(como e' uma tese de mestrado se fossemos implementar isso seria deasiado complicado.)
+
+Resta a manual refactoring tool que aplica exatamente o que o utilizador pretende e
+e' muito mais rapido e menos succesptivel a erros que fazer isso manualmente.
+
+How we refactor
+Numa experiencia em qu se usaram varios conjuntos de dados, um de 4 utilizadores que mantem as ferramentas de refactoring tools do eclipse
+e outro que usou o eclipse usage collector com mais de 13000 programadores de java e outro conjunto com 41 progamadores de java. extrairam-se varias conclusoes.
+
+Refactoring e' feito constantemente, no conjunto de 41 progamadores de java ha refactorings em 41% das sessoes dos utilizadores, e nas sessoes onde ha refactorings
+e' onde foram feitos mais edicoes.
+
+Refactoring depende do utilizador, os utilizadores "mais" experientes, como os que mantem as ferramentas de refactoring do eclipse usam
+de maneira diferente as opecaroes de refactoring que os "outros" utilizadores, embora o Rename seja o refactoring mais usado por todos
+nos utilizadores mais "experientes" a % de uso e' de 29% enquanto que nos restantes e' entre 62% a 75%
+
+Refactoring tools nao sao usadas no seu potencial, so cerca de 30% dos refactorings e' que foram feitos usando ferramentas de refactoring.
+
+Scheme
+Griswold criou uma ferramanta de refactoring para scheme implemetnada em Lisp
+Scheme foi escolhido devido a existir uma implementacao em common lisp da PDG do Scheme e do scheme ter uma sintaxe simples.
+
+Para garantir que as operacoes de refactoring estao correctas usa Countours e um PDG.
+Usa countours para representar o programa, que sao uma abstracao das propriedades sematncias da AST, representados de uma maneira eficiente.
+A PDG representa a relacao de dependencia entre as operacoes do programa.
+Com isto consegue-se preservar o significado do programa durante o refacotirng.
+
+esta ferramenta tem operacoes como mover uma expressao, renomear uma variavel, asbtrarir uma expressao, extrair funcoes
+
+Smalltalk
+
+O refactoring browser e' uma refactoring tool para smalltalk que identifica possiveis operacoes de refactoring, e' uma semi-automatica ferramente de refactoring.
+Para garantir que a operacao de refactoring e' correcta a ferramenta usa precondicoes. contudo algumas condicoes sao muito dificeis de determinar estaticamente,
+devido a lingaugem ser dinamicamente tipificada. e para poder garantir a correctividade a ferramenta confere algumas precondicoes dinamicamente.
+
+Para verisso a ferramenta usa method wrappers para obter infromacao de tempo de execucao.
+Por exemplo, num rename depois de aplicado, sempre que o metodo antigo e' chamado o browser suspende a execucao
+e modifica o codigo que chamou o metodo antigo para chamar o novo.
+O problema e' que o refactoring e' tao bom quanto o conjunto de testes do utilizador.
+
+Ja ha uma ferramenta, embora seja para linguagens estiticas, que gera uma bateria de testes automaticamente.
+Esta ferramenta se fosse agrupada/juntada com o refactoring browser resolvia a principal limitacao desta ferramenta de refactoring.
+
+
+Javascript
+Foi criada uma framework para fazer operacoes de refactoring em javascript.
+ Para garantir que as operacoes de refactoring sao correca a framework usa precondicoes que usam analise de ponteiros para fazer a analise
+  e over-aproximations de conjuntos de uma maneira segura.
+Por exemplo no rename cria um conjunto superior ao conjunto que foi renomeado.
+  e assim garante que se esse conjunto pode ser renomeado o refactoring esta correcto.
+Esta abordagem tem o problema de nao permitir que todas as operacoes de refactoring possiveis sejam feitas pela ferramenta.
+Mas essa % de operacoes nao e' assim muito elevadavaiando entre 6% a 8% de operacoes rejeitaas que deviam de ter sido aceites.
+
+Python
+
+Bicycle repair man.
+
+
+Racket
+O racket e' tem uma sintaxe muito semelhante ao scheme.
+O ide do Racket e' o DrRacket e tem 1 operacao de refactoring.
+Embora so seja 1 e' a mais utilizada o que a torna uma boa aposta.
+
+Apesar de ter so uma operacao de refactoring essa tem um erro para quando tenta renomear funcoes de ficheiros importados.
+Neste caso temos o ficheiro gato que exporta 3 funcoes.
+Num outro ficheiro ao tentar renomear uma dessas funcoes, o programa renomeia todas as funcoes importantadas e ainda o nome do ficheiro importado
+Criando um erro.
+
+Arquitectura:
+e' necessario uma refactoring tool que tenha em conta os utilizadores menos experientes, e que tenha as suas operacoes disponiveis o mais rapido possivel
+durante o seu processo de aprendizagem.
+
+Para isso foi escolhido o DrRacket que e' um ambiente pedagogico que foi desenvolvido para utilizadores inexperientes.
+E foi escolhido a linguagem Racket devido a ser uma linguagem de programacao usada em cursos de introducao a programacao.
+
+Arquitectura em si:
+A refactoring tool vai usar a AST e a def-use-relations que o compilador, neste caso o Racket/DrRacket fornecera.
+def-use-relations consiste na definicao de uma variavel e os usos dessa vairavel.
+
+E juntamente com algumas precondicoes e pos condicoes aplicara o refactoring, transformando o programa na versao 0 na versao 1.
+
+O racket e' composto por uma lista de s-expressions que definem a AST. s-expressions sao uma (nested list) lista de dados basicos, por exemplo:
+as def-use-relations que sao representadas visaulmente atraves das setas.
+
+Validacao
+Para validarmos a arquitectura foram implementadas 2 operacoes de refactoring, extract-method, add-prefix, e corridigo um bug no rename.
+o eta-abstraction tambem foi implementado.
+Estas operacoes de refactoring tiram partido das def-use-relations.
+Estas operacoes foram escolhidas que para alem de poderem ser possiveis atraves do uso das def-use-relations sao das operacoes de refactoring mais usadas.
+
+Extract-method:
+(falar como e' usado o refactoring)
+
+Rename:
+O rename do DrRacket tinha um erro, sempre que e' importado funcoes de fora o rename iria renomear todos os identificadores daquele conjunto.
+mesmo o identificador que dizia qual era o ficheiro de onde vinha os identificadores.
+Isto torna o programa incorrecto e foi preciso corrigir.
+
+
+Add-prefix:
+O rename o utilizador ainda pode usar o finder para ajudar a renomear, apesar de que se tem de ter algum cuidado.
+Contudo no add-prefix isso nao e' possivel!!
+
+
+
+Avaliacao:
+
+Na avaliacao para testar se os refactoring estao correctos serao usados programas e uma base de testes,
+  e depois de aplicar as operacoes de refactoring e se o programa continuar a passar a todos os testes,
+  e' bem provavel que essa refactoring operation esteja correcta
+
+Serao realizados testes com utilizadores para aferir se a refactoring tool e' simples de usar e util.
+o grupo de utilizadores a focar sao os utilizadores inexperientes.
