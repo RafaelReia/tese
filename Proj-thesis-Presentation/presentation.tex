@@ -10,7 +10,7 @@
 % modify this file as you see fit and even to delete this copyright
 % notice.
 
-\documentclass[xcolor=dvipsnames]{beamer}
+\documentclass[xcolor=dvipsnames, 14pt]{beamer}
 \usepackage{listings}
 \usepackage{fancyvrb}
 %\usepackage[usenames,dvipsnames]{xcolor}
@@ -116,7 +116,7 @@
                      (loop current
                            (+ previous current)
                            (+ index 1)))))))
-    (for ([fib (in-list fibs)])
+    (for ((fib (in-list fibs)))
       (displayln fib))))
 \end{lstlisting}
 }
@@ -125,7 +125,7 @@
 \begin{lstlisting}[frame=single, label={lst:Fibonacci}, emph={define, let, if, cons, for, displayln, in-list},  emphstyle={\bf\color{blue}}] %\color{blue}
 
 (define (print-list fibs)
-  (for ([fib (in-list fibs)])
+  (for ((fib (in-list fibs)))
       (displayln fib)))
 (define (fibs n)
   (let ((fibs
@@ -146,7 +146,7 @@
 \begin{lstlisting}[frame=single, label={lst:Fibonacci}, emph={define, let, if, cons, for, displayln, in-list},  emphstyle={\bf\color{blue}}] %\color{blue}
 
 (define (print-list fibs)
-  (for ([fib (in-list fibs)])
+  (for ((fib (in-list fibs)))
       (displayln fib)))
 (define (compute-fibonacci n)
   (let loop ((previous 0)
@@ -180,16 +180,135 @@
 % and table of contents.
 \section{Introduction}
 \subsection{Motivation}
+
 \begin{frame}{Motivation}
+\end{frame}
+\begin{frame}[fragile]{Motivation}
 %Fibonacci example
-\mycode
+\begin{Verbatim}[fontsize=\footnotesize]
+(define (fibs n)
+  (let ((fibs
+         (let loop ((previous 0)
+                    (current 1)
+                    (index 0))
+           (if (= index n)
+               (list)
+               (cons current
+                     (loop current
+                           (+ previous current)
+                           (+ index 1)))))))
+    (for ((fib (in-list fibs)))
+      (displayln fib))))
+\end{Verbatim}
 \end{frame}
-\begin{frame}{Motivation}
-\mycodeE
+
+\fvset{gobble=2}
+\begin{frame}[fragile]{Motivation}
+%Fibonacci example
+\fvset{gobble=2}
+\begin{Verbatim}[fontsize=\footnotesize]
+  (define (fibs n)
+    (let ((fibs
+           (let loop ((previous 0)
+                      (current 1)
+                      (index 0))
+             (if (= index n)
+                 (list)
+                 (cons current
+                       (loop current
+                             (+ previous current)
+                             (+ index 1)))))))
+\end{Verbatim}
+\begin{Verbatim}[frame=single, rulecolor=\color{red}, fontsize=\footnotesize]
+      (for ((fib (in-list fibs)))
+        (displayln fib))))
+\end{Verbatim}
 \end{frame}
-\begin{frame}{Motivation}
-\mycodeEx
+\begin{frame}[fragile]{Motivation}
+%Fibonacci example
+
+\fvset{globble=3}
+\begin{Verbatim}[frame=single, rulecolor=\color{red}, fontsize=\footnotesize]
+  (define (print-list fibs)
+    (for ((fib (in-list fibs)))
+      (displayln fib)))
+\end{Verbatim}
+\begin{Verbatim}[fontsize=\footnotesize]
+  (define (fibs n)
+    (let ((fibs
+           (let loop ((previous 0)
+                      (current 1)
+                      (index 0))
+             (if (= index n)
+                 (list)
+                 (cons current
+                       (loop current
+                             (+ previous current)
+                             (+ index 1)))))))
+\end{Verbatim}
+\begin{Verbatim}[frame=single, rulecolor=\color{red}, fontsize=\footnotesize]                           
+      (print-list fibs)))
+\end{Verbatim}
 \end{frame}
+\begin{frame}[fragile]{Motivation}
+%Fibonacci example
+\fvset{globble=3}
+\begin{Verbatim}[fontsize=\footnotesize]
+  (define (print-list fibs)
+    (for ((fib (in-list fibs)))
+      (displayln fib)))
+\end{Verbatim}
+\begin{Verbatim}[frame=single, rulecolor=\color{red},fontsize=\footnotesize]
+  (define (fibs n)
+    (let ((fibs
+           (let loop ((previous 0)
+                      (current 1)
+                      (index 0))
+             (if (= index n)
+                 (list)
+                 (cons current
+                       (loop current
+                             (+ previous current)
+                             (+ index 1)))))))
+\end{Verbatim}
+\begin{Verbatim}[fontsize=\footnotesize]                           
+      (print-list fibs)))
+\end{Verbatim}
+\end{frame}
+
+
+\begin{frame}[fragile]{Motivation}
+%Fibonacci example
+
+\fvset{globble=4}
+\begin{Verbatim}[frame=single, rulecolor=\color{red},fontsize=\footnotesize]
+  (define (compute-fibonacci n)
+    (let loop ((previous 0)
+               (current 1)
+               (index 0))
+      (if (= index n)
+          (list)
+          (cons current
+                (loop current
+                      (+ previous current)
+                      (+ index 1))))))
+\end{Verbatim}
+\begin{Verbatim}[fontsize=\scriptsize]
+  (define (print-list fibs)
+    (for ((fib (in-list fibs)))
+      (displayln fib)))
+
+  (define (fibs n)
+    (let ((fibs
+\end{Verbatim}
+\begin{Verbatim}[frame=single, rulecolor=\color{red},fontsize=\footnotesize]
+           (compute-fibonacci n)))
+\end{Verbatim}
+\begin{Verbatim}[fontsize=\scriptsize]
+      (print-list fibs)))
+\end{Verbatim}
+\end{frame}
+
 \begin{frame}{Copy Paste - What can go wrong}
 \begin{figure}[htbp]
   \centering
@@ -206,10 +325,14 @@
   \label{fig:CopyPaste-error}
 \end{figure}
 \end{frame}
+\begin{frame}{Motivation}
+
+\end{frame}
 \subsection{Objectives}
 
 \begin{frame}{Objectives}%{Optional Subtitle}
   \begin{itemize}
+  \setlength\itemsep{2em}
   \item {
     Correct
   }
@@ -223,13 +346,27 @@
 \end{frame}
 
 \subsection{Definitions}
-\begin{frame}{Definitions}
+\begin{frame}{Refactoring Correctness}
 \begin{itemize}
-\item Refactoring Correctness
-\item Classification of Refactoring tools
+\setlength\itemsep{2em}
+\item Formal Approach
+\item Informal Approach
 \end{itemize}
 \end{frame}
-
+\begin{frame}{Refactoring tools - Classification}
+  \begin{itemize}
+  \setlength\itemsep{2em}
+  \item {
+    Manual
+  }
+  \item {
+    Semi-Automatic
+  }
+  \item {
+    Fully-Automatic
+  }
+  \end{itemize}
+\end{frame}
 \section{Related Work}
 % You can reveal the parts of a slide one at a time
 % with the \pause command:
@@ -238,6 +375,7 @@
 %\end{frame}
 \begin{frame}{How we Refactor}
   \begin{itemize}
+  \setlength\itemsep{2em}
   \item {
     Refactoring is constant
   }
@@ -252,7 +390,7 @@
 \begin{frame}{Scheme}
     \begin{figure}[htbp]
       \centering
-      \includegraphics[width=0.7\textwidth]{img/SchemeFact1.png}
+      \includegraphics[width=0.75\textwidth]{img/SchemeCode2.png}
       %\caption{Before the Rename}
       \label{fig:Scheme}
     \end{figure}
@@ -309,7 +447,8 @@
 %  }
 %  \end{itemize}
 %\end{frame}
-\begin{frame}{DrRacket's import}
+
+\begin{frame}{Racket}
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\textwidth]{img/cat-definition.png}
@@ -343,6 +482,20 @@
   %\caption{System Architecture}
   \label{fig:label}
 \end{figure}
+\end{frame}
+\begin{frame}{Validation}
+  \begin{itemize}
+  \setlength\itemsep{2em}
+  \item {
+    Extract function
+  }
+  \item {
+    Rename
+  }
+  \item {
+    Add-Prefix
+  }
+  \end{itemize}
 \end{frame}
 \begin{frame}{Validation - Extract function}
 %extract-function
@@ -415,6 +568,7 @@
 \begin{frame}{Evaluation}
 
 \begin{itemize}
+  \setlength\itemsep{2em}
 \item Refactoring Correctness
 \item Usability and Simplicity
 \end{itemize}
