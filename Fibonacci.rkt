@@ -10,7 +10,6 @@
                      (loop current
                            (+ previous current)
                            (+ index 1)))))))
-    
     (for ((fib (in-list fibs)))
       (displayln fib))))
 

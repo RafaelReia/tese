@@ -182,6 +182,12 @@
 \subsection{Motivation}
 
 \begin{frame}{Motivation}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{img/softwareEvolution.png}
+  %\caption{Before the Rename}
+  \label{fig:SE}
+\end{figure}
 \end{frame}
 \begin{frame}[fragile]{Motivation}
 %Fibonacci example
@@ -219,6 +225,7 @@
                              (+ previous current)
                              (+ index 1)))))))
 \end{Verbatim}
+% framesep=0mm
 \begin{Verbatim}[frame=single, rulecolor=\color{red}, fontsize=\footnotesize]
       (for ((fib (in-list fibs)))
         (displayln fib))))
@@ -257,10 +264,11 @@
   (define (print-list fibs)
     (for ((fib (in-list fibs)))
       (displayln fib)))
-\end{Verbatim}
-\begin{Verbatim}[frame=single, rulecolor=\color{red},fontsize=\footnotesize]
+
   (define (fibs n)
     (let ((fibs
+    \end{Verbatim}
+\begin{Verbatim}[frame=single, rulecolor=\color{red},fontsize=\footnotesize]
            (let loop ((previous 0)
                       (current 1)
                       (index 0))
@@ -326,7 +334,15 @@
 \end{figure}
 \end{frame}
 \begin{frame}{Motivation}
-
+  \begin{itemize}
+  \setlength\itemsep{2em}
+  \item {
+    Lack of Refactoring tools for Dynamic Languages
+  }
+  \item {
+    Lack of Refactoring tools adequate to beginners
+  }
+  \end{itemize}
 \end{frame}
 \subsection{Objectives}
 
@@ -459,7 +475,7 @@
 \begin{frame}{DrRacket's Rename}
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\textwidth]{img/renameV2-1.png}
+  \includegraphics[width=0.7\textwidth]{img/renameV3-2.png}
   %\caption{Before the Rename}
   \label{fig:renameBefore}
 \end{figure}
@@ -467,6 +483,7 @@
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\textwidth]{img/rename-error.png}
+  %\includegraphics[width=0.7\textwidth]{img/renameV3-2.png}
   %\caption{Rename error on DrRacket}
   \label{fig:RacketBug}
 \end{figure}
@@ -501,14 +518,14 @@
 %extract-function
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\textwidth]{img/fibonacci.png}
+  \includegraphics[width=0.7\textwidth]{img/fibonacci-1.png}
   %\caption{Rename error on DrRacket}
   \label{fig:fib-extract}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\textwidth]{img/fibonacci-extracted-lprint.png}
+  \includegraphics[width=0.7\textwidth]{img/fibonacci-select.png}
   %\caption{Rename error on DrRacket}
   \label{fig:fib-extract-one}
 \end{figure}
@@ -516,7 +533,7 @@
 \begin{frame}{Validation - Extract function}
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\textwidth]{img/fibonacci-extracted-compute.png}
+  \includegraphics[width=0.7\textwidth]{img/fibonacci-After.png}
   %\caption{Rename error on DrRacket}
   \label{fig:fib-extract-two}
 \end{figure}
@@ -525,7 +542,7 @@
 %Rename
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\textwidth]{img/renameV2-Correct-1.png}
+  \includegraphics[width=0.7\textwidth]{img/renameV3-2.png}
   %\caption{Rename error on DrRacket}
   \label{fig:RenameCorrectBefore}
 \end{figure}
@@ -611,16 +628,16 @@
 \appendix
 \section<presentation>*{\appendixname}
 %\subsection<presentation>*{}
-\addtobeamertemplate{last page}{ \includegraphics[scale=0.1]{img/IST_A_RGB_POS3.png} }{} %por a imagem no canto superior esquerdo.
+%\addtobeamertemplate{last page}{ \includegraphics[scale=0.1]{img/IST_A_RGB_POS3.png} }{} %por a imagem no canto superior esquerdo.
 \begin{frame}
 \begin{center}
 
-{\Huge Thank you}
+{\Large Thank you!}
 \\~\\
-\\~\\
-\\~\\
-{\Large Questions?}
+\leavevmode\\~\\
+{\Huge Questions?}
 \end{center}
+
 \end{frame}
 
 %\begin{frame}[allowframebreaks]
