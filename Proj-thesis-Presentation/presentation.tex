@@ -93,14 +93,34 @@
 
 % Delete this, if you do not want the table of contents to pop up at
 % the beginning of each subsection:
-\AtBeginSection[]
-{
-  \begin{frame}<beamer>{Outline}
-    \tableofcontents[currentsection,currentsubsection]
-  \end{frame}
+%\AtBeginSubsection[]
+%{
+%  \begin{frame}<beamer>{Outline}
+%    \tableofcontents[currentsection, currentsubsection] % , currentsubsection
+%  \end{frame}
+%}
+\newif\iflattersubsect
+
+\AtBeginSection[] {
+    \begin{frame}<beamer>
+    \frametitle{Outline} %Inhalt
+    \tableofcontents[currentsection]  
+    \end{frame}
+    \lattersubsectfalse
+}
+
+\AtBeginSubsection[] {
+    \iflattersubsect
+    \begin{frame}<beamer>
+    \frametitle{Outline} %
+    \tableofcontents[currentsubsection]  
+    \end{frame}
+    \fi
+    \lattersubsecttrue
 }
 
 % Let's get started
+
 \begin{document}
 \defverbatim[colored]\mycode{%
 \begin{lstlisting}[frame=single, label={lst:Fibonacci}, emph={define, let, if, cons, for, displayln, in-list},  emphstyle={\bf\color{blue}}] %\color{blue}
@@ -172,7 +192,7 @@
 \end{frame}
 
 \begin{frame}{Outline}
-  \tableofcontents[] % subsectionsonly , pausesections
+  \tableofcontents[sectionsonly] % subsectionsonly , pausesections
   % You might wish to add the option [pausesections]
 \end{frame}
 
@@ -316,7 +336,14 @@
       (print-list fibs)))
 \end{Verbatim}
 \end{frame}
-
+\begin{frame}{Copy Paste - What can go wrong}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/WhatCanGoWrongWithCopyPaste.png}
+  %\caption{Before the Rename}
+  \label{fig:CopyPaste-error}
+\end{figure}
+\end{frame}
 \begin{frame}{Copy Paste - What can go wrong}
 \begin{figure}[htbp]
   \centering
@@ -337,11 +364,12 @@
   \begin{itemize}
   \setlength\itemsep{2em}
   \item {
-    Lack of Refactoring tools for Dynamic Languages
-  }
-  \item {
     Lack of Refactoring tools adequate to beginners
   }
+  \item {
+    Lack of Refactoring tools for Dynamic Languages
+  }
+
   \end{itemize}
 \end{frame}
 \subsection{Objectives}
@@ -350,13 +378,13 @@
   \begin{itemize}
   \setlength\itemsep{2em}
   \item {
-    Correct
+    Simple to use
   }
   \item {
     Useful
   }
   \item {
-    Simple to use
+    Correct
   }
   \end{itemize}
 \end{frame}
@@ -372,15 +400,17 @@
 \begin{frame}{Refactoring tools - Classification}
   \begin{itemize}
   \setlength\itemsep{2em}
-  \item {
-    Manual
+    \item {
+    Fully-Automatic
   }
-  \item {
+    \item {
     Semi-Automatic
   }
   \item {
-    Fully-Automatic
+    Manual
   }
+
+
   \end{itemize}
 \end{frame}
 \section{Related Work}
@@ -389,24 +419,24 @@
 %\begin{frame}{How we Refactor}
 
 %\end{frame}
-\begin{frame}{How we Refactor}
-  \begin{itemize}
-  \setlength\itemsep{2em}
-  \item {
-  Done continuously
-  }
-  \item {
-    Differs among users
-  }
-  \item {
-    Refactoring tools are underused
-  }
-  \end{itemize}
-\end{frame}
+%\begin{frame}{How we Refactor}
+%  \begin{itemize}
+%  \setlength\itemsep{2em}
+%  \item {
+%  Done continuously
+%  }
+%  \item {
+%    Differs among users
+%  }
+%  \item {
+%    Refactoring tools are underused
+%  }
+%  \end{itemize}
+%\end{frame}
 \begin{frame}{Scheme}
     \begin{figure}[htbp]
       \centering
-      \includegraphics[width=0.75\textwidth]{img/SchemeCode2.png}
+      \includegraphics[width=0.75\textwidth]{img/griswold.png}
       %\caption{Before the Rename}
       \label{fig:Scheme}
     \end{figure}
