@@ -741,7 +741,7 @@ If the namespace does not, they are colored the unbound color.
             ;;;; End Changes
             
             (define/private (rename-menu-callback-imported make-identifiers-hash name-to-offer
-                                                  binding-identifiers parent start-selection)
+                                                           binding-identifiers parent start-selection)
               
               (define (name-dup? x) 
                 (for/or ([var-arrow (in-list binding-identifiers)])
@@ -762,7 +762,7 @@ If the namespace does not, they are colored the unbound color.
                 ;;;changes
                 (define imported? #f)
                 ;;; end change
-               ;(displayln "estou no sitio certo")
+                ;(displayln "estou no sitio certo")
                 (define do-renaming?
                   (or (not dup-name?)
                       (equal?
@@ -789,7 +789,7 @@ If the namespace does not, they are colored the unbound color.
                     (define import-name "")
                     (define pos (hash-iterate-first per-txt-positions))
                     (define text (hash-iterate-key per-txt-positions pos))
-
+                    
                     (define rename-in-string "")
                     
                     (for ([var-arrow (in-list binding-identifiers)])
@@ -799,12 +799,12 @@ If the namespace does not, they are colored the unbound color.
                       ;(displayln (var-arrow-end-pos-left var-arrow))
                       (when (and (<= (var-arrow-end-pos-left var-arrow) start-selection)
                                  (>= (var-arrow-end-pos-right var-arrow) start-selection))
-                                  ;(displayln "Fiz display")
-                                  ;(displayln (var-arrow-level var-arrow))
-                                  (set! arrow-aux var-arrow)
+                        ;(displayln "Fiz display")
+                        ;(displayln (var-arrow-level var-arrow))
+                        (set! arrow-aux var-arrow)
                         
-                                  ))
-
+                        ))
+                    
                     (for ([(source-txt start+ends) (in-hash per-txt-positions)])
                       (when (is-a? source-txt text%)
                         (define merged-positions (sort-and-merge start+ends))
@@ -836,7 +836,7 @@ If the namespace does not, they are colored the unbound color.
                     (set! rename-in-string (string-append "(rename-in " import-name " (" original-name " " new-sym "))" ))
                     ;(displayln rename-in-string)
                     (send text insert rename-in-string (var-arrow-start-pos-left arrow-aux)))
-
+                  
                   
                   (for ([(k _) (in-hash (make-identifiers-hash))])
                     (define-values (txt start-pos end-pos) (apply values k))
@@ -844,8 +844,8 @@ If the namespace does not, they are colored the unbound color.
                                (cons (cons start-pos end-pos)
                                      (hash-ref per-txt-positions txt '()))))
                   
-                   (imported-rename per-txt-positions)
-
+                  (imported-rename per-txt-positions)
+                  
                   
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))
@@ -916,7 +916,7 @@ If the namespace does not, they are colored the unbound color.
                     (hash-set! per-txt-positions txt 
                                (cons (cons start-pos end-pos)
                                      (hash-ref per-txt-positions txt '()))))
-                
+                  
                   
                   (normal-rename per-txt-positions)
                   
@@ -933,9 +933,9 @@ If the namespace does not, they are colored the unbound color.
                        #:key (λ (x) (- (var-arrow-start-pos-right x)
                                        (var-arrow-start-pos-left x))))))
               #;(displayln  (send (var-arrow-start-text longest-var-arrow)
-                    get-text
-                    (var-arrow-end-pos-left longest-var-arrow)
-                    (var-arrow-end-pos-right longest-var-arrow)) )
+                                  get-text
+                                  (var-arrow-end-pos-left longest-var-arrow)
+                                  (var-arrow-end-pos-right longest-var-arrow)) )
               (send (var-arrow-start-text longest-var-arrow)
                     get-text
                     (var-arrow-start-pos-left longest-var-arrow)
@@ -1535,13 +1535,13 @@ If the namespace does not, they are colored the unbound color.
                     (define name-to-offer (find-name-to-offer binding-identifiers))
                     (define imported? #f)
                     (for/or ([var-arrow (in-list binding-identifiers)])
-                                
-                                (when (eq? (var-arrow-level var-arrow) 'imported)
-                                  (displayln (var-arrow-level var-arrow))
-                                  (set! imported? #t)
-                                  ))
+                      
+                      (when (eq? (var-arrow-level var-arrow) 'imported)
+                        (displayln (var-arrow-level var-arrow))
+                        (set! imported? #t)
+                        ))
                     (when imported?
-                        (set! name-to-offer (send text get-text start-selection end-selection)))
+                      (set! name-to-offer (send text get-text start-selection end-selection)))
                     (new menu-item%
                          [parent menu]
                          [label (fw:gui-utils:format-literal-label (string-constant cs-rename-var)
@@ -1549,14 +1549,14 @@ If the namespace does not, they are colored the unbound color.
                          [callback
                           (λ (x y)
                             (let ([frame-parent (find-menu-parent menu)])
-
+                              
                               (displayln name-to-offer)
                               (if imported?
                                   (rename-menu-callback-imported make-identifiers-hash
-                                                        name-to-offer 
-                                                        binding-identifiers
-                                                        frame-parent
-                                                        start-selection)
+                                                                 name-to-offer 
+                                                                 binding-identifiers
+                                                                 frame-parent
+                                                                 start-selection)
                                   (rename-menu-callback make-identifiers-hash
                                                         name-to-offer 
                                                         binding-identifiers
