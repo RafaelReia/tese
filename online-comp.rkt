@@ -9,7 +9,9 @@
          drracket/private/syncheck/xref
          "../../private/eval-helpers-and-pref-init.rkt"
          "intf.rkt"
-         "local-member-names.rkt")
+         "local-member-names.rkt"
+         "code-walker.rkt"
+         )
 
 (provide go monitor)
 
@@ -34,16 +36,7 @@
 (define-logger online-check-syntax)
 (define (go expanded path the-source orig-cust)
   (define c (make-channel))
-  #;(displayln expanded) ;in theory this is the syntax object of the program
-;test One layer
-  #;(displayln (syntax-e expanded))
-  ;test EVERYTHING
-  #;(displayln (syntax->datum expanded))
-  ;Test list, readable information
-  (define testlist (syntax->list expanded))
-  (for ((sexp (in-list testlist)))
-      (displayln sexp))
-  
+  (code-walker expanded)
   (unless (exn? expanded)
     (log-message online-check-syntax-logger 'info  "" (list expanded)))
   (log-message online-check-syntax-logger 'info  "" c)

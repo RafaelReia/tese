@@ -1529,7 +1529,7 @@ If the namespace does not, they are colored the unbound color.
                         (let ([frame-parent (find-menu-parent menu)])
                           (organize-imports frame-parent text start-selection end-selection binding-aux)))))
                   
-                  ;; End Changes
+                  
                   
                   (unless (null? binding-identifiers)
                     (define name-to-offer (find-name-to-offer binding-identifiers))
@@ -1561,6 +1561,7 @@ If the namespace does not, they are colored the unbound color.
                                                         name-to-offer 
                                                         binding-identifiers
                                                         frame-parent))))]))
+;; End Changes
                   (unless sep-before?
                     (when need-a-sep?
                       (new separator-menu-item% [parent menu])))
