@@ -45,8 +45,9 @@
                      (cons current
                            (loop (cdr program-aux)
                                  (cadr program-aux)
-                                 (cddr program-aux)))))))))))
-  (displayln "END FILE")
+                                 (cddr program-aux)))))))))
+     (displayln "It is Null")))
+  (displayln "END FILE"))
   
   
   #|(displayln  program-structure)
@@ -63,4 +64,4 @@
   #;(displayln (syntax-e code))
   ;test EVERYTHING
   #;(displayln (syntax->datum code)) |#
-  )
+  
