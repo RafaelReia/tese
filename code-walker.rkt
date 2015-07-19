@@ -20,8 +20,25 @@
       (displayln (pair? next))
       (display "[Syntax-walker]  Syntax Next? ")
       (displayln (syntax? next))
+      ;Need a test to know if it is a syntax node of the program.
+      (display "[Syntax-walker]  Syntax Current ")
+      (displayln (syntax? current))
+      
+      #|If #t must go and visit each syntax node of the program
+      Have a way if it is not true to go back in the code.|#
+      
       (cond
-        [(pair? next) (loop (car program) (cadr program) (cddr program) current)]
+        [(pair? next) 
+           (if (pair? (cdr program)) ;bug here!
+               (loop (cdr program) (cadr program) (cddr program) current)
+               (begin
+                 (displayln "$$$$$$$$$$$$$$$ This should not happen $$$$$$$$$$$$$$$")
+                 (display "$$$$$$$$$$$$$$$")
+                 (displayln (car program)); do stuff
+                 (display "$$$$$$$$$$$$$$$")
+                 (displayln (syntax? (car program)))
+                 )
+               )]
         [(and (syntax? next) (not (null? (syntax-e next)))) (loop (syntax-e next) (car (syntax-e next)) (cdr (syntax-e next)) current)]
         [else (displayln "$$$$$$$$$$$$$$$ Case not supported, aka You found a BUG!! $$$$$$$$$$$$$$$")]))
     #;(displayln (syntax->datum program)))
