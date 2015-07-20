@@ -100,11 +100,30 @@
     Going to the next syntax object increases the offset.
    |#
   (define (select-syntax-object)
-    (void))
+    (displayln "Selecting syntax")
+    (set! level (add1 level)))
   (define (next-syntax-object)
-    (void))
+    ; or return void or error, whatever. then go up a level
+    (displayln "Next Syntax")
+    (set! offset (add1 offset)))
   (define (previous-syntax-object)
-    (void))
+    ;or sub1 in the level and return void/error
+    (displayln "Previous syntax")
+    (set! offset (sub1 offset)))
+  (define (next-node)
+    ;check this out
+    (displayln "next node")
+    (set! level (sub1 level))
+    (set! offset (add1 offset)))
+  (define (previous-node)
+    ;figure out what to do with this.
+    (displayln "previous node"))
+  (define (compare-syntax current syntax-wanted)
+    (display "Checking syntax: Current ")
+    (display current)
+    (display "  Wanted ")
+    (displayln syntax-wanted)
+    )
   (displayln "EXPLORING LIST")
   
   )
