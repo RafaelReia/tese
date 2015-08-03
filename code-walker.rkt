@@ -114,7 +114,9 @@
                 )
               #f)))
     #;(displayln (check-offset 2))
-    (check-offset aux)
+    (if (null? aux-list)
+        #f
+        (check-offset aux))
     )
   #|Level increases when entering a syntax object (syntax-e)
     If previous-node is null and level is > 0 you go down a level to the corresponding offset
@@ -149,17 +151,19 @@
              (syntax-list))]))) 
   (define (select-syntax-object) ;down a level
     ;do checks
-    (if (syntax? (car syntax-list-aux)) ;selects the syntax-object to further inspection
-        (begin
-          (displayln "Selecting syntax")
-          (set! stack (cons (car syntax-list-aux) stack ))
-          (set! syntax-list-aux (syntax-e (car syntax-list-aux))) ;should it be done in go-to-place?
-          (set! level (add1 level))
-          (reset-offset)
-          (go-to-place level offset syntax-list))
-        (begin
-          (displayln "[exit-syntax-object] error: It's not a syntax")
-          null)))
+    (if  (null? syntax-list-aux) 
+         null
+         (if (syntax? (car syntax-list-aux)) ;selects the syntax-object to further inspection
+             (begin
+               (displayln "Selecting syntax")
+               (set! stack (cons (car syntax-list-aux) stack ))
+               (set! syntax-list-aux (syntax-e (car syntax-list-aux))) ;should it be done in go-to-place?
+               (set! level (add1 level))
+               (reset-offset)
+               (go-to-place level offset syntax-list))
+             (begin
+               (displayln "[exit-syntax-object] error: It's not a syntax")
+               null))))
   (define (exit-syntax-object) ;up a level
     (if (> level 0)
         (begin
@@ -213,6 +217,28 @@
   (displayln "EXPLORING LIST")
   ;(check-next-offset)
   (displayln syntax-list-aux)
+  (display "[TEST] Car: ")
+  (displayln (car syntax-list-aux))
+  (display "[TEST] car + syntax-e: ")
+  (displayln (syntax-e (car syntax-list-aux)))
+  (display "[TEST] (...) cdr (car + syntax-e): ")
+  ;midle steps!
+  (display "[TEST-Middle] Syntax-e car Syntax-List")
+  (displayln (syntax-e (car (syntax-list-aux))))
+  (display "[TEST-Middle] Syntax-e car cdr + previous: ")
+  (displayln (syntax-e (car (cdr (syntax-e (car (syntax-list-aux)))))))
+  (display "[TEST-Middle] Syntax-e cdr cdr + previous: ")
+  (displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux))))))))))
+  (display "[TEST-Middle] Syntax-e car + previous: ")
+  (displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux))))))))))))
+  
+  ;test if
+  (displayln (car (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux)))))))))))))
+  (display "[TEST] FREE-IDENTIFIER=?: ")
+  (displayln (free-identifier=? (car (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux)))))))))))) 
+                                #'if))
+  (display "[TEST] pair? car+syntax-e: ")
+  (displayln (pair? (syntax-e (car syntax-list-aux)))) 
   (select-syntax-object)
   (displayln syntax-list-aux)
   (exit-syntax-object)
