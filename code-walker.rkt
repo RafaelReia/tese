@@ -1,6 +1,15 @@
 #lang racket
 (require racket/list)
 (provide code-walker)
+;;;;;;;;;;; Definitions ;;;;;;;;;;;;;;;;;;;
+(define syntax-list (list)) ;global, oh well 
+
+
+
+;;;;;;;;;; END Definitions ;;;;;;;;;;;;;;;;
+
+;;;;;;;;;; Prepare ;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;; Clean up AST
 (define (walk-trought program current next previous)
   (if (null? next)
       (list)
@@ -84,14 +93,32 @@
       [(and (syntax? next) (not (null? (syntax-e next)))) (loop (syntax-e next) (car (syntax-e next)) (cdr (syntax-e next)) current)]
       [(not (or (pair? next) (syntax? next))) (displayln "$$$$$$$$$$$$$$$ End File $$$$$$$$$$$$$$$")]
       [else (displayln "!!!!!!!!!!!!!!!! Case not Supported !!!!!!!!!!!!!!!!")])) ;this happens on a black file. Find out why.
-  (explore-nodes syntax-ret)
+  (set! syntax-list syntax-ret)
+  (explore-nodes syntax-ret) ;TODO change this.
   #;(displayln (syntax->datum program)))
 
 #|explore-nodes receives a syntax-list of the first level of the program, avoiding the need to explore every single node of the program.
   
  |#
 (define (explore-nodes syntax-list)
-  (define syntax-list-aux syntax-list)
+   
+  #|(define (next-node)
+    ;check this out
+    (displayln "next node")
+    (set! level (sub1 level))
+    (set! offset (add1 offset)))
+  (define (previous-node)
+    ;figure out what to do with this.
+    (displayln "previous node"))|#
+  (displayln "EXPLORING LIST")
+  ;(check-next-offset)
+  (displayln syntax-list-aux)
+  (display "[TEST] Car: ")
+  (displayln (car syntax-list-aux))
+)
+
+;;;;;;;;;; Definitions of Search ;;;;;;;;;;;;;
+(define syntax-list-aux syntax-list)
   (define stack (list))
   (define level 0)
   (define offset 0)
@@ -178,14 +205,20 @@
           null)))
   
   (define (next-syntax-object)
-    ;or return void or error, whatever. then go up a level
-    (if (check-next-offset) ;this test is wrong.
+    (if (check-next-offset) 
+        ;it only checks the next offset, should it go up one level? 
         (begin
           (displayln "Next Syntax")
           (set! offset (add1 offset))
           (go-to-place level offset syntax-list))
         (begin
-          (displayln "[exit-syntax-object] error: There is no next syntax (can not increase offset)")
+          ;(displayln "[exit-syntax-object] error: There is no next syntax (can not increase offset)")
+          (if (> level 0)
+              (begin 
+                (displayln "[Up-a-Level] can not increase offset") 
+                (exit-syntax-object)
+                (next-syntax-object))
+              (displayln "[exit-syntax-object] error: can not increase offset (end of the program) "))
           null)))
   (define (previous-syntax-object)
     ;or sub1 in the level and return void/error
@@ -195,34 +228,51 @@
           (set! offset (sub1 offset))
           (go-to-place level offset syntax-list))
         (begin
-          (displayln "[exit-syntax-object] error: offset is already 0")
+          (if (> level 0)
+              (begin 
+                (displayln "[Up-a-Level] can not increase offset") 
+                (exit-syntax-object)
+                (next-syntax-object))
+              (displayln "[exit-syntax-object] error: can not decrease offset (start of the program)"))
           null)))
-  
-  
-  #|(define (next-node)
-    ;check this out
-    (displayln "next node")
-    (set! level (sub1 level))
-    (set! offset (add1 offset)))
-  (define (previous-node)
-    ;figure out what to do with this.
-    (displayln "previous node"))|#
-  (define (compare-syntax current syntax-wanted)
-    ;free-identifiers=? try this.
-    (display "Checking syntax: Current ")
-    (display current)
-    (display "  Wanted ")
-    (displayln syntax-wanted)
-    )
-  (displayln "EXPLORING LIST")
-  ;(check-next-offset)
-  (displayln syntax-list-aux)
-  (display "[TEST] Car: ")
-  (displayln (car syntax-list-aux))
-  (display "[TEST] car + syntax-e: ")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;; Search Syntax ;;;;;;;;;;;;;;;;
+(define (compare-syntax current syntax-wanted)
+  ;Receives 2 syntax objects. create contract? 
+  (display "Checking syntax: Current ")
+  (display current)
+  (display "  Wanted ")
+  (displayln syntax-wanted)
+  (displayln (free-identifier=? current syntax-wanted))
+  (free-identifier=? current syntax-wanted)
+  )
+(define (find-syntax-object source syntax-wanted)
+  (define (get-next-syntax-object source)   
+    (void))
+  (let loop ((source source)
+             (syntax-wanted syntax-wanted)
+             (syntax-tested (get-next-syntax-object source)))
+    ;update source!!
+    (if (compare-syntax syntax-tested syntax-wanted)
+        #t
+        (loop source syntax-wanted (get-next-syntax-object source))))
+  )
+;;;;;;;;;; Search Patterns ;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+
+
+  #|(display "[TEST] car + syntax-e: ")
   (displayln (syntax-e (car syntax-list-aux)))
-  (display "[TEST] (...) cdr (car + syntax-e): ")
+  (display "[TEST] (...) cdr (car + syntax-e): ")|#
   ;midle steps!
+  #|
   (display "[TEST-Middle] Syntax-e car Syntax-List")
   (displayln (syntax-e (car (syntax-list-aux))))
   (display "[TEST-Middle] Syntax-e car cdr + previous: ")
@@ -231,13 +281,15 @@
   (displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux))))))))))
   (display "[TEST-Middle] Syntax-e car + previous: ")
   (displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux))))))))))))
-  
+  |#
   ;test if
+  #|
   (displayln (car (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux)))))))))))))
   (display "[TEST] FREE-IDENTIFIER=?: ")
   (displayln (free-identifier=? (car (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux)))))))))))) 
                                 #'if))
-  (display "[TEST] pair? car+syntax-e: ")
+|#
+#|  (display "[TEST] pair? car+syntax-e: ")
   (displayln (pair? (syntax-e (car syntax-list-aux)))) 
   (select-syntax-object)
   (displayln syntax-list-aux)
@@ -245,7 +297,7 @@
   (displayln syntax-list-aux)
   ;maybe going down to much, mixin between car and syntax-e. must check this.
   ;(displayln (go-to-place 0 2 syntax-list))
-  )
+  )|#
 
 (define (code-walker code)
   #;(define program-aux program-structure)
