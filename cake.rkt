@@ -1,5 +1,8 @@
 #lang racket
- 
+
+(if (= 1 2)
+    #t
+    #f)
 (provide print-cake)
 (provide a-function)
 
