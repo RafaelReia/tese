@@ -123,6 +123,8 @@
   (display "[TEST] car + syntax-e: ")
   (displayln (syntax-e (car syntax-list-aux)))
   
+  (displayln "[FIND-Everything]")
+  (find-everything syntax-list-aux #'if)
   #|;midle steps!
   
   (display "[TEST-Middle] Syntax-e car Syntax-List")
@@ -143,9 +145,9 @@
                              (syntax-e 
                               (cdr 
                                (cdr 
-                                (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))))))))|#
-  (display "[TEST] FREE-IDENTIFIER=?: ")
-  (displayln (free-identifier=? (car (syntax-e 
+                                (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))))))))
+  #;(display "[TEST] FREE-IDENTIFIER=?: ")
+  #;(displayln (free-identifier=? (car (syntax-e 
                                       (car 
                                        (syntax-e 
                                         (cdr 
@@ -234,15 +236,15 @@
   
   (display "[TEST-Find-Syntax-Object]  ")
   #;(displayln (find-syntax-object syntax-list-aux #'if))
-  #|(display "[TEST] pair? car+syntax-e: ")
+  (display "[TEST] pair? car+syntax-e: ")
   (displayln (pair? (syntax-e (car syntax-list-aux)))) 
   (select-syntax-object)
   (displayln syntax-list-aux)
   (exit-syntax-object)
-  (displayln syntax-list-aux) |#
+  (displayln syntax-list-aux) 
   ;maybe going down to much, mixin between car and syntax-e. must check this.
   ;(displayln (go-to-place 0 2 syntax-list))  
-  
+  |#
   )
 
 ;;;;;;;;;; Definitions of Search ;;;;;;;;;;;;;
@@ -255,6 +257,75 @@
 (define next-node null)
 (define (reset-offset)
   (set! offset 0))
+
+;;;;;;;;;;;;;; Important Function ;;;;;;;;;;;;;
+(define (find-everything source syntax-wanted)
+  ;;;   Best dumb function
+  ;; => (1) Goes down till it can't go more (compares if it is identifier)
+  ;; => (2) Uses next-object till it can't do more (compares if it is identifier)
+  ;; => (3) Goes Up when next-object can't do more
+  ;; End Case, source-stack is null
+  ;; (1) then (2) then (3) then (2) then (1) then (2) then (3)
+  ;;;
+  (define source-aux source)
+  (define source-stack (list)) 
+  ;; stores everything!!
+  (define (deep-search source-aux)
+    ;(display "source-aux ")
+    ;(displayln source-aux)
+    (cond [(and (null? source-aux) (null? source-stack))
+           (begin 
+             (display "[Find-everything] End of file "))] 
+         [(null? source-aux)
+           (begin
+             ;; checks if it is null
+             (display "[Find-everything] Null Found: ")
+             (displayln source-aux)
+             (set! source-aux (car source-stack))
+             (set! source-stack (cdr source-stack))
+             (deep-search source-aux))] ;;stop?
+          [(pair? source-aux)
+           (begin
+             ;;will be evaluated after
+             (set! source-stack (cons (cdr source-aux) source-stack)) ;;add to stack
+             (set! source-aux (car source-aux))
+             (deep-search source-aux))] ;;car, next evaluated
+          [(and (syntax? source-aux) (not (pair? (syntax-e source-aux))))
+           (begin
+             ;; checks if it is null
+             (display "[Find-everything] Identifier found: ")
+             (displayln source-aux)
+             (when (compare-syntax source-aux syntax-wanted)
+               (begin
+                 (display "!!!!!!!!!!!!!!!!!!!!!MATCH!!!!!!!!!!!!!!!!!!!!!!!!! ")
+                 (displayln source-aux)))
+             (set! source-aux (car source-stack))
+             (set! source-stack (cdr source-stack))
+             (deep-search source-aux))
+           ]
+          [(syntax? source-aux)
+           (begin
+             (set! source-aux (syntax-e source-aux))
+             (display "[Syntax Found]")
+             (displayln source-aux)
+             (deep-search source-aux))]
+          [(identifier? source-aux) ;;after syntax not pair
+           (begin
+             ;; checks if it is null
+             (display "$$$$$$$$$$$$$$$$$$$$$$$$$$ [Find-everything] Identifier found: ")
+             (displayln source-aux)
+             (set! source-aux (car source-stack))
+             (set! source-stack (cdr source-stack))
+             (deep-search source-aux))] ;;stop?
+          [else
+           (begin
+             (displayln "[Find-everything] [deep-search] Else reached")
+             (set! source-aux (car source-stack))
+             (set! source-stack (cdr source-stack))
+             (deep-search source-aux))]))
+  (deep-search source))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define (check-next-offset)
   (define aux (+ offset 1))
   (define aux-list syntax-list-aux) ;correct level
@@ -380,15 +451,16 @@
 ;;;;;;;;;; Search Syntax ;;;;;;;;;;;;;;;;
 (define (compare-syntax current syntax-wanted)
   ;Receives 2 syntax objects. create contract? 
-  (display "Checking syntax: Current ")
-  (display current)
-  (display "  Wanted ")
-  (displayln syntax-wanted)
-  (displayln (free-identifier=? current syntax-wanted))
-  (free-identifier=? current syntax-wanted)
-  )
+  (when (identifier? current)
+    (begin
+      #|(display "Checking syntax: Current ")
+      (display current)
+      (display "  Wanted ")
+      (displayln syntax-wanted)
+      (displayln (free-identifier=? current syntax-wanted))|#
+      (free-identifier=? current syntax-wanted))))
 (define (find-syntax-object source syntax-wanted)
-   (go-deep)
+  (go-deep)
   (define (get-next-syntax-object source)
     (next-syntax-object)) ;FIX-ME ignoring source, using syntax-list
   (let loop ((source source)
