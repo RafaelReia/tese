@@ -14,35 +14,36 @@
   (if (null? next)
       (list)
       (begin
-        (display "Current: ")
-        (displayln current)
-        (display "PAIR? ")
-        (displayln (pair? next))
+        #;(display "Current: ")
+        #;(displayln current)
+        #;(display "PAIR? ")
+        #;(displayln (pair? next))
         ;(displayln (cdr program-aux))
-        (display "Syntax? ")
-        (displayln (syntax? next))
+        #;(display "Syntax? ")
+        #;(displayln (syntax? next))
         (cond
           [(syntax? next) ;Found syntax, go to there.
            (begin
-             (displayln " SYNTAX ")
-             (display "DATUM ")
-             (displayln (syntax->datum current))
+             #;(displayln " SYNTAX ")
+             #;(display "DATUM ")
+             #;(displayln (syntax->datum current))
              ;(go-to-syntax (syntax-e current))
              (define aux (syntax-e current))
-             (displayln (syntax->datum current))
+             #;(displayln (syntax->datum current))
              (syntax-walker aux (car aux) (cdr aux) null )
              )]
           [else 
            (begin
-             (displayln "NEXT PAIR")
+             #;(displayln "NEXT PAIR")
              (cons current
                    (walk-trought (cdr program)
                                  (cadr program)
                                  (cddr program) 
                                  null)))]))))
 (define (go-to-syntax program-structure)
-  (display "[go-to-syntax] program-structure null? ")
-  (displayln (null? program-structure))
+  (displayln "[go-to-syntax]")
+  #;(display "[go-to-syntax] program-structure null? ")
+  #;(displayln (null? program-structure))
   (unless (null? program-structure)
     (walk-trought program-structure (car program-structure) (cdr program-structure) null ))
   (displayln "!!!!!!!!!!!! END OF FILE !!!!!!!!!!!!")
@@ -52,20 +53,20 @@
   ;previous is not working.
   (define iteration 0)
   (define syntax-ret null)
-  (displayln "Syntax-walker in the HOUSE!!")
+  (displayln "Syntax-walker")
   (let loop ((program program)
              (current current)
              (next next)
              (previous previous))
-    (display "[Syntax-walker]  Current: ")
-    (displayln current)
-    (display "[Syntax-walker]  PAIR? ")
-    (displayln (pair? next))
-    (display "[Syntax-walker]  Syntax Next? ")
-    (displayln (syntax? next))
+    #;(display "[Syntax-walker]  Current: ")
+    #;(displayln current)
+    #;(display "[Syntax-walker]  PAIR? ")
+    #;(displayln (pair? next))
+    #;(display "[Syntax-walker]  Syntax Next? ")
+    #;(displayln (syntax? next))
     ;Need a test to know if it is a syntax node of the program.
-    (display "[Syntax-walker]  Syntax Current ")
-    (displayln (syntax? current))
+    #;(display "[Syntax-walker]  Syntax Current ")
+    #;(displayln (syntax? current))
     
     #|If #t must go and visit each syntax node of the program
       Have a way if it is not true to go back in the code.|#
@@ -76,7 +77,7 @@
            (begin ;hack!
              (when (eq? iteration 1)
                (begin
-                 (displayln "SET MADE!")
+                 #;(displayln "SET MADE!")
                  (set! syntax-ret program)))
              ;(set! syntax-list (cons syntax-list current))
              (set! iteration (add1 iteration))
@@ -97,8 +98,8 @@
   #;(displayln syntax-ret)
   #;(displayln (syntax->datum syntax-ret))
   (set! syntax-list syntax-ret)
-  (display "[new test] Syntax-list  ")
-  (displayln syntax-list)
+  #;(display "[new test] Syntax-list  ")
+  #;(displayln syntax-list)
   (explore-nodes syntax-ret) ;TODO change this.
   #;(displayln (syntax->datum program)))
 
@@ -117,134 +118,15 @@
     (displayln "previous node"))|#
   (displayln "EXPLORING LIST")
   ;(check-next-offset)
-  (displayln syntax-list)
-  (display "[TEST] Car: ")
-  (displayln (car syntax-list))
-  (display "[TEST] car + syntax-e: ")
-  (displayln (syntax-e (car syntax-list-aux)))
+  #;(displayln syntax-list)
+  #;(display "[TEST] Car: ")
+  #;(displayln (car syntax-list))
+  #;(display "[TEST] car + syntax-e: ")
+  #;(displayln (syntax-e (car syntax-list-aux)))
   
   (displayln "[FIND-Everything]")
-  (find-everything syntax-list-aux #'if)
-  #|;midle steps!
+  (find-everything syntax-list-aux #'if) ;TODO change this.
   
-  (display "[TEST-Middle] Syntax-e car Syntax-List")
-  (displayln (syntax-e (car (syntax-list-aux))))
-  (display "[TEST-Middle] Syntax-e car cdr + previous: ")
-  (displayln (syntax-e (car (cdr (syntax-e (car (syntax-list-aux)))))))
-  (display "[TEST-Middle] Syntax-e cdr cdr + previous: ")
-  (displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux))))))))))
-  (display "[TEST-Middle] Syntax-e car + previous: ")
-  (displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux))))))))))))
-  |#
-  ;test if
-  #|(displayln "[Exploring nodes] [TEST IF]  ")
-  (displayln (car 
-              (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))))))))
-  (displayln "[Exploring nodes] [TEST IF- NEXT]  ")
-  (displayln (car (syntax-e (car 
-                             (syntax-e 
-                              (cdr 
-                               (cdr 
-                                (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))))))))
-  #;(display "[TEST] FREE-IDENTIFIER=?: ")
-  #;(displayln (free-identifier=? (car (syntax-e 
-                                      (car 
-                                       (syntax-e 
-                                        (cdr 
-                                         (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))))
-                                #'if))
-  (displayln "[Test Parts] Begin")
-  (display "[Test Parts] first level (-4) ")
-  (displayln (syntax-e (car syntax-list-aux)))
-  (display "[Test Parts] second level (-3) ")
-  (displayln (syntax-e (cdr (syntax-e (car syntax-list-aux)))))
-  (display "[Test Parts] third level (-2) ")
-  (displayln (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))
-  (display "[Test Parts] fourth level (-1) ")
-  (displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))
-  (display "[Test Parts] last level (0) ")
-  (displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))))
-  (displayln "[Test Parts] END ")
-  
-  (displayln "[Test Parts -2] Begin")
-  (display "[Test Parts] first level (-4) ")
-  (displayln (syntax-e (car (cdr syntax-list-aux))))
-  #;(display "[Test Parts] second level (-3) ")
-  #;(displayln (syntax-e (cdr (syntax-e (car syntax-list-aux)))))
-  #;(display "[Test Parts] third level (-2) ")
-  #;(displayln (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))
-  #;(display "[Test Parts] fourth level (-1) ")
-  #;(displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))
-  #;(display "[Test Parts] last level (0) ")
-  #;(displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))))
-  (displayln "[Test Parts] END ")
-  
-  (displayln "[Test Parts -3] Begin")
-  (display "[Test Parts] first level (-4) ")
-  (displayln (syntax-e (car (cdr (cdr syntax-list-aux)))))
-  #;(display "[Test Parts] second level (-3) ")
-  #;(displayln (syntax-e (cdr (syntax-e (car syntax-list-aux)))))
-  #;(display "[Test Parts] third level (-2) ")
-  #;(displayln (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))
-  #;(display "[Test Parts] fourth level (-1) ")
-  #;(displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))
-  #;(display "[Test Parts] last level (0) ")
-  #;(displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))))
-  (displayln "[Test Parts] END ")
-  
-  (displayln "[Test Parts -4] Begin")
-  (display "[Test Parts] first level (-4) ")
-  (displayln (syntax-e (car (cdr (cdr (cdr syntax-list-aux))))))
-  #;(display "[Test Parts] second level (-3) ")
-  #;(displayln (syntax-e (cdr (syntax-e (car syntax-list-aux)))))
-  #;(display "[Test Parts] third level (-2) ")
-  #;(displayln (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))
-  #;(display "[Test Parts] fourth level (-1) ")
-  #;(displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))
-  #;(display "[Test Parts] last level (0) ")
-  #;(displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))))
-  (displayln "[Test Parts] END ") 
-  
-  (displayln "[Test Parts SUPER TEST] Begin")
-  (display "[Test Parts] first level (-4) ")
-  (displayln (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux))))))))))
-  (display "[Test Parts] second level (-3) ")
-  (displayln (syntax-e (car (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux)))))))))))))))))
-  (define test 
-              (syntax-e 
-               (car 
-                (syntax-e 
-                 (car 
-                  (syntax-e (cdr (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux)))))))))))))))))
-  (displayln (keyword? test))
-  (displayln (syntax? test))
-  (displayln (compare-syntax (syntax-e (car (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux)))))))))))))))) #'%app))
-  #;(display "[Test Parts] third level (-2) ")
-  #;(displayln (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux)))))))))))))))
-  #;(display "[Test Parts] fourth level (-1) ")
-  #;(displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux))))))))))))))))))
-  #;(display "[Test Parts] last level (0) ")
-  #;(displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux))))))))))))))))))))
-  (displayln "[Test Parts] END ")
-  
-  #;(display "[TEST-Compare] ")
-  #;(displayln (compare-syntax (car (syntax-e 
-                                   (car 
-                                    (syntax-e 
-                                     (cdr 
-                                      (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))))))) #'if))
-  
-  (display "[TEST-Find-Syntax-Object]  ")
-  #;(displayln (find-syntax-object syntax-list-aux #'if))
-  (display "[TEST] pair? car+syntax-e: ")
-  (displayln (pair? (syntax-e (car syntax-list-aux)))) 
-  (select-syntax-object)
-  (displayln syntax-list-aux)
-  (exit-syntax-object)
-  (displayln syntax-list-aux) 
-  ;maybe going down to much, mixin between car and syntax-e. must check this.
-  ;(displayln (go-to-place 0 2 syntax-list))  
-  |#
   )
 
 ;;;;;;;;;; Definitions of Search ;;;;;;;;;;;;;
@@ -260,26 +142,60 @@
 
 ;;;;;;;;;;;;;; Important Function ;;;;;;;;;;;;;
 (define (find-everything source syntax-wanted)
-  ;;;   Best dumb function
-  ;; => (1) Goes down till it can't go more (compares if it is identifier)
-  ;; => (2) Uses next-object till it can't do more (compares if it is identifier)
-  ;; => (3) Goes Up when next-object can't do more
-  ;; End Case, source-stack is null
-  ;; (1) then (2) then (3) then (2) then (1) then (2) then (3)
-  ;;;
   (define source-aux source)
   (define source-stack (list)) 
   ;; stores everything!!
+  (define (selected-search source-aux line-begin line-end)
+    (cond [(and (null? source-aux) (null? source-stack))
+           (begin
+             (displayln "[Selected-search] End of file"))]
+          [(null? source-aux)
+           (begin
+             ;; checks if it is null
+             #;(display "#;Null Found: ")
+             #;(displayln source-aux)
+             (set! source-aux (car source-stack))
+             (set! source-stack (cdr source-stack))
+             (selected-search source-aux line-begin line-end))]
+          [(pair? source-aux)
+           #;(displayln "Selected-search pair")
+           (set! source-stack (cons (cdr source-aux) source-stack)) ;;add to stack
+           (set! source-aux (car source-aux))
+           (selected-search source-aux line-begin line-end)]
+          [(and (syntax? source-aux) (not (pair? (syntax-e source-aux))))
+           (begin
+             ;;Compare line numbers
+             (display "[Selected-search]  Line Number: ")
+             (displayln (syntax-line source-aux))
+             (set! source-aux (car source-stack))
+             (set! source-stack (cdr source-stack))
+             (selected-search source-aux line-begin line-end)
+             )]
+          [(syntax? source-aux) ;this shows first! that is good.
+           (begin
+             ;(set! source-aux (syntax-e source-aux))
+             (display "[Selected-search]  [Test]   Line Number: ")
+             (displayln (syntax-line source-aux))
+             (set! source-aux (syntax-e source-aux)) ;teste
+             (selected-search source-aux line-begin line-end))]
+          [else
+           (begin
+             #;(displayln "[Find-everything] Selected-search Else reached")
+             (set! source-aux (car source-stack))
+             (set! source-stack (cdr source-stack))
+             (selected-search source-aux line-begin line-end))])
+    
+    #;(deep-search source-aux))
   (define (deep-search source-aux)
     ;(display "source-aux ")
     ;(displayln source-aux)
     (cond [(and (null? source-aux) (null? source-stack))
            (begin 
              (display "[Find-everything] End of file "))] 
-         [(null? source-aux)
+          [(null? source-aux)
            (begin
              ;; checks if it is null
-             (display "[Find-everything] Null Found: ")
+             #;(display "[Find-everything] Null Found: ")
              (displayln source-aux)
              (set! source-aux (car source-stack))
              (set! source-stack (cdr source-stack))
@@ -293,12 +209,15 @@
           [(and (syntax? source-aux) (not (pair? (syntax-e source-aux))))
            (begin
              ;; checks if it is null
-             (display "[Find-everything] Identifier found: ")
-             (displayln source-aux)
-             (when (compare-syntax source-aux syntax-wanted)
-               (begin
-                 (display "!!!!!!!!!!!!!!!!!!!!!MATCH!!!!!!!!!!!!!!!!!!!!!!!!! ")
-                 (displayln source-aux)))
+             #;(display "[Find-everything] Identifier found Line: ")
+             #;(display (syntax-line source-aux))
+             #;(display "   Type:  ")
+             #;(displayln source-aux)
+             
+             #;(when (compare-syntax source-aux syntax-wanted)
+                 (begin
+                   (display "!!!!!!!!!!!!!!!!!!!!!MATCH!!!!!!!!!!!!!!!!!!!!!!!!! ")
+                   (displayln source-aux)))
              (set! source-aux (car source-stack))
              (set! source-stack (cdr source-stack))
              (deep-search source-aux))
@@ -306,24 +225,18 @@
           [(syntax? source-aux)
            (begin
              (set! source-aux (syntax-e source-aux))
-             (display "[Syntax Found]")
+             #;(display "[Syntax Found]")
              (displayln source-aux)
              (deep-search source-aux))]
-          [(identifier? source-aux) ;;after syntax not pair
-           (begin
-             ;; checks if it is null
-             (display "$$$$$$$$$$$$$$$$$$$$$$$$$$ [Find-everything] Identifier found: ")
-             (displayln source-aux)
-             (set! source-aux (car source-stack))
-             (set! source-stack (cdr source-stack))
-             (deep-search source-aux))] ;;stop?
           [else
            (begin
              (displayln "[Find-everything] [deep-search] Else reached")
              (set! source-aux (car source-stack))
              (set! source-stack (cdr source-stack))
              (deep-search source-aux))]))
-  (deep-search source))
+  (displayln "Selected Search:   ")
+  (selected-search source 0 0)
+  #;(deep-search source))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define (check-next-offset)
@@ -500,4 +413,126 @@
   #;(displayln (syntax-e code))
   ;test EVERYTHING
   #;(displayln (syntax->datum code)) |#
+
+
+#|;midle steps!
+  
+  (display "[TEST-Middle] Syntax-e car Syntax-List")
+  (displayln (syntax-e (car (syntax-list-aux))))
+  (display "[TEST-Middle] Syntax-e car cdr + previous: ")
+  (displayln (syntax-e (car (cdr (syntax-e (car (syntax-list-aux)))))))
+  (display "[TEST-Middle] Syntax-e cdr cdr + previous: ")
+  (displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux))))))))))
+  (display "[TEST-Middle] Syntax-e car + previous: ")
+  (displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (car (syntax-list-aux))))))))))))
+  |#
+;test if
+#|(displayln "[Exploring nodes] [TEST IF]  ")
+  (displayln (car 
+              (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))))))))
+  (displayln "[Exploring nodes] [TEST IF- NEXT]  ")
+  (displayln (car (syntax-e (car 
+                             (syntax-e 
+                              (cdr 
+                               (cdr 
+                                (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))))))))
+  #;(display "[TEST] FREE-IDENTIFIER=?: ")
+  #;(displayln (free-identifier=? (car (syntax-e 
+                                      (car 
+                                       (syntax-e 
+                                        (cdr 
+                                         (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))))
+                                #'if))
+  (displayln "[Test Parts] Begin")
+  (display "[Test Parts] first level (-4) ")
+  (displayln (syntax-e (car syntax-list-aux)))
+  (display "[Test Parts] second level (-3) ")
+  (displayln (syntax-e (cdr (syntax-e (car syntax-list-aux)))))
+  (display "[Test Parts] third level (-2) ")
+  (displayln (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))
+  (display "[Test Parts] fourth level (-1) ")
+  (displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))
+  (display "[Test Parts] last level (0) ")
+  (displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))))
+  (displayln "[Test Parts] END ")
+  
+  (displayln "[Test Parts -2] Begin")
+  (display "[Test Parts] first level (-4) ")
+  (displayln (syntax-e (car (cdr syntax-list-aux))))
+  #;(display "[Test Parts] second level (-3) ")
+  #;(displayln (syntax-e (cdr (syntax-e (car syntax-list-aux)))))
+  #;(display "[Test Parts] third level (-2) ")
+  #;(displayln (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))
+  #;(display "[Test Parts] fourth level (-1) ")
+  #;(displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))
+  #;(display "[Test Parts] last level (0) ")
+  #;(displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))))
+  (displayln "[Test Parts] END ")
+  
+  (displayln "[Test Parts -3] Begin")
+  (display "[Test Parts] first level (-4) ")
+  (displayln (syntax-e (car (cdr (cdr syntax-list-aux)))))
+  #;(display "[Test Parts] second level (-3) ")
+  #;(displayln (syntax-e (cdr (syntax-e (car syntax-list-aux)))))
+  #;(display "[Test Parts] third level (-2) ")
+  #;(displayln (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))
+  #;(display "[Test Parts] fourth level (-1) ")
+  #;(displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))
+  #;(display "[Test Parts] last level (0) ")
+  #;(displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))))
+  (displayln "[Test Parts] END ")
+  
+  (displayln "[Test Parts -4] Begin")
+  (display "[Test Parts] first level (-4) ")
+  (displayln (syntax-e (car (cdr (cdr (cdr syntax-list-aux))))))
+  #;(display "[Test Parts] second level (-3) ")
+  #;(displayln (syntax-e (cdr (syntax-e (car syntax-list-aux)))))
+  #;(display "[Test Parts] third level (-2) ")
+  #;(displayln (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))
+  #;(display "[Test Parts] fourth level (-1) ")
+  #;(displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))
+  #;(display "[Test Parts] last level (0) ")
+  #;(displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux)))))))))))))
+  (displayln "[Test Parts] END ") 
+  
+  (displayln "[Test Parts SUPER TEST] Begin")
+  (display "[Test Parts] first level (-4) ")
+  (displayln (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux))))))))))
+  (display "[Test Parts] second level (-3) ")
+  (displayln (syntax-e (car (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux)))))))))))))))))
+  (define test 
+              (syntax-e 
+               (car 
+                (syntax-e 
+                 (car 
+                  (syntax-e (cdr (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux)))))))))))))))))
+  (displayln (keyword? test))
+  (displayln (syntax? test))
+  (displayln (compare-syntax (syntax-e (car (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux)))))))))))))))) #'%app))
+  #;(display "[Test Parts] third level (-2) ")
+  #;(displayln (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux)))))))))))))))
+  #;(display "[Test Parts] fourth level (-1) ")
+  #;(displayln (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux))))))))))))))))))
+  #;(display "[Test Parts] last level (0) ")
+  #;(displayln (syntax-e (car (syntax-e (cdr (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car (cdr (cdr (syntax-e (car (cdr (cdr (cdr syntax-list-aux))))))))))))))))))))
+  (displayln "[Test Parts] END ")
+  
+  #;(display "[TEST-Compare] ")
+  #;(displayln (compare-syntax (car (syntax-e 
+                                   (car 
+                                    (syntax-e 
+                                     (cdr 
+                                      (cdr (syntax-e (car (cdr (syntax-e (cdr (syntax-e (car syntax-list-aux))))))))))))) #'if))
+  
+  (display "[TEST-Find-Syntax-Object]  ")
+  #;(displayln (find-syntax-object syntax-list-aux #'if))
+  (display "[TEST] pair? car+syntax-e: ")
+  (displayln (pair? (syntax-e (car syntax-list-aux)))) 
+  (select-syntax-object)
+  (displayln syntax-list-aux)
+  (exit-syntax-object)
+  (displayln syntax-list-aux) 
+  ;maybe going down to much, mixin between car and syntax-e. must check this.
+  ;(displayln (go-to-place 0 2 syntax-list))  
+  |#
 
