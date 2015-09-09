@@ -177,7 +177,7 @@
              (display "[Selected-search]  [Test]   Line Number: ")
              (displayln (syntax-line source-aux))
              (define compare-aux (syntax-line source-aux))
-             (if (and (real? compare-aux) (> line-begin (syntax-line source-aux)))
+             (if (and (real? compare-aux) (not (< line-begin (syntax-line source-aux) line-end)))
                  (begin
                    (set! source-aux (car source-stack))
                    (set! source-stack (cdr source-stack)))
@@ -240,7 +240,7 @@
              (set! source-stack (cdr source-stack))
              (deep-search source-aux))]))
   (displayln "Selected Search:   ")
-  (selected-search source 10 0)
+  (selected-search source 10 15)
   #;(deep-search source))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
