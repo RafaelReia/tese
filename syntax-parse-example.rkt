@@ -33,7 +33,45 @@
        (syntax->datum #'(unless test-expr else-expr)))])
 
 
-;;If's to cond
+;;;;;;;;;;;;;;;;;;
+;;Make for other types! and add ... for the rest of possibilities
+;;(and (< x y) (< y z)) => (< x y z) 
+(syntax-parse #'(and (< x y) (< y z))
+  #:literals(and <)
+  [(and (< x y) (< v z))
+   (when (equal? (syntax->datum #'y) (syntax->datum #'v))
+     (syntax->datum #'(< x y z)))])
 
+;;;;;;;;;;;;;;;;;;;;;
+;;add ... for the rest of possibilities
+;;(not (< x y)) => (>= x y)
+(syntax-parse #'(not (< x y))
+  #:literals(not <)
+  [(not (< x y))
+   (syntax->datum #'(not (>= x y)))])
 
-;(syntax-parse #'(
+;;(not (>= x y)) => (< x y)
+(syntax-parse #'(not (>= x y))
+  #:literals(not >=)
+  [(not (>= x y))
+   (syntax->datum #'(not (< x y)))])
+
+;;(not (> x y)) => (<= x y)
+(syntax-parse #'(not (> x y))
+  #:literals(not >)
+  [(not (> x y))
+   (syntax->datum #'(not (<= x y)))])
+
+;;(not (<= x y)) => (> x y)
+(syntax-parse #'(not (<= x y))
+  #:literals(not <=)
+  [(not (<= x y))
+   (syntax->datum #'(not (> x y)))])
+
+;;;;;;;;;;;;;;;;;;;;;
+
+(syntax-parse #'(if (= (mod n 2) 1) #f #t)
+  #:literals(if)
+  [(if test-expr then-expr else-expr)
+   (when (equal? (syntax->datum #'then-expr) (not (syntax->datum #'else-expr)))
+     (syntax->datum #'(not test-expr)))])
