@@ -1,10 +1,14 @@
 #lang racket
 (require racket/list)
 (provide code-walker)
+(provide test-visited)
+
 ;;;;;;;;;;; Definitions ;;;;;;;;;;;;;;;;;;;
 (define syntax-list (list)) ;global, oh well 
-
-
+(define visited #f)
+(define (test-visited)
+  (display "Code-walker visited ")
+  (displayln visited))
 
 ;;;;;;;;;; END Definitions ;;;;;;;;;;;;;;;;
 
@@ -51,6 +55,8 @@
 
 (define (syntax-walker program current next previous)
   ;previous is not working.
+  ;(display "Syntax-walker ")
+  ;(displayln program)
   (define iteration 0)
   (define syntax-ret null)
   (displayln "Syntax-walker")
@@ -99,7 +105,7 @@
   #;(displayln (syntax->datum syntax-ret))
   (set! syntax-list syntax-ret)
   #;(display "[new test] Syntax-list  ")
-  #;(displayln syntax-list)
+  #;(displayln syntax-ret)
   (explore-nodes syntax-ret) ;TODO change this.
   #;(displayln (syntax->datum program)))
 
@@ -165,8 +171,10 @@
           [(and (syntax? source-aux) (not (pair? (syntax-e source-aux))))
            (begin
              ;;Compare line numbers
-             (display "[Selected-search]  Line Number: ")
-             (displayln (syntax-line source-aux))
+             (display "[Selected-search] Especial Line Number: ")
+             (display (syntax-line source-aux))
+             (display " Syntax: ")
+             (displayln source-aux)
              (set! source-aux (car source-stack))
              (set! source-stack (cdr source-stack))
              (selected-search source-aux line-begin line-end)
@@ -176,6 +184,7 @@
              ;(set! source-aux (syntax-e source-aux))
              (display "[Selected-search]  [Test]   Line Number: ")
              (displayln (syntax-line source-aux))
+             (displayln source-aux)
              (define compare-aux (syntax-line source-aux))
              (if (and (real? compare-aux) (not (< line-begin (syntax-line source-aux) line-end)))
                  (begin
@@ -239,8 +248,9 @@
              (set! source-aux (car source-stack))
              (set! source-stack (cdr source-stack))
              (deep-search source-aux))]))
-  (displayln "Selected Search:   ")
-  (selected-search source 10 15)
+  (displayln "Selected Search:")
+  (displayln source)
+  (selected-search source 1 3)
   #;(deep-search source))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -399,8 +409,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
 (define (code-walker code)
   #;(define program-aux program-structure)
-  (define final-list null)
-  (go-to-syntax (syntax-e code))
+  ;(go-to-syntax (syntax-e code))
+  (set! visited #t)
+ (display "Code-walker visited ")
+  (displayln visited)
+ ; (save-expanded-program)
+  ;(save-expanded-program)
   (displayln "END FILE"))
 
 

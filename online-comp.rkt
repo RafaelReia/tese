@@ -11,10 +11,12 @@
          "intf.rkt"
          "local-member-names.rkt"
          "code-walker.rkt"
+        
          )
 
-(provide go monitor)
+(provide go monitor test)
 
+(define rafael #f)
 (define (create-rename-answerer-thread orig-cust local-chan table)
   ;; the hope is that changing the custodian like this
   ;; shouldn't leak these threads, but it does seem to
@@ -34,9 +36,20 @@
   (void))
 
 (define-logger online-check-syntax)
+(define (test expanded path the-source orig-cust)
+  (define c (make-channel))
+  ;(displayln (test-provides))
+  ;(code-walker expanded)
+  (unless (exn? expanded)
+    (log-message online-check-syntax-logger 'info  "" (list expanded)))
+  (log-message online-check-syntax-logger 'info  "" c)
+  ;; wait for everything to actually get sent back to the main place
+  (channel-get c)
+  )
+
 (define (go expanded path the-source orig-cust)
   (define c (make-channel))
-  (code-walker expanded)
+  ;(code-walker expanded)
   (unless (exn? expanded)
     (log-message online-check-syntax-logger 'info  "" (list expanded)))
   (log-message online-check-syntax-logger 'info  "" c)

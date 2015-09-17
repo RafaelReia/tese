@@ -51,9 +51,9 @@ If the namespace does not, they are colored the unbound color.
          drracket/private/syncheck/colors
          drracket/private/syncheck/traversals
          drracket/private/syncheck/annotate
-         framework/private/logging-timer)
+         framework/private/logging-timer
+         )
 (provide tool@)
-
 (define orig-output-port (current-output-port))
 (define (oprintf . args) (apply fprintf orig-output-port args))
 
@@ -1499,7 +1499,13 @@ If the namespace does not, they are colored the unbound color.
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           (eta-reduction frame-parent text start-selection end-selection binding-aux)))))
-                  
+                  (unless #f ;improve this
+                    (make-object menu-item%
+                      "Syntax Refactoring"
+                      menu
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                          (syntax-refactoring frame-parent text start-selection end-selection binding-aux)))))
                   (unless #t;(null? binding-aux)
                     ;(define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
@@ -1528,7 +1534,7 @@ If the namespace does not, they are colored the unbound color.
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           (organize-imports frame-parent text start-selection end-selection binding-aux)))))
-                  
+                  ;;;;;Add Syntax-here
                   
                   
                   (unless (null? binding-identifiers)
@@ -1561,7 +1567,7 @@ If the namespace does not, they are colored the unbound color.
                                                         name-to-offer 
                                                         binding-identifiers
                                                         frame-parent))))]))
-;; End Changes
+                  ;; End Changes
                   (unless sep-before?
                     (when need-a-sep?
                       (new separator-menu-item% [parent menu])))
@@ -1891,7 +1897,10 @@ If the namespace does not, they are colored the unbound color.
               (for ([txt (in-list edit-sequence-txts)])
                 (send txt end-edit-sequence)) 
               )
-            
+            ;; callback for the Added-menu Syntax Refactoring
+            (define/private (syntax-refactoring parent text start-selection end-selection binding-aux)
+              (void)
+              )
             
             ;; callback for the Added-menu Eta abstraction
             
@@ -3145,6 +3154,10 @@ If the namespace does not, they are colored the unbound color.
              (set-box! current-replay-state 
                        (append (unbox current-replay-state) (list val)))])])))
     
+    (drracket:module-language-tools:add-online-expansion-handler
+     online-comp.rkt
+     'test
+     void)
     (drracket:module-language-tools:add-online-expansion-handler
      online-comp.rkt
      'go
