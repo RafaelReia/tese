@@ -52,7 +52,11 @@ If the namespace does not, they are colored the unbound color.
          drracket/private/syncheck/traversals
          drracket/private/syncheck/annotate
          framework/private/logging-timer
-         )
+         "code-walker.rkt")
+;;Exapanded program
+(define expanded-program null)
+
+
 (provide tool@)
 (define orig-output-port (current-output-port))
 (define (oprintf . args) (apply fprintf orig-output-port args))
@@ -1447,6 +1451,7 @@ If the namespace does not, they are colored the unbound color.
                   
                   
                   ;; Start Changes
+                  
                   ;;Add conditions before!
                   ;I have access to the binding-identifiers and the make-identifiers-hash
                   (define-values (binding-aux make-identifiers-aux) ;the binding idenfitiers of the selection
@@ -1899,8 +1904,7 @@ If the namespace does not, they are colored the unbound color.
               )
             ;; callback for the Added-menu Syntax Refactoring
             (define/private (syntax-refactoring parent text start-selection end-selection binding-aux)
-              (void)
-              )
+              (code-walker expanded-program))
             
             ;; callback for the Added-menu Eta abstraction
             
@@ -2951,7 +2955,10 @@ If the namespace does not, they are colored the unbound color.
                              (update-status-line 
                               'drracket:check-syntax:status status-coloring-program)
                              (parameterize ([current-annotations definitions-text])
-                               (expanded-expression sexp))
+                               (begin
+                                 ;(displayln sexp) ;;;; FOUND IT!
+                                 (set! expanded-program sexp)
+                                 (expanded-expression sexp)))
                              (close-status-line 'drracket:check-syntax:status))))))
                      (update-status-line 'drracket:check-syntax:status status-expanding-expression)
                      (close-status-line 'drracket:check-syntax:status)
@@ -3132,7 +3139,6 @@ If the namespace does not, they are colored the unbound color.
               (set-box! old-replay-state #f))
             (send tab set-replay-state #f)
             (send tab set-next-trace-refresh #f)
-            
             ;; reset any previous check syntax information
             (send tab syncheck:clear-error-message)
             (send tab syncheck:clear-highlighting)
@@ -3158,6 +3164,7 @@ If the namespace does not, they are colored the unbound color.
      online-comp.rkt
      'test
      void)
+    
     (drracket:module-language-tools:add-online-expansion-handler
      online-comp.rkt
      'go

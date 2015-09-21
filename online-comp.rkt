@@ -14,9 +14,13 @@
         
          )
 
-(provide go monitor test)
+(provide go monitor test change-rafael get-rafael)
 
 (define rafael #f)
+(define (change-rafael)
+  (set! rafael (not rafael)))
+(define (get-rafael)
+  rafael)
 (define (create-rename-answerer-thread orig-cust local-chan table)
   ;; the hope is that changing the custodian like this
   ;; shouldn't leak these threads, but it does seem to
@@ -40,11 +44,15 @@
   (define c (make-channel))
   ;(displayln (test-provides))
   ;(code-walker expanded)
+  (set! rafael "AWESOME")
+  (displayln rafael)
   (unless (exn? expanded)
     (log-message online-check-syntax-logger 'info  "" (list expanded)))
-  (log-message online-check-syntax-logger 'info  "" c)
+  (log-message online-check-syntax-logger 'info  "" c) ;C is the data that is getting logged. ??
   ;; wait for everything to actually get sent back to the main place
+  ;;;  send the 'expanded' to somewhere!!
   (channel-get c)
+
   )
 
 (define (go expanded path the-source orig-cust)

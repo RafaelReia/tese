@@ -8,3 +8,25 @@ FIXME There is a bug in syntax-walker that for programs with 1 line it does not 
 
 
 FIXME => bug while expanding files with classes and stuff. Fix this!
+
+21/09/15 Update: we do not know what calls the online sytax expander, and for
+now we can not find a way of passing the information back to the gui.rkt from
+the online-comp.rkt / code-walker.rkt. This happens because a new instance is
+created of the online-comp.rkt / code-walker.rkt which does not "share" the
+values of other instances *duhh*. Having an instance of gui.rkt in
+online-comp.rkt / code-walker.rkt does not work either because we can not have 2
+instances of the same thing running at the same time.
+
+Possible solutions:
+Write to a file
+Find out what is calling/starting the handler and get the results from there (??)
+ => Use Check Syntax Button
+
+
+ The last one was chosen because the others failed, either because we wasn't able
+ to store syntax objects in a file (in a "small" number of time) or because we
+ could not find what is calling that (in a "small" number of time).
+
+ We want to put that working *automatically*, we Have two options:
+ Fix the problem
+ Automate the "call" to the check syntax button
