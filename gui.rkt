@@ -52,10 +52,11 @@ If the namespace does not, they are colored the unbound color.
          drracket/private/syncheck/traversals
          drracket/private/syncheck/annotate
          framework/private/logging-timer
-         "code-walker.rkt")
+         "code-walker.rkt"
+         syntax/parse)
 ;;Exapanded program
 (define expanded-program null)
-
+;(define syntax null)
 
 (provide tool@)
 (define orig-output-port (current-output-port))
@@ -1373,6 +1374,8 @@ If the namespace does not, they are colored the unbound color.
                   (define vec-ents (interval-map-ref arrow-record pos null))
                   (define start-selection (send text get-start-position))
                   (define end-selection (send text get-end-position))
+                  (define start-line (send text find-line start-selection))
+                  (define end-line (send text find-line end-selection))
                   (define arrows (filter arrow? vec-ents))
                   (define def-links (filter def-link? vec-ents))
                   (define var-arrows (filter var-arrow? arrows))
@@ -1510,7 +1513,7 @@ If the namespace does not, they are colored the unbound color.
                       menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
-                          (syntax-refactoring frame-parent text start-selection end-selection binding-aux)))))
+                          (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux)))))
                   (unless #t;(null? binding-aux)
                     ;(define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
@@ -1903,8 +1906,38 @@ If the namespace does not, they are colored the unbound color.
                 (send txt end-edit-sequence)) 
               )
             ;; callback for the Added-menu Syntax Refactoring
-            (define/private (syntax-refactoring parent text start-selection end-selection binding-aux)
-              (code-walker expanded-program))
+            (define/private (syntax-refactoring parent text start-selection end-selection start-line end-line binding-aux)
+              (define syntax null)
+              ;; syntax says it's line 2 when here it says 0. adjustment is start-line +2 and end-line +2.
+              (displayln start-line)
+              (displayln end-line)
+              
+              (set! syntax (code-walker expanded-program (+ 2 start-line) (+ 2 end-line)))
+              (print-syntax-width 20)
+              (displayln (car syntax))
+              ;(call-with-values (lambda () (if (#%app = (#%app + (quote 1) (quote 2)) (quote 1)) (quote #f) (quote #t))) print-values)
+              (syntax-parse #'(if (< 1 2) #t #f)
+                #:literals(if)
+                [(if test-expr then-expr else-expr) 'then-expr])
+             ; (aux)
+              #;(syntax-parse (car syntax)
+                #:literals(if)
+                [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
+                 'then-expr
+                 #;(when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
+                   (syntax->datum #'(not test-expr)))])
+              )
+
+            (define (aux)
+              (syntax-parse #'(if (< 1 2) #t #f)
+                #:literals(if)
+                [(if test-expr then-expr else-expr) 'then-expr]))
+            (syntax-parse #'(call-with-values (lambda () (if (#%app = (#%app + (quote 1) (quote 2)) (quote 1)) (quote #f) (quote #t))) print-values)
+                #:literals(if)
+                [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
+                 #'then-expr
+                 #;(when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
+                   (syntax->datum #'(not test-expr)))])
             
             ;; callback for the Added-menu Eta abstraction
             
