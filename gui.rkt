@@ -1907,36 +1907,40 @@ If the namespace does not, they are colored the unbound color.
               )
             ;; callback for the Added-menu Syntax Refactoring
             (define/private (syntax-refactoring parent text start-selection end-selection start-line end-line binding-aux)
-              (define syntax null)
+              (define arg null)
               ;; syntax says it's line 2 when here it says 0. adjustment is start-line +2 and end-line +2.
               (displayln start-line)
               (displayln end-line)
               
-              (set! syntax (code-walker expanded-program (+ 2 start-line) (+ 2 end-line)))
+              (set! arg (code-walker expanded-program (+ 2 start-line) (+ 2 end-line)))
               (print-syntax-width 20)
-              (displayln (car syntax))
+              (displayln (car arg))
+              #;(test-function (car arg))
               ;(call-with-values (lambda () (if (#%app = (#%app + (quote 1) (quote 2)) (quote 1)) (quote #f) (quote #t))) print-values)
-              (syntax-parse #'(if (< 1 2) #t #f)
-                #:literals(if)
-                [(if test-expr then-expr else-expr) 'then-expr])
-             ; (aux)
-              #;(syntax-parse (car syntax)
+              #;(syntax-parse #'(if (< 1 2) #t #f)
+                  #:literals(if)
+                  [(if test-expr then-expr else-expr) 'then-expr])
+              #;(aux (car arg))
+              #;(syntax-parse #'(if (< 1 2) #t #f)
+                  #:literals(if)
+                  [(if test-expr then-expr else-expr) #'then-expr])
+              (syntax-parse (car arg)
                 #:literals(if)
                 [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
-                 'then-expr
-                 #;(when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
-                   (syntax->datum #'(not test-expr)))])
+                 (when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
+                     (displayln (syntax->datum #'(not test-expr))))])
               )
-
-            (define (aux)
-              (syntax-parse #'(if (< 1 2) #t #f)
+            
+            #;(define (aux arg)
+              (syntax-parse arg
                 #:literals(if)
-                [(if test-expr then-expr else-expr) 'then-expr]))
+                [(if test-expr then-expr else-expr) #'then-expr]))
+            
             (syntax-parse #'(call-with-values (lambda () (if (#%app = (#%app + (quote 1) (quote 2)) (quote 1)) (quote #f) (quote #t))) print-values)
-                #:literals(if)
-                [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
-                 #'then-expr
-                 #;(when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
+              #:literals(if)
+              [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
+               #'then-expr
+               #;(when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
                    (syntax->datum #'(not test-expr)))])
             
             ;; callback for the Added-menu Eta abstraction
