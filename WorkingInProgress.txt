@@ -30,3 +30,23 @@ Find out what is calling/starting the handler and get the results from there (??
  We want to put that working *automatically*, we Have two options:
  Fix the problem
  Automate the "call" to the check syntax button
+
+ 22/09/15 Update: New bug found
+
+"Ao tentar usar o syntax-parse dentro de uma class da erros.
+"pattern variable cannot be used outside of a template in:..."
+
+
+e.g.: (syntax-parse #'(if (< 1 2) #t #f)
+                #:literals(if)
+                [(if test-expr then-expr else-expr) #'then-expr])
+
+Dentro de um (define/private ...) crasha com esse erro, e fora nao. Se
+defenir uma funcao ao lado (define (aux)
+ (syntax-parse #'(if (< 1 2) #t #f)
+                #:literals(if)
+                [(if test-expr then-expr else-expr) #'then-expr])) e
+chamar tambem da' o mesmo erro.
+
+fora da classe rebenta se passar uma variavel, ou seja
+se a funcao receber um argumento, se for sem argumentos nao da erro."
