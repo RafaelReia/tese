@@ -1928,13 +1928,13 @@ If the namespace does not, they are colored the unbound color.
                 #:literals(if)
                 [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
                  (when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
-                     (displayln (syntax->datum #'(not test-expr))))])
+                   (displayln (syntax->datum #'(not test-expr))))])
               )
             
             #;(define (aux arg)
-              (syntax-parse arg
-                #:literals(if)
-                [(if test-expr then-expr else-expr) #'then-expr]))
+                (syntax-parse arg
+                  #:literals(if)
+                  [(if test-expr then-expr else-expr) #'then-expr]))
             
             (syntax-parse #'(call-with-values (lambda () (if (#%app = (#%app + (quote 1) (quote 2)) (quote 1)) (quote #f) (quote #t))) print-values)
               #:literals(if)
@@ -2821,19 +2821,6 @@ If the namespace does not, they are colored the unbound color.
             (define the-tab (get-current-tab))
             (define-values (old-break-thread old-custodian) (send the-tab get-breakables))
             
-            ;;;Changes
-            (displayln "Init tests")
-            (displayln (get-definitions-text))
-            (displayln "BREAK")
-            (displayln interactions-text)
-            (displayln "BREAK")
-            (displayln drs-eventspace)
-            (displayln "BREAK")
-            (displayln the-tab)
-            (displayln "End")
-            ;;;End changes
-            
-            
             ;; set by the init-proc
             (define expanded-expression void)
             (define expansion-completed void)
@@ -2947,6 +2934,9 @@ If the namespace does not, they are colored the unbound color.
             ;; speeds up the copy
             (send definitions-text-copy set-style-list (send definitions-text get-style-list))
             (send definitions-text copy-self-to definitions-text-copy)
+            #;(displayln (drracket:language:make-text/pos definitions-text-copy
+                                                 0
+                                                 (send definitions-text-copy last-position)))
             (with-lock/edit-sequence
              definitions-text-copy
              (λ ()
@@ -2958,12 +2948,14 @@ If the namespace does not, they are colored the unbound color.
                 #:gui-modules? #f
                 (drracket:language:make-text/pos definitions-text-copy
                                                  0
-                                                 (send definitions-text-copy last-position))
+                                                 (send definitions-text-copy last-position)) ;;Input
                 settings
                 (not module-language?)
                 init-proc
                 kill-termination
                 (λ (sexp loop) ; =user=
+                  ;(displayln "[Test] Sexp is that right? ") Program Already expanded....
+                  ;(displayln sexp)
                   (cond
                     [(eof-object? sexp)
                      (set! normal-termination? #t)
@@ -2974,11 +2966,14 @@ If the namespace does not, they are colored the unbound color.
                            definitions-text
                            (λ ()
                              (parameterize ([current-annotations definitions-text])
-                               (expansion-completed))))
+                               (begin
+                                 (expansion-completed)))))
                           (cleanup)
                           (custodian-shutdown-all user-custodian))))]
                     [else
                      (open-status-line 'drracket:check-syntax:status)
+                     ;(displayln "Sexp is that right? ")
+                     ;(displayln sexp)
                      (unless module-language?
                        (update-status-line 'drracket:check-syntax:status status-eval-compile-time)
                        (eval-compile-time-part-of-top-level sexp))
@@ -2993,6 +2988,7 @@ If the namespace does not, they are colored the unbound color.
                               'drracket:check-syntax:status status-coloring-program)
                              (parameterize ([current-annotations definitions-text])
                                (begin
+                                 ;(displayln "TEST")
                                  ;(displayln sexp) ;;;; FOUND IT!
                                  (set! expanded-program sexp)
                                  (expanded-expression sexp)))
