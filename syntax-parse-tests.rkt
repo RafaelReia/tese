@@ -2,7 +2,7 @@
 (if (= (+ a b) a) 
     #f 
     #t)
-
+(and 1 2)
 (define a 1)
 (define b 2)
 ;(and (< 1 2) (< 2 3))

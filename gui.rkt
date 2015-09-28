@@ -56,6 +56,7 @@ If the namespace does not, they are colored the unbound color.
          syntax/parse)
 ;;Exapanded program
 (define expanded-program null)
+(define not-expanded-program null)
 ;(define syntax null)
 
 (provide tool@)
@@ -1929,6 +1930,12 @@ If the namespace does not, they are colored the unbound color.
                 [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
                  (when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
                    (displayln (syntax->datum #'(not test-expr))))])
+
+
+              (print-syntax-width 2000)
+              (displayln not-expanded-program)
+              (displayln (syntax-e not-expanded-program))
+              ;(displayln (code-walker not-expanded-program (+ 2 start-line) (+ 2 end-line)))
               )
             
             #;(define (aux arg)
@@ -2935,8 +2942,12 @@ If the namespace does not, they are colored the unbound color.
             (send definitions-text-copy set-style-list (send definitions-text get-style-list))
             (send definitions-text copy-self-to definitions-text-copy)
             #;(displayln (drracket:language:make-text/pos definitions-text-copy
-                                                 0
-                                                 (send definitions-text-copy last-position)))
+                                                          0
+                                                          (send definitions-text-copy last-position)))
+            
+            
+
+
             (with-lock/edit-sequence
              definitions-text-copy
              (λ ()
@@ -2995,7 +3006,37 @@ If the namespace does not, they are colored the unbound color.
                              (close-status-line 'drracket:check-syntax:status))))))
                      (update-status-line 'drracket:check-syntax:status status-expanding-expression)
                      (close-status-line 'drracket:check-syntax:status)
-                     (loop)])))))))
+                     (loop)])))))
+            
+            
+
+            ;Maybe Hack, I have no idea how this works, but it works.
+            (displayln ((λ ()
+                            ;(send the-tab clear-annotations)
+                            ;(send the-tab reset-offer-kill)
+                            ;(send the-tab syncheck:clear-highlighting)
+                            ;(send (send the-tab get-defs) syncheck:init-arrows)
+                            ((drracket:eval:traverse-program/multiple
+                              #:gui-modules? #f
+                              settings
+                              init-proc
+                              kill-termination)
+                             (drracket:language:make-text/pos definitions-text-copy
+                                                              0
+                                                              (send definitions-text-copy last-position))
+                             (λ (sexp loop) ;this is the "iter"
+                               ;(void) "syntax-parse-tests.rkt:1:0: read: #lang not enabled in the current context" + close-status-line: status line not open 'drracket:check-syntax:status
+                               (cond
+                                 [(eof-object? sexp)
+                                  (custodian-shutdown-all user-custodian)]
+                                 ;(custodian-shutdown-all user-custodian)]
+                                 [else
+                                  ;(open-status-line 'drracket:check-syntax:status)
+                                  ;(displayln sexp)
+                                  (set! not-expanded-program sexp)
+                                  (loop)])) 
+                             #t #;(not module-language?)))))
+            ))
         
         ;; set-directory : text -> void
         ;; sets the current-directory based on the file saved in the definitions-text
