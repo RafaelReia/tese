@@ -1935,7 +1935,7 @@ If the namespace does not, they are colored the unbound color.
               (print-syntax-width 2000)
               (displayln not-expanded-program)
               (displayln (syntax-e not-expanded-program))
-              ;(displayln (code-walker not-expanded-program (+ 2 start-line) (+ 2 end-line)))
+              (displayln (code-walker-non-expanded not-expanded-program (+ 2 start-line) (+ 2 end-line)))
               )
             
             #;(define (aux arg)

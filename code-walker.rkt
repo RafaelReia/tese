@@ -1,6 +1,7 @@
 #lang racket
 (require racket/list)
-(provide code-walker)
+(provide code-walker
+         code-walker-non-expanded)
 (provide test-visited)
 
 ;;;;;;;;;;; Definitions ;;;;;;;;;;;;;;;;;;;
@@ -22,22 +23,22 @@
   (if (null? next)
       (list)
       (begin
-        #;(display "Current: ")
-        #;(displayln current)
-        #;(display "PAIR? ")
-        #;(displayln (pair? next))
+        (display "Current: ")
+        (displayln current)
+        (display "PAIR? ")
+        (displayln (pair? next))
         ;(displayln (cdr program-aux))
-        #;(display "Syntax? ")
-        #;(displayln (syntax? next))
+        (display "Syntax? ")
+        (displayln (syntax? next))
         (cond
           [(syntax? next) ;Found syntax, go to there.
            (begin
-             #;(displayln " SYNTAX ")
-             #;(display "DATUM ")
-             #;(displayln (syntax->datum current))
+             (displayln " SYNTAX ")
+             (display "DATUM ")
+             (displayln (syntax->datum current))
              ;(go-to-syntax (syntax-e current))
              (define aux (syntax-e current))
-             #;(displayln (syntax->datum current))
+             (displayln (syntax->datum current))
              (syntax-walker aux (car aux) (cdr aux) null )
              )]
           [else 
@@ -52,15 +53,15 @@
   (displayln "[go-to-syntax]")
   #;(display "[go-to-syntax] program-structure null? ")
   #;(displayln (null? program-structure))
+  (displayln (pair? program-structure))
   (unless (null? program-structure)
     (walk-trought program-structure (car program-structure) (cdr program-structure) null ))
   (displayln "!!!!!!!!!!!! END OF FILE !!!!!!!!!!!!")
   )
 
 (define (syntax-walker program current next previous)
-  ;previous is not working.
-  ;(display "Syntax-walker ")
-  ;(displayln program)
+  (display "Syntax-walker ")
+  (displayln program)
   (define iteration 0)
   (define syntax-ret null)
   (displayln "Syntax-walker")
@@ -186,7 +187,7 @@
              (when aux-result?
                (begin
                  (set! aux-result? #f)
-               (set! aux-result source-stack)))
+                 (set! aux-result source-stack)))
              ;(display "[!!!!!!!!!!!!] Syntax-object")
              ;(displayln source-stack)
              (when (and (syntax-line source-aux) (not (null? source-aux)) (not (null? (syntax-e source-aux))))
@@ -459,6 +460,142 @@
   (displayln "END FILE")
   result
   )
+
+(define (code-walker-non-expanded code start end)
+  (display "start-line ")
+  (display start)
+  (display " end-line ")
+  (displayln end)
+  (set! start-line start)
+  (set! end-line end)
+  (displayln (syntax-e code))
+  ;(go-to-syntax (syntax-e code))
+  ;(syntax-walker (syntax-e code) (car (syntax-e code)) (cdr (syntax-e code)) null )
+  (displayln " NON EXPANDED")
+  (define test (cdr (syntax-e (car (syntax-e (cdr (cdr (cdr (syntax-e code))))))))) ;this is a pair
+  (displayln test)
+  (displayln (syntax? test))
+  (displayln (pair? test))
+  (set! visited #t)
+  (find-everything test #'if)
+  
+  ; (save-expanded-program)
+  ;(save-expanded-program)
+  (displayln "END FILE")
+  result
+  )
+(define (get-syntax program start end)
+  (define source-aux program)
+  (define source-stack (list))
+  (define check-line #t)
+  (define result null)
+  (define aux-result null)
+  (define aux-result? #t)
+  (define stop? #f)
+  
+  (cond [(null? source-aux)
+         (displayln "It's null")]
+        [(stop?) (displayln "evaluation stopped")]
+        [(pair? source-aux)
+         (displayln "It's pair")
+         (set! source-stack (cons (cdr source-aux) source-stack)) ;;add to stack
+         (set! source-aux (car source-aux))
+         (get-syntax source-aux start end)]
+        [(syntax? source-aux)
+         (display "[get-syntax]  [Test]   Line Number: ")
+         (displayln (syntax-line source-aux))
+         (displayln source-aux)
+         (define compare-aux (syntax-line source-aux))
+         ;(check-location compare-aux start end)
+         (if (and (real? compare-aux) (not (<= start (syntax-line source-aux) end)))
+             (begin ;;not in range
+               (if (or (>= start compare-aux) (<= end compare-aux)) ;;assuming here every syntax has location
+                   (begin ;;next one
+                     (set! source-aux (car source-stack))
+                     (set! source-stack (cdr source-stack)))
+                   (begin
+                   (set! source-aux (syntax-e source-aux)))))
+             ;(cond [(and (>= start compare-aux) ]
+             
+             (begin
+               (set! aux-result source-aux)
+               ;; check if the end stops in the right place
+               (set! stop? #t))
+             #;(if (and (real? compare-aux) (#t))  
+                   (set! source-aux (syntax-e source-aux))
+                   #f)) 
+         (get-syntax source-aux start end)]
+        [else
+         (displayln "Else reached")
+         #;(displayln "[Find-everything] Selected-search Else reached")
+         (set! source-aux (car source-stack))
+         (set! source-stack (cdr source-stack))
+         (get-syntax source-aux start end)]))
+
+#|
+ (cond [(and (null? source-aux) (null? source-stack))
+           (begin
+             (displayln "[Selected-search] End of file"))]
+          [(null? source-aux)
+           (begin
+             ;; checks if it is null
+             #;(display "#;Null Found: ")
+             #;(displayln source-aux)
+             (set! source-aux (car source-stack))
+             (set! source-stack (cdr source-stack))
+             (selected-search source-aux line-begin line-end))]
+          [(pair? source-aux)
+           #;(displayln "Selected-search pair")
+           (set! source-stack (cons (cdr source-aux) source-stack)) ;;add to stack
+           (set! source-aux (car source-aux))
+           (selected-search source-aux line-begin line-end)]
+          [(and (syntax? source-aux) (not (pair? (syntax-e source-aux))))
+           (begin
+             ;;Compare line numbers
+             (display "[Selected-search] Special Line Number: ")
+             (display (syntax-line source-aux))
+             (display " Syntax: ")
+             (displayln source-aux)
+             (when aux-result?
+               (begin
+                 (set! aux-result? #f)
+               (set! aux-result source-stack)))
+             ;(display "[!!!!!!!!!!!!] Syntax-object")
+             ;(displayln source-stack)
+             (when (and (syntax-line source-aux) (not (null? source-aux)) (not (null? (syntax-e source-aux))))
+               (begin
+                 (set! aux-result? #f)
+                 (set! result (cons (syntax-e source-aux) result))))
+             (when aux-result?
+               (set! aux-result source-stack))
+             (set! check-line #f)
+             (set! source-aux (car source-stack))
+             (set! source-stack (cdr source-stack))
+             (selected-search source-aux line-begin line-end)
+             )]
+          [(syntax? source-aux) ;this shows first! that is good.
+           (begin
+             ;(set! source-aux (syntax-e source-aux))
+             (display "[Selected-search]  [Test]   Line Number: ")
+             (displayln (syntax-line source-aux))
+             (displayln source-aux)
+             (define compare-aux (syntax-line source-aux))
+             (if (and (real? compare-aux) (not (<= line-begin (syntax-line source-aux) line-end)))
+                 (begin
+                   
+                   (set! source-aux (car source-stack))
+                   (set! source-stack (cdr source-stack)))
+                 (begin
+                   (set! source-aux (syntax-e source-aux))
+                   (set! check-line #t))) 
+             (selected-search source-aux line-begin line-end))]
+          [else
+           (begin
+             #;(displayln "[Find-everything] Selected-search Else reached")
+             (set! source-aux (car source-stack))
+             (set! source-stack (cdr source-stack))
+             (selected-search source-aux line-begin line-end))])|#
+
 
 
 #|(displayln  program-structure)
