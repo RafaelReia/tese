@@ -1375,8 +1375,21 @@ If the namespace does not, they are colored the unbound color.
                   (define vec-ents (interval-map-ref arrow-record pos null))
                   (define start-selection (send text get-start-position))
                   (define end-selection (send text get-end-position))
-                  (define start-line (send text find-line start-selection))
-                  (define end-line (send text find-line end-selection))
+                  ;;find-line uses location, not position. must convert before!
+                  (define start-box (box 1))
+                  (define end-box (box 1))
+                  (display "Position-location ")
+                  (send text position-location start-selection #f start-box #t #f #f);Check this!
+                  (send text position-location end-selection #f end-box #t #f #f);Check this!
+                  
+                  (displayln (unbox start-box))
+                  
+                  (displayln (unbox end-box))
+                  
+                  (define start-line (send text find-line (unbox start-box)))
+                  (define end-line (send text find-line (unbox end-box)))
+                  (displayln start-line)
+                  (displayln end-line)
                   (define arrows (filter arrow? vec-ents))
                   (define def-links (filter def-link? vec-ents))
                   (define var-arrows (filter var-arrow? arrows))
@@ -1910,12 +1923,14 @@ If the namespace does not, they are colored the unbound color.
             (define/private (syntax-refactoring parent text start-selection end-selection start-line end-line binding-aux)
               (define arg null)
               ;; syntax says it's line 2 when here it says 0. adjustment is start-line +2 and end-line +2.
-              (displayln start-line)
+              (display "Start-Selection ")
+              (display start-line)
+              (display " end-selection ") 
               (displayln end-line)
               
-              (set! arg (code-walker expanded-program (+ 2 start-line) (+ 2 end-line)))
-              (print-syntax-width 20)
-              (displayln (car arg))
+              ;(set! arg (code-walker expanded-program (+ 2 start-line) (+ 2 end-line)))
+              ;(print-syntax-width 20)
+              ;(displayln (car arg))
               #;(test-function (car arg))
               ;(call-with-values (lambda () (if (#%app = (#%app + (quote 1) (quote 2)) (quote 1)) (quote #f) (quote #t))) print-values)
               #;(syntax-parse #'(if (< 1 2) #t #f)
@@ -1925,30 +1940,33 @@ If the namespace does not, they are colored the unbound color.
               #;(syntax-parse #'(if (< 1 2) #t #f)
                   #:literals(if)
                   [(if test-expr then-expr else-expr) #'then-expr])
-              (syntax-parse (car arg)
-                #:literals(if)
-                [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
-                 (when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
-                   (displayln (syntax->datum #'(not test-expr))))])
-
-
+              #;(syntax-parse (car arg)
+                  #:literals(if)
+                  [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
+                   (when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
+                     (displayln (syntax->datum #'(not test-expr))))])
+              
+              
               (print-syntax-width 2000)
               (displayln not-expanded-program)
               (displayln (syntax-e not-expanded-program))
-              (displayln (code-walker-non-expanded not-expanded-program (+ 2 start-line) (+ 2 end-line)))
+              (set! arg (code-walker-non-expanded not-expanded-program (+ 1 start-line) (+ 1 end-line)))
+              (displayln arg)
+              #;(define changed (syntax-parse arg
+                                
+                                [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))]))
+              #;(displayln changed)
+              #;(syntax-parse arg
+                ;#:literals ((if literal-id #:phase 2))
+                #:datum-literals (if)
+                [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))])
+              (displayln (syntax-parse arg
+                #:datum-literals (not >)
+                [(not (> a b))
+                 (syntax->datum #'(<= a b))]))
+              
               )
             
-            #;(define (aux arg)
-                (syntax-parse arg
-                  #:literals(if)
-                  [(if test-expr then-expr else-expr) #'then-expr]))
-            
-            (syntax-parse #'(call-with-values (lambda () (if (#%app = (#%app + (quote 1) (quote 2)) (quote 1)) (quote #f) (quote #t))) print-values)
-              #:literals(if)
-              [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
-               #'then-expr
-               #;(when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
-                   (syntax->datum #'(not test-expr)))])
             
             ;; callback for the Added-menu Eta abstraction
             
@@ -2946,8 +2964,8 @@ If the namespace does not, they are colored the unbound color.
                                                           (send definitions-text-copy last-position)))
             
             
-
-
+            
+            
             (with-lock/edit-sequence
              definitions-text-copy
              (λ ()
@@ -3009,33 +3027,33 @@ If the namespace does not, they are colored the unbound color.
                      (loop)])))))
             
             
-
+            
             ;Maybe Hack, I have no idea how this works, but it works.
             (displayln ((λ ()
-                            ;(send the-tab clear-annotations)
-                            ;(send the-tab reset-offer-kill)
-                            ;(send the-tab syncheck:clear-highlighting)
-                            ;(send (send the-tab get-defs) syncheck:init-arrows)
-                            ((drracket:eval:traverse-program/multiple
-                              #:gui-modules? #f
-                              settings
-                              init-proc
-                              kill-termination)
-                             (drracket:language:make-text/pos definitions-text-copy
-                                                              0
-                                                              (send definitions-text-copy last-position))
-                             (λ (sexp loop) ;this is the "iter"
-                               ;(void) "syntax-parse-tests.rkt:1:0: read: #lang not enabled in the current context" + close-status-line: status line not open 'drracket:check-syntax:status
-                               (cond
-                                 [(eof-object? sexp)
-                                  (custodian-shutdown-all user-custodian)]
-                                 ;(custodian-shutdown-all user-custodian)]
-                                 [else
-                                  ;(open-status-line 'drracket:check-syntax:status)
-                                  ;(displayln sexp)
-                                  (set! not-expanded-program sexp)
-                                  (loop)])) 
-                             #t #;(not module-language?)))))
+                          ;(send the-tab clear-annotations)
+                          ;(send the-tab reset-offer-kill)
+                          ;(send the-tab syncheck:clear-highlighting)
+                          ;(send (send the-tab get-defs) syncheck:init-arrows)
+                          ((drracket:eval:traverse-program/multiple
+                            #:gui-modules? #f
+                            settings
+                            init-proc
+                            kill-termination)
+                           (drracket:language:make-text/pos definitions-text-copy
+                                                            0
+                                                            (send definitions-text-copy last-position))
+                           (λ (sexp loop) ;this is the "iter"
+                             ;(void) "syntax-parse-tests.rkt:1:0: read: #lang not enabled in the current context" + close-status-line: status line not open 'drracket:check-syntax:status
+                             (cond
+                               [(eof-object? sexp)
+                                (custodian-shutdown-all user-custodian)]
+                               ;(custodian-shutdown-all user-custodian)]
+                               [else
+                                ;(open-status-line 'drracket:check-syntax:status)
+                                ;(displayln sexp)
+                                (set! not-expanded-program sexp)
+                                (loop)])) 
+                           #t #;(not module-language?)))))
             ))
         
         ;; set-directory : text -> void

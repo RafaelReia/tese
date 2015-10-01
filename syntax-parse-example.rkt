@@ -60,7 +60,7 @@
 #;(syntax-parse #'(not (> x y))
   #:literals(not >)
   [(not (> x y))
-   (syntax->datum #'(not (<= x y)))])
+   (syntax->datum #'(<= x y))])
 
 ;;(not (<= x y)) => (> x y)
 #;(syntax-parse #'(not (<= x y))
@@ -93,3 +93,8 @@
 
 ;syntax-parse-example.rkt:86:2: syntax-parse: expected non-empty clause body at:
 ;((#%app call-with-v...l-with-values lambda if = quote print-values) ((#%app call-with-values lambda if #%app = #%app ...
+
+(define arg #'(if (= (+ a b) a) #f #t))
+(syntax-parse arg
+                  #:literals(if)
+                  [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))])

@@ -452,7 +452,6 @@
   (set! end-line end)
   (go-to-syntax (syntax-e code))
   (set! visited #t)
-  
   (display "Code-walker visited ")
   (displayln visited)
   ; (save-expanded-program)
@@ -460,6 +459,8 @@
   (displayln "END FILE")
   result
   )
+
+
 
 (define (code-walker-non-expanded code start end)
   (display "start-line ")
@@ -477,53 +478,92 @@
   (displayln (syntax? test))
   (displayln (pair? test))
   (set! visited #t)
-  (find-everything test #'if)
-  
+  ;(find-everything test #'if)
+  (displayln "get-syntax")
+  (set! result (get-syntax-aux test start-line end-line))
   ; (save-expanded-program)
   ;(save-expanded-program)
   (displayln "END FILE")
   result
   )
+
+
+(define (get-syntax-aux program start end)
+(define stop? #f)
+(define source-stack (list))
+(define aux-result null)
 (define (get-syntax program start end)
   (define source-aux program)
-  (define source-stack (list))
   (define check-line #t)
   (define result null)
-  (define aux-result null)
+  
   (define aux-result? #t)
-  (define stop? #f)
+  (displayln "source-aux is syntax? ")
+  (displayln (syntax? source-aux))
+  (define (get-next-compare source-aux source-stack)
+;else says its bigger than the last part of the selection, could be the end of the program either. this happens when there is no next element.
+    (displayln "NEXT COMPARE")
+    (displayln source-stack)
+    (displayln (syntax? source-stack))
+    (displayln (car source-stack))
+    (display "source-stack (syntax? (car source-stack) ")
+    (displayln (syntax? (car source-stack)))
+    (displayln (pair? (car source-stack)))
+    (displayln (syntax? (car (car source-stack))))
+    (if (and (pair? source-stack) (pair? (car source-stack)) (syntax? (car (car source-stack))))
+        (syntax-line (car (car source-stack)))
+        (- 0 end))
+    
+    
+    ) 
   
   (cond [(null? source-aux)
          (displayln "It's null")]
-        [(stop?) (displayln "evaluation stopped")]
+        [stop? (displayln "evaluation stopped")]
         [(pair? source-aux)
          (displayln "It's pair")
          (set! source-stack (cons (cdr source-aux) source-stack)) ;;add to stack
          (set! source-aux (car source-aux))
+         (displayln source-aux)
+         (displayln source-stack)
          (get-syntax source-aux start end)]
         [(syntax? source-aux)
-         (display "[get-syntax]  [Test]   Line Number: ")
-         (displayln (syntax-line source-aux))
-         (displayln source-aux)
+         (display "start ")
+         (displayln start)
+         (display "end ")
+         (displayln end)
+
          (define compare-aux (syntax-line source-aux))
+         (define next-compare (get-next-compare source-aux source-stack))
          ;(check-location compare-aux start end)
-         (if (and (real? compare-aux) (not (<= start (syntax-line source-aux) end)))
-             (begin ;;not in range
-               (if (or (>= start compare-aux) (<= end compare-aux)) ;;assuming here every syntax has location
-                   (begin ;;next one
-                     (set! source-aux (car source-stack))
-                     (set! source-stack (cdr source-stack)))
-                   (begin
-                   (set! source-aux (syntax-e source-aux)))))
-             ;(cond [(and (>= start compare-aux) ]
-             
-             (begin
-               (set! aux-result source-aux)
-               ;; check if the end stops in the right place
-               (set! stop? #t))
-             #;(if (and (real? compare-aux) (#t))  
-                   (set! source-aux (syntax-e source-aux))
-                   #f)) 
+         (displayln "Test Loop")
+         (displayln source-aux)
+         (display "compare-aux ")
+         (displayln compare-aux)
+         (display "next-compare ")
+         (displayln next-compare)
+         (cond [(not (real? compare-aux)) 
+                (displayln "Not real found")
+                ;next one
+                (set! source-aux (car source-stack))
+                (set! source-stack (cdr source-stack))]
+               [(>= start next-compare)
+                ;next one
+                (displayln "Next Compare")
+                (set! source-aux (car source-stack))
+                (set! source-stack (cdr source-stack))]
+               [(> start compare-aux) ;; in the middle, enter
+                (set! source-aux (syntax-e source-aux))
+                ] 
+               [(<= start compare-aux end) ;; starts in the selected place, and it is not bigger then the next one.
+                (begin
+                   ;(set! source-aux (syntax-e source-aux))
+                  (display "FOUND IT! ")
+                  (displayln source-aux)
+                  (set! stop? #t)
+                   (set! aux-result source-aux))]
+               [else
+                (displayln "else")])
          (get-syntax source-aux start end)]
         [else
          (displayln "Else reached")
@@ -531,6 +571,8 @@
          (set! source-aux (car source-stack))
          (set! source-stack (cdr source-stack))
          (get-syntax source-aux start end)]))
+ (get-syntax program start end)
+  aux-result)
 
 #|
  (cond [(and (null? source-aux) (null? source-stack))
