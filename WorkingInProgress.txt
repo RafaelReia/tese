@@ -1,20 +1,15 @@
-TODO => find way to get the unexpanded program... How? Is it possible?
-
-Info that indicates that is not possible.
+Fixed => find way to get the unexpanded program... How? Is it possible? IT is
+More info
 http://docs.racket-lang.org/tools/drracket_eval.html#%28def._%28%28lib._drracket%2Ftool-lib..rkt%29._drracket~3aeval~3aexpand-program%29%29
 
-TODO => clean result of AST.
+FIXME Bug last line in the program is not found in get-syntax...
+FIXME There is a bug in syntax-walker that for programs with 1 line it does not work.
+FIXME => bug while expanding files with classes and stuff. Fix this!
 
-FIXME (and) is treated like an if which is bad and give problems
+[Only in the expanded form] (and) is treated like an if which is bad and give problems
 coisas sem ser ands e isso em principio funciona.
 Testando:
 (if (= (+ 1 2) 1) #f #t) to (not (= (+ 1 2) 1))
-
-TODO => create an syntax object and feed it.
-FIXME There is a bug in syntax-walker that for programs with 1 line it does not work.
-
-
-FIXME => bug while expanding files with classes and stuff. Fix this!
 
 21/09/15 Update: we do not know what calls the online sytax expander, and for
 now we can not find a way of passing the information back to the gui.rkt from

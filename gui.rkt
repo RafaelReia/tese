@@ -1928,6 +1928,23 @@ If the namespace does not, they are colored the unbound color.
               (display " end-selection ") 
               (displayln end-line)
               
+              (define (write-back aux-text)
+                (displayln "WRINTING")
+                (let ([edit-sequence-txts (list this)])
+                  ;(displayln call)
+                  ;;start editiing
+                  (begin-edit-sequence)
+                  ;(displayln "begin")
+                  (send text begin-edit-sequence)
+                  (set! edit-sequence-txts (cons text edit-sequence-txts))
+                  ;;Delete the text
+                  (send text delete start-selection end-selection)
+                  ;;write call
+                  (send text insert aux-text start-selection 'same)
+                  ;; end Editing
+                  (for ([txt (in-list edit-sequence-txts)])
+                    (send txt end-edit-sequence))))
+              
               ;(set! arg (code-walker expanded-program (+ 2 start-line) (+ 2 end-line)))
               ;(print-syntax-width 20)
               ;(displayln (car arg))
@@ -1944,7 +1961,7 @@ If the namespace does not, they are colored the unbound color.
                   #:literals(if)
                   [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
                    (when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
-                     (displayln (syntax->datum #'(not test-expr))))])
+                     (write-back (format (syntax->datum #'(not test-expr)))))])
               
               
               (print-syntax-width 2000)
@@ -1953,19 +1970,36 @@ If the namespace does not, they are colored the unbound color.
               (set! arg (code-walker-non-expanded not-expanded-program (+ 1 start-line) (+ 1 end-line)))
               (displayln arg)
               #;(define changed (syntax-parse arg
-                                
-                                [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))]))
+                                  [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))]))
               #;(displayln changed)
               #;(syntax-parse arg
-                ;#:literals ((if literal-id #:phase 2))
-                #:datum-literals (if)
-                [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))])
-              (displayln (syntax-parse arg
-                #:datum-literals (not >)
+                  ;#:literals ((if literal-id #:phase 2))
+                  #:datum-literals (if)
+                  [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))])
+              ;;Used format "~.a" to transform into a string, find a better way
+              (syntax-parse arg
+                #:datum-literals (not > <= >= < and)
                 [(not (> a b))
-                 (syntax->datum #'(<= a b))]))
-              
-              )
+                 (write-back (format "~.a" (syntax->datum #'(<= a b))))]
+                [(not (<= a b))
+                 (write-back (format "~.a" (syntax->datum #'(> a b))))]
+                [(not (< a b))
+                 (write-back (format "~.a" (syntax->datum #'(>= a b))))]
+                [(not (>= a b))
+                 (write-back (format "~.a" (syntax->datum #'(< a b))))]
+                [(if test-expr then-expr else-expr)
+                 (begin
+                   (when (not (or #f (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr))))
+                     (write-back (format "~.a" (syntax->datum #'(not test-expr)))))
+                   (when (and #t (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
+                     (write-back (format "~.a" (syntax->datum #'test-expr)))))]
+                [(and (< x y) (< v z))
+                 (when (equal? (syntax->datum #'y) (syntax->datum #'v))
+                   (write-back (format "~.a" (syntax->datum #'(< x y z)))))]
+                [(and (> x y) (> v z))
+                 (when (equal? (syntax->datum #'y) (syntax->datum #'v))
+                   (write-back (format "~.a" (syntax->datum #'(> x y z)))))]
+                )) 
             
             
             ;; callback for the Added-menu Eta abstraction
