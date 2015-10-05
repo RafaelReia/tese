@@ -53,7 +53,8 @@ If the namespace does not, they are colored the unbound color.
          drracket/private/syncheck/annotate
          framework/private/logging-timer
          "code-walker.rkt"
-         syntax/parse)
+         syntax/parse
+         (for-template racket/base))
 ;;Exapanded program
 (define expanded-program null)
 (define not-expanded-program null)
@@ -1972,13 +1973,18 @@ If the namespace does not, they are colored the unbound color.
               #;(define changed (syntax-parse arg
                                   [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))]))
               #;(displayln changed)
-              #;(syntax-parse arg
-                  ;#:literals ((if literal-id #:phase 2))
-                  #:datum-literals (if)
-                  [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))])
-              ;;Used format "~.a" to transform into a string, find a better way
+              ;;; require for template
+              
               (syntax-parse arg
-                #:datum-literals (not > <= >= < and)
+                  #:literals ((if if #:phase 2))
+                  ;#:datum-literals (if)
+                  ;#:literals (if)
+                [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))])
+              
+              
+              ;;Used format "~.a" to transform into a string, find a better way
+              #;(syntax-parse arg
+                #:datum-literals (if not > <= >= < and)
                 [(not (> a b))
                  (write-back (format "~.a" (syntax->datum #'(<= a b))))]
                 [(not (<= a b))
@@ -1989,17 +1995,21 @@ If the namespace does not, they are colored the unbound color.
                  (write-back (format "~.a" (syntax->datum #'(< a b))))]
                 [(if test-expr then-expr else-expr)
                  (begin
-                   (when (not (or #f (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr))))
+                   #|(displayln "the tests")
+                   (displayln (not (and #t (not (syntax->datum #'then-expr)) (syntax->datum #'else-expr))))
+                   (displayln (and #t (not (syntax->datum #'then-expr)) (syntax->datum #'else-expr)))
+                   (displayln (syntax->datum #'then-expr))
+                   (displayln (syntax->datum #'else-expr))|#
+                   (when (and #t (not (syntax->datum #'then-expr)) (syntax->datum #'else-expr))
                      (write-back (format "~.a" (syntax->datum #'(not test-expr)))))
-                   (when (and #t (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
+                   (when (and #t (syntax->datum #'then-expr) (not (syntax->datum #'else-expr)))
                      (write-back (format "~.a" (syntax->datum #'test-expr)))))]
                 [(and (< x y) (< v z))
                  (when (equal? (syntax->datum #'y) (syntax->datum #'v))
                    (write-back (format "~.a" (syntax->datum #'(< x y z)))))]
                 [(and (> x y) (> v z))
                  (when (equal? (syntax->datum #'y) (syntax->datum #'v))
-                   (write-back (format "~.a" (syntax->datum #'(> x y z)))))]
-                )) 
+                   (write-back (format "~.a" (syntax->datum #'(> x y z)))))])) 
             
             
             ;; callback for the Added-menu Eta abstraction

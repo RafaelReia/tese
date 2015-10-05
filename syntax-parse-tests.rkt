@@ -10,11 +10,21 @@
 (if (= (+ a b) a) 
     #f 
     #t)
-(if (= (+ a b) a) 
-    #t 
+(if (= (+ a b) a)
+    #t
     #f)
 ;;; And
-(and (< 1 2) (< 2 3))
+(and (< (foo 1) (foo 2)) (< (foo 2) 3))
+(and (> 3 2) (> 2 1))
+(define (foo n)
+  (displayln "ola")
+  n)
+
+
+
+;;future work. explore phases + scopes
+
+
 
 (displayln "end")
 
