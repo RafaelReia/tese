@@ -98,3 +98,30 @@
 #;(syntax-parse arg
                   #:literals(if)
                   [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))])
+(define-syntax-class (nat-less-than n)
+    (pattern x:nat #:when (< (syntax-e #'x) n)))
+
+(syntax-parse #'(1 2 3 4 5)
+    [((~var small (nat-less-than 4)) ... large:nat ...)
+     (list #'(small ...) #'(large ...))])
+
+(syntax-parse #'(= (lenght l) 0)
+  [(= (lenght l) 0) (syntax->datum #'(null? l))])
+
+(syntax-parse #'(= (lenght l) 1)
+  [(= (lenght l) 1) (syntax->datum #'(singleton? l))])
+
+(syntax-parse #'(cons 1 (list 2 3 4 5 6))
+  #:literals(list)
+  [(cons x (list y ... v))
+                  (syntax->datum #'(list x y ... v))])
+
+
+(map (lambda (l) (car l)) '((1 2)(3 4)))
+(map car '((1 2)(3 4)))
+
+(syntax-parse #'(map (lambda (l) (car l)) '((1 2)(3 4)))
+  #:literals(map lambda)
+  #:datum-literals(l)
+  [(map (lambda (l) (function l)) arg) #'(map function arg)])
+

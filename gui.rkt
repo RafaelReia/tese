@@ -2009,7 +2009,9 @@ If the namespace does not, they are colored the unbound color.
                    (write-back (format "~.a" (syntax->datum #'(< x y z)))))]
                 [(and (> x y) (> v z))
                  (when (equal? (syntax->datum #'y) (syntax->datum #'v))
-                   (write-back (format "~.a" (syntax->datum #'(> x y z)))))])) 
+                   (write-back (format "~.a" (syntax->datum #'(> x y z)))))]
+                  [(cons x (list y v ...))
+                   (write-back (format "~.a" (syntax->datum #'(list x y v ...))))])) 
             
             
             ;; callback for the Added-menu Eta abstraction
