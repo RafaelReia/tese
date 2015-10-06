@@ -19,8 +19,16 @@
 (define (foo n)
   (displayln "ola")
   n)
+(define l (list))
+
+(= (length l) 0)
+;(= (length l) 1)
+
+(cons 1 (list 2 3 4 5 6))
 
 
+(map (lambda (l) (car l)) '((1 2)(3 4)))
+;(map car '((1 2)(3 4)))
 
 ;;future work. explore phases + scopes
 
@@ -28,7 +36,7 @@
 
 (displayln "end")
 
-
+(not (<= a b))
 
 
 

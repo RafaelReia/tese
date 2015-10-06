@@ -484,6 +484,7 @@
   ; (save-expanded-program)
   ;(save-expanded-program)
   (displayln "END FILE")
+  (displayln result)
   result
   )
 
@@ -506,13 +507,13 @@
     (displayln source-stack)
     (displayln (syntax? source-stack))
     (displayln (car source-stack))
-    (display "source-stack (syntax? (car source-stack) ")
-    (displayln (syntax? (car source-stack)))
-    (displayln (pair? (car source-stack)))
-    (displayln (syntax? (car (car source-stack))))
+    ;(display "source-stack (syntax? (car source-stack) ")
+    ;(displayln (syntax? (car source-stack)))
+    ;(displayln (pair? (car source-stack)))
+    ;(displayln (syntax? (car (car source-stack))))
     (if (and (pair? source-stack) (pair? (car source-stack)) (syntax? (car (car source-stack))))
         (syntax-line (car (car source-stack)))
-        (- 0 end))
+        (+ end 1))
     
     
     ) 
@@ -547,6 +548,9 @@
                 ;next one
                 (set! source-aux (car source-stack))
                 (set! source-stack (cdr source-stack))]
+               #;[(= next-compare end)
+                (set! stop? #t)
+                (set! aux-result source-aux)]
                [(>= start next-compare)
                 ;next one
                 (displayln "Next Compare")

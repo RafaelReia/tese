@@ -1929,7 +1929,7 @@ If the namespace does not, they are colored the unbound color.
               (display " end-selection ") 
               (displayln end-line)
               
-              (define (write-back aux-text)
+              (define (write-back aux-stx)
                 (displayln "WRINTING")
                 (let ([edit-sequence-txts (list this)])
                   ;(displayln call)
@@ -1941,23 +1941,11 @@ If the namespace does not, they are colored the unbound color.
                   ;;Delete the text
                   (send text delete start-selection end-selection)
                   ;;write call
-                  (send text insert aux-text start-selection 'same)
+                  (send text insert (format "~.a" (syntax->datum aux-stx)) start-selection 'same)
                   ;; end Editing
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))))
               
-              ;(set! arg (code-walker expanded-program (+ 2 start-line) (+ 2 end-line)))
-              ;(print-syntax-width 20)
-              ;(displayln (car arg))
-              #;(test-function (car arg))
-              ;(call-with-values (lambda () (if (#%app = (#%app + (quote 1) (quote 2)) (quote 1)) (quote #f) (quote #t))) print-values)
-              #;(syntax-parse #'(if (< 1 2) #t #f)
-                  #:literals(if)
-                  [(if test-expr then-expr else-expr) 'then-expr])
-              #;(aux (car arg))
-              #;(syntax-parse #'(if (< 1 2) #t #f)
-                  #:literals(if)
-                  [(if test-expr then-expr else-expr) #'then-expr])
               #;(syntax-parse (car arg)
                   #:literals(if)
                   [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
@@ -1970,48 +1958,44 @@ If the namespace does not, they are colored the unbound color.
               (displayln (syntax-e not-expanded-program))
               (set! arg (code-walker-non-expanded not-expanded-program (+ 1 start-line) (+ 1 end-line)))
               (displayln arg)
-              #;(define changed (syntax-parse arg
-                                  [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))]))
-              #;(displayln changed)
               ;;; require for template
-              
-              (syntax-parse arg
-                  #:literals ((if if #:phase 2))
-                  ;#:datum-literals (if)
-                  ;#:literals (if)
+              #;(syntax-parse arg
+                #:literals ((if if #:phase 2))
+                ;#:datum-literals (if)
+                ;#:literals (if)
                 [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))])
               
               
               ;;Used format "~.a" to transform into a string, find a better way
-              #;(syntax-parse arg
-                #:datum-literals (if not > <= >= < and)
-                [(not (> a b))
-                 (write-back (format "~.a" (syntax->datum #'(<= a b))))]
-                [(not (<= a b))
-                 (write-back (format "~.a" (syntax->datum #'(> a b))))]
-                [(not (< a b))
-                 (write-back (format "~.a" (syntax->datum #'(>= a b))))]
-                [(not (>= a b))
-                 (write-back (format "~.a" (syntax->datum #'(< a b))))]
-                [(if test-expr then-expr else-expr)
-                 (begin
-                   #|(displayln "the tests")
-                   (displayln (not (and #t (not (syntax->datum #'then-expr)) (syntax->datum #'else-expr))))
-                   (displayln (and #t (not (syntax->datum #'then-expr)) (syntax->datum #'else-expr)))
-                   (displayln (syntax->datum #'then-expr))
-                   (displayln (syntax->datum #'else-expr))|#
-                   (when (and #t (not (syntax->datum #'then-expr)) (syntax->datum #'else-expr))
-                     (write-back (format "~.a" (syntax->datum #'(not test-expr)))))
-                   (when (and #t (syntax->datum #'then-expr) (not (syntax->datum #'else-expr)))
-                     (write-back (format "~.a" (syntax->datum #'test-expr)))))]
-                [(and (< x y) (< v z))
-                 (when (equal? (syntax->datum #'y) (syntax->datum #'v))
-                   (write-back (format "~.a" (syntax->datum #'(< x y z)))))]
-                [(and (> x y) (> v z))
-                 (when (equal? (syntax->datum #'y) (syntax->datum #'v))
-                   (write-back (format "~.a" (syntax->datum #'(> x y z)))))]
+              (syntax-parse arg
+                  #:datum-literals (if not > <= >= < and lambda map length list lst) ;; is lst a datum literal??
+                  [(not (> a b))
+                   (write-back #'(<= a b))]
+                  [(not (<= a b))
+                   (write-back #'(> a b))]
+                  [(not (< a b))
+                   (write-back #'(>= a b))]
+                  [(not (>= a b))
+                   (write-back #'(< a b))]
+                  [(if test-expr then-expr else-expr)
+                   (begin
+                     (when (and #t (not (syntax->datum #'then-expr)) (syntax->datum #'else-expr))
+                       (write-back #'(not test-expr)))
+                     (when (and #t (syntax->datum #'then-expr) (not (syntax->datum #'else-expr)))
+                       (write-back #'test-expr)))]
+                  [(and (< x y) (< v z))
+                   (when (equal? (syntax->datum #'y) (syntax->datum #'v))
+                     (write-back #'(< x y z)))]
+                  [(and (> x y) (> v z))
+                   (when (equal? (syntax->datum #'y) (syntax->datum #'v))
+                     (write-back #'(> x y z)))]
                   [(cons x (list y v ...))
-                   (write-back (format "~.a" (syntax->datum #'(list x y v ...))))])) 
+                   (write-back #'(list x y v ...))]
+                  [(= (length l) 0) (write-back #'(null? l))]
+                  ;[(= (length l) 1) (write-back #'(singleton? l))] this does not exist?
+                  [(cons x (list y ... v)) (write-back #'(list x y ... v))]
+                  [(map (lambda (lst) (function lst)) arg) (write-back #'(map function arg))])) ;;lst is a datum-literals?
+            
             
             
             ;; callback for the Added-menu Eta abstraction
