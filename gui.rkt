@@ -1503,12 +1503,105 @@ If the namespace does not, they are colored the unbound color.
                   
                   
                   ;(examine-identifiers make-identifiers-aux binding-aux)
+                  (define refactoring-string "")
+                  (define (get-refactoring-string)
+                    (define arg null)
+                    (set! arg (code-walker-non-expanded not-expanded-program (+ 1 start-line) (+ 1 end-line)))
+                    (define (write-back stuff)
+                      (displayln "Writing-back sir")
+                      (displayln (format "~.a" (syntax->datum stuff)))
+                      (displayln (string-append "Refactoring " (format "~.a" (syntax->datum stuff))))
+                      (set! refactoring-string (string-append "Refactoring to " (format "~.a" (syntax->datum stuff)))))
+                    ;;Used format "~.a" to transform into a string, find a better way
+                    (unless (null? arg)
+                      (syntax-parse arg
+                        #:datum-literals (if not > <= >= < and lambda map length list lst) ;; is lst a datum literal??
+                        [(not (> a b))
+                         (write-back #'(<= a b))]
+                        [(not (<= a b))
+                         (write-back #'(> a b))]
+                        [(not (< a b))
+                         (write-back #'(>= a b))]
+                        [(not (>= a b))
+                         (write-back #'(< a b))]
+                        [(if test-expr then-expr else-expr)
+                         (begin
+                           (when (and #t (not (syntax->datum #'then-expr)) (syntax->datum #'else-expr))
+                             (write-back #'(not test-expr)))
+                           (when (and #t (syntax->datum #'then-expr) (not (syntax->datum #'else-expr)))
+                             (write-back #'test-expr)))]
+                        [(and (< x y) (< v z))
+                         (when (equal? (syntax->datum #'y) (syntax->datum #'v))
+                           (write-back #'(< x y z)))]
+                        [(and (> x y) (> v z))
+                         (when (equal? (syntax->datum #'y) (syntax->datum #'v))
+                           (write-back #'(> x y z)))]
+                        #;[(cons x (list y v ...))
+                           (write-back #'(list x y v ...))]
+                        [(= (length l) 0) (write-back #'(null? l))]
+                        ;[(= (length l) 1) (write-back #'(singleton? l))] this does not exist?
+                        [(cons x (list y ... v)) (write-back #'(list x y ... v))]
+                        [(map (lambda (lst) (function lst)) arg) (write-back #'(map function arg))]))
+                    refactoring-string)
                   
+                  (add-sep)
+                  (define refactoring-menu
+                    (make-object menu%
+                      "Refactoring Menu"
+                      menu))
+                  #;(define (callback accept)
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                          ; (what-is? menu) is an editor
+                          
+                          (extract-function make-identifiers-hash binding-identifiers
+                                            frame-parent text start-selection end-selection binding-aux))))
+                  (make-object menu-item%
+                    (get-refactoring-string)
+                    refactoring-menu
+                    (λ (item evt)
+                      (let ([frame-parent (find-menu-parent menu)])
+                        (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux))))
+                  (unless (null? binding-aux)
+                    (make-object menu-item%
+                      "Remove Not"
+                      refactoring-menu
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                          (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux)))))
+                  (unless (null? binding-aux)
+                    (make-object menu-item%
+                      "Remove If"
+                      refactoring-menu
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                          (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux)))))
+                  (unless (null? binding-aux)
+                    (make-object menu-item%
+                      "Remove And"
+                      refactoring-menu
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                          (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux)))))
+                  (unless (null? binding-aux)
+                    (make-object menu-item%
+                      "To List"
+                      refactoring-menu
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                          (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux)))))
+                  (unless (null? binding-aux)
+                    (make-object menu-item%
+                      "Simplify Map"
+                      refactoring-menu
+                      (λ (item evt)
+                        (let ([frame-parent (find-menu-parent menu)])
+                          (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux)))))
                   (unless (null? binding-aux)
                     ;(define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
                       "Extract Function"
-                      menu
+                      refactoring-menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           ; (what-is? menu) is an editor
@@ -1518,14 +1611,14 @@ If the namespace does not, they are colored the unbound color.
                   (unless (null? binding-aux)
                     (make-object menu-item%
                       "Eta Reduction"
-                      menu
+                      refactoring-menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           (eta-reduction frame-parent text start-selection end-selection binding-aux)))))
                   (unless #f ;improve this
                     (make-object menu-item%
                       "Syntax Refactoring"
-                      menu
+                      refactoring-menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux)))))
@@ -1533,7 +1626,7 @@ If the namespace does not, they are colored the unbound color.
                     ;(define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
                       "Eta Abstraction"
-                      menu
+                      refactoring-menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           (eta-abstraction frame-parent text start-selection end-selection binding-aux)))))
@@ -1541,7 +1634,7 @@ If the namespace does not, they are colored the unbound color.
                   (unless (null? binding-identifiers)
                     (define name-to-offer (find-name-to-offer binding-identifiers))
                     (new menu-item%
-                         [parent menu]
+                         [parent refactoring-menu]
                          [label (fw:gui-utils:format-literal-label (string-append "Add Prefix to "
                                                                                   name-to-offer))]
                          [callback
@@ -1553,11 +1646,11 @@ If the namespace does not, they are colored the unbound color.
                     ;(define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
                       "Organize Imports"
-                      menu
+                      refactoring-menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           (organize-imports frame-parent text start-selection end-selection binding-aux)))))
-                  ;;;;;Add Syntax-here
+
                   
                   
                   (unless (null? binding-identifiers)
@@ -1572,7 +1665,7 @@ If the namespace does not, they are colored the unbound color.
                     (when imported?
                       (set! name-to-offer (send text get-text start-selection end-selection)))
                     (new menu-item%
-                         [parent menu]
+                         [parent refactoring-menu]
                          [label (fw:gui-utils:format-literal-label (string-constant cs-rename-var)
                                                                    name-to-offer)]
                          [callback
@@ -1960,41 +2053,41 @@ If the namespace does not, they are colored the unbound color.
               (displayln arg)
               ;;; require for template
               #;(syntax-parse arg
-                #:literals ((if if #:phase 2))
-                ;#:datum-literals (if)
-                ;#:literals (if)
-                [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))])
+                  #:literals ((if if #:phase 2))
+                  ;#:datum-literals (if)
+                  ;#:literals (if)
+                  [(if test-expr then-expr else-expr) (syntax->datum #'(not test-expr))])
               
               
               ;;Used format "~.a" to transform into a string, find a better way
               (syntax-parse arg
-                  #:datum-literals (if not > <= >= < and lambda map length list lst) ;; is lst a datum literal??
-                  [(not (> a b))
-                   (write-back #'(<= a b))]
-                  [(not (<= a b))
-                   (write-back #'(> a b))]
-                  [(not (< a b))
-                   (write-back #'(>= a b))]
-                  [(not (>= a b))
-                   (write-back #'(< a b))]
-                  [(if test-expr then-expr else-expr)
-                   (begin
-                     (when (and #t (not (syntax->datum #'then-expr)) (syntax->datum #'else-expr))
-                       (write-back #'(not test-expr)))
-                     (when (and #t (syntax->datum #'then-expr) (not (syntax->datum #'else-expr)))
-                       (write-back #'test-expr)))]
-                  [(and (< x y) (< v z))
-                   (when (equal? (syntax->datum #'y) (syntax->datum #'v))
-                     (write-back #'(< x y z)))]
-                  [(and (> x y) (> v z))
-                   (when (equal? (syntax->datum #'y) (syntax->datum #'v))
-                     (write-back #'(> x y z)))]
-                  [(cons x (list y v ...))
-                   (write-back #'(list x y v ...))]
-                  [(= (length l) 0) (write-back #'(null? l))]
-                  ;[(= (length l) 1) (write-back #'(singleton? l))] this does not exist?
-                  [(cons x (list y ... v)) (write-back #'(list x y ... v))]
-                  [(map (lambda (lst) (function lst)) arg) (write-back #'(map function arg))])) ;;lst is a datum-literals?
+                #:datum-literals (if not > <= >= < and lambda map length list lst) ;; is lst a datum literal??
+                [(not (> a b))
+                 (write-back #'(<= a b))]
+                [(not (<= a b))
+                 (write-back #'(> a b))]
+                [(not (< a b))
+                 (write-back #'(>= a b))]
+                [(not (>= a b))
+                 (write-back #'(< a b))]
+                [(if test-expr then-expr else-expr)
+                 (begin
+                   (when (and #t (not (syntax->datum #'then-expr)) (syntax->datum #'else-expr))
+                     (write-back #'(not test-expr)))
+                   (when (and #t (syntax->datum #'then-expr) (not (syntax->datum #'else-expr)))
+                     (write-back #'test-expr)))]
+                [(and (< x y) (< v z))
+                 (when (equal? (syntax->datum #'y) (syntax->datum #'v))
+                   (write-back #'(< x y z)))]
+                [(and (> x y) (> v z))
+                 (when (equal? (syntax->datum #'y) (syntax->datum #'v))
+                   (write-back #'(> x y z)))]
+                [(cons x (list y v ...))
+                 (write-back #'(list x y v ...))]
+                [(= (length l) 0) (write-back #'(null? l))]
+                ;[(= (length l) 1) (write-back #'(singleton? l))] this does not exist?
+                [(cons x (list y ... v)) (write-back #'(list x y ... v))]
+                [(map (lambda (lst) (function lst)) arg) (write-back #'(map function arg))])) ;;lst is a datum-literals?
             
             
             
