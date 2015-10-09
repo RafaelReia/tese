@@ -1615,7 +1615,7 @@ If the namespace does not, they are colored the unbound color.
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           (eta-reduction frame-parent text start-selection end-selection binding-aux)))))
-                  (unless #f ;improve this
+                  #;(unless #f ;improve this
                     (make-object menu-item%
                       "Syntax Refactoring"
                       refactoring-menu
