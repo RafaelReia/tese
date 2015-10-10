@@ -20,12 +20,21 @@
 ;(define c (void))
 
 (define if-to-cond #'(if (< a b)
-                         #t
+                         1
                          (if (< b a )
-                             #t
-                             (if (< c a)
-                                 #t
-                                 #f))))
+                             2
+                             (if (< a c)
+                                 5
+                                 (if (< c a)
+                                     3
+                                     4)))))
+(define a 1)
+(define b 1)
+(define c 1)
+(cond [(< a b) 1]
+      [(< b a) 2]
+      [(< c a) 3]
+      [else 4])
 (define parser1
   (syntax-parser
     [((~or (~once (~seq #:a x) #:name "#:a keyword")
@@ -34,17 +43,27 @@
      'ok]))
 
 (syntax-parse if-to-cond
-      #:literals( if)
-      [((~or (~once (~seq if test-expr then-expr else-expr) #:name "If-last-part" ) ;exactly once
-             ;(~optional (~seq if test-expr then-expr else-expr)) ; maximum one
-             (~seq if test-expr2 then-expr2)) ...) ;at will
-       #'then-expr])
+  #:literals( if)
+  [((~or (~once (~seq if test-expr then-expr else-expr) #:name "If-last-part" ) ;exactly once
+         ;(~optional (~seq if test-expr then-expr else-expr)) ; maximum one
+         (~optional (~seq test-expr4 then-expr4))
+         (~optional (~seq if test-expr5 then-expr5))
+         (~seq test-expr3 then-expr3 if)
+         (~seq if test-expr2 then-expr2 if)) ...)
+   ;at will
+   #'else-expr])
+
+
+#;#'(if test-expr2 ... then-expr2 ... (if test-expr then-expr else-expr))
+#;#'(cond [test-expr2 ... then-expr2 ...] 
+          [test-expr then-expr]
+          [else else-expr])
 
 
 
-(syntax-parse if-to-cond
-  #:literals(if)
-  [(~or (if test-expr then-expr else-expr) (if test-expr then-expr (if test-expr1 then-expr1))) #'test-expr ])
+#;(syntax-parse if-to-cond
+    #:literals(if)
+    [(~or (if test-expr then-expr else-expr) (if test-expr then-expr (if test-expr1 then-expr1))) #'test-expr ])
 ;;;;;;;;;;;; If to When
 (syntax-parse #'(if (< a b) #t (void))
   #:literals (if)
