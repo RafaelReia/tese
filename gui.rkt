@@ -1562,6 +1562,12 @@ If the namespace does not, they are colored the unbound color.
                     (λ (item evt)
                       (let ([frame-parent (find-menu-parent menu)])
                         (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux))))
+                  (make-object menu-item%
+                    "If-to-Cond Refactoring"
+                    refactoring-menu
+                    (λ (item evt)
+                      (let ([frame-parent (find-menu-parent menu)])
+                        (if-to-cond frame-parent text start-selection end-selection start-line end-line binding-aux))))
                   (unless (null? binding-aux)
                     (make-object menu-item%
                       "Remove Not"
@@ -1616,12 +1622,12 @@ If the namespace does not, they are colored the unbound color.
                         (let ([frame-parent (find-menu-parent menu)])
                           (eta-reduction frame-parent text start-selection end-selection binding-aux)))))
                   #;(unless #f ;improve this
-                    (make-object menu-item%
-                      "Syntax Refactoring"
-                      refactoring-menu
-                      (λ (item evt)
-                        (let ([frame-parent (find-menu-parent menu)])
-                          (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux)))))
+                      (make-object menu-item%
+                        "Syntax Refactoring"
+                        refactoring-menu
+                        (λ (item evt)
+                          (let ([frame-parent (find-menu-parent menu)])
+                            (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux)))))
                   (unless #t;(null? binding-aux)
                     ;(define name-to-offer (find-name-to-offer binding-identifiers))
                     (make-object menu-item%
@@ -1650,7 +1656,7 @@ If the namespace does not, they are colored the unbound color.
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
                           (organize-imports frame-parent text start-selection end-selection binding-aux)))))
-
+                  
                   
                   
                   (unless (null? binding-identifiers)
@@ -2012,6 +2018,73 @@ If the namespace does not, they are colored the unbound color.
               
               (for ([txt (in-list edit-sequence-txts)])
                 (send txt end-edit-sequence)) 
+              )
+            
+            (define/private (if-to-cond parent text start-selection end-selection start-line end-line binding-aux)
+              (define (write-back aux-stx)
+                (displayln "WRINTING")
+                (let ([edit-sequence-txts (list this)])
+                  ;(displayln call)
+                  ;;start editiing
+                  (begin-edit-sequence)
+                  ;(displayln "begin")
+                  (send text begin-edit-sequence)
+                  (set! edit-sequence-txts (cons text edit-sequence-txts))
+                  ;;Delete the text
+                  (send text delete start-selection end-selection)
+                  ;;write call
+                  (send text insert (format "~.a" (syntax->datum aux-stx)) start-selection 'same)
+                  ;; end Editing
+                  (for ([txt (in-list edit-sequence-txts)])
+                    (send txt end-edit-sequence))))
+              (define arg null)
+              (set! arg (code-walker-non-expanded not-expanded-program (+ 1 start-line) (+ 1 end-line)))
+              
+              (define (parser1 stx)
+                (define stx-aux null)
+                (define list-tests (list))
+                (define list-thens (list))
+                (define else-aux null)
+                (define (create-conds list-tests)
+                  (define result null)
+                  
+                  (define (create-result lst)
+                    (unless (null? list-tests)
+                      (cond [(syntax? list-tests)  (displayln "syntax reached")
+                                                   (set! result (cons #`(#,list-tests #,list-thens) result))]
+                            [(pair? list-tests)  (displayln "pair reached")
+                                                 (set! result (cons #`[#,(car list-tests) #,(car list-thens)] result))
+                                                 (displayln result)
+                                                 (set! list-tests (cdr list-tests))
+                                                 (set! list-thens (cdr list-thens))
+                                                 (create-result list-tests)]
+                            [else (displayln "else reached")])))
+                  (displayln "Creating the result")
+                  (create-result list-tests)
+                  (displayln result)
+                  result) 
+                (define (parse-if stx)
+                  (syntax-parse stx
+                    [(if test-expr then-expr else-expr)  (begin 
+                                                           (displayln "weeee")
+                                                           (set! list-tests (cons #'test-expr list-tests))
+                                                           (set! list-thens (cons #'then-expr list-thens))
+                                                           (parse-if #'else-expr))]
+                    [else (begin
+                            (displayln "end")
+                            (displayln (reverse list-tests))
+                            (displayln (reverse list-thens))
+                            (displayln #'else)
+                            ;(set! list-tests (reverse list-tests))
+                            ;(set! list-thens (reverse list-thens))
+                            (set! else-aux #'else)
+                            )]))
+                ;;#`(+ 1 #,test)
+                (parse-if stx)
+                (write-back #`(cond 
+                    #,@(create-conds list-tests)
+                    [else #, else-aux])))
+                (parser1 arg)
               )
             ;; callback for the Added-menu Syntax Refactoring
             (define/private (syntax-refactoring parent text start-selection end-selection start-line end-line binding-aux)

@@ -1,6 +1,16 @@
 #lang racket
 (define a 1)
 (define b 2)
+(define c 3)
+(if (< a b)
+    1
+    (if (< b a )
+        2
+        (if (< a c)
+            5
+            (if (< c a)
+                3
+                4))))
 ;;;Not
 (not (> a b))
 (not (>= a b))
