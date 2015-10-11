@@ -24,13 +24,22 @@
     (define result null)
     
     (define (create-result lst)
-    (unless (null? list-tests)
-      (begin
-        (if (syntax? list-tests)
-            (set! result (cons #`([#,list-tests #,list-thens]) result))
-            (begin (set! result (cons #`([#,(car list-tests) #,(car list-thens)]) result))
-                   (create-result (car list-tests)))))))
-    (create-result list-tests))
+      (unless (null? list-tests)
+        (cond [(syntax? list-tests)  (displayln "syntax reached")
+                              (set! result (cons #`(#,list-tests #,list-thens) result))]
+              [(pair? list-tests)  (displayln "pair reached")
+                            (set! result (cons #`[#,(car list-tests) #,(car list-thens)] result))
+                            (displayln result)
+                            (set! list-tests (cdr list-tests))
+                            (set! list-thens (cdr list-thens))
+                            (create-result list-tests)]
+              [else (displayln "else reached")])))
+    (displayln "Creating the result")
+    (create-result list-tests)
+    (displayln result)
+    result)  
+  
+  
   (define (parse-if stx)
     (syntax-parse stx
       [(if test-expr then-expr else-expr)  (begin 
@@ -43,15 +52,19 @@
               (displayln (reverse list-tests))
               (displayln (reverse list-thens))
               (displayln #'else)
+              ;(set! list-tests (reverse list-tests))
+              ;(set! list-thens (reverse list-thens))
               (set! else-aux #'else)
               )]))
   ;;#`(+ 1 #,test)
   (parse-if stx)
   #`(cond 
-      #,(create-conds list-tests)
+      #,@(create-conds list-tests)
       [else #, else-aux])
   )
 
 (parser1 if-to-cond)
+
+
 
 
