@@ -2,7 +2,7 @@ Fixed => find way to get the unexpanded program... How? Is it possible? IT is
 More info
 http://docs.racket-lang.org/tools/drracket_eval.html#%28def._%28%28lib._drracket%2Ftool-lib..rkt%29._drracket~3aeval~3aexpand-program%29%29
 
-FIXME Bug last line in the program is not found in get-syntax...
+FIXED Bug last line in the program is not found in get-syntax...
 FIXME There is a bug in syntax-walker that for programs with 1 line it does not work.
 FIXME => bug while expanding files with classes and stuff. Fix this!
 

@@ -23,12 +23,13 @@
 (if (= (+ a b) a)
     #t
     #f)
-;;; And
-(and (< (foo 1) (foo 2)) (< (foo 2) 3))
-(and (> 3 2) (> 2 1))
 (define (foo n)
   (displayln "ola")
   n)
+;;; And
+(and (< (foo 1) (foo 2)) (< (foo 2) 3))
+(and (> 3 2) (> 2 1))
+
 (define l (list))
 
 (= (length l) 0)
@@ -37,7 +38,8 @@
 (cons 1 (list 2 3 4 5 6))
 
 
-(map (lambda (l) (car l)) '((1 2)(3 4)))
+(map (lambda (l) (car l)) (list (list 1 2) (list 3 4)))
+(map (lambda (l) (car l)) '((1 2) (3 4)))
 ;(map car '((1 2)(3 4)))
 
 ;;future work. explore phases + scopes

@@ -1515,7 +1515,7 @@ If the namespace does not, they are colored the unbound color.
                     ;;Used format "~.a" to transform into a string, find a better way
                     (unless (null? arg)
                       (syntax-parse arg
-                        #:datum-literals (if not > <= >= < and lambda map length list lst) ;; is lst a datum literal??
+                        #:datum-literals (cons if not > <= >= < and lambda length list) ;; is lst a datum literal??
                         [(not (> a b))
                          (write-back #'(<= a b))]
                         [(not (<= a b))
@@ -1541,7 +1541,8 @@ If the namespace does not, they are colored the unbound color.
                         [(= (length l) 0) (write-back #'(null? l))]
                         ;[(= (length l) 1) (write-back #'(singleton? l))] this does not exist?
                         [(cons x (list y ... v)) (write-back #'(list x y ... v))]
-                        [(map (lambda (lst) (function lst)) arg) (write-back #'(map function arg))]))
+                        [(ft (lambda (arg-aux) (ftn arg-aux2)) arg) #:when (eq? (syntax-e #'arg-aux) (syntax-e #'arg-aux2)) (write-back #'(ft ftn arg))]
+                        [((lambda (arg-aux) (function arg-aux2)) arg) #:when (eq? (syntax-e #'arg-aux) (syntax-e #'arg-aux2)) (write-back #'(function art))]))
                     refactoring-string)
                   
                   (add-sep)
@@ -1598,7 +1599,7 @@ If the namespace does not, they are colored the unbound color.
                           (syntax-refactoring frame-parent text start-selection end-selection start-line end-line binding-aux)))))
                   (unless (null? binding-aux)
                     (make-object menu-item%
-                      "Simplify Map"
+                      "Eta Reduction"
                       refactoring-menu
                       (λ (item evt)
                         (let ([frame-parent (find-menu-parent menu)])
@@ -2066,7 +2067,7 @@ If the namespace does not, they are colored the unbound color.
                 (define (parse-if stx)
                   (syntax-parse stx
                     [(if test-expr then-expr else-expr)  (begin 
-                                                           (displayln "weeee")
+                                                           ;(displayln "weeee")
                                                            (set! list-tests (cons #'test-expr list-tests))
                                                            (set! list-thens (cons #'then-expr list-thens))
                                                            (parse-if #'else-expr))]
@@ -2134,7 +2135,7 @@ If the namespace does not, they are colored the unbound color.
               
               ;;Used format "~.a" to transform into a string, find a better way
               (syntax-parse arg
-                #:datum-literals (if not > <= >= < and lambda map length list lst) ;; is lst a datum literal??
+                #:datum-literals (cons if not > <= >= < and lambda map length list) ;; is lst a datum literal??
                 [(not (> a b))
                  (write-back #'(<= a b))]
                 [(not (<= a b))
@@ -2159,8 +2160,9 @@ If the namespace does not, they are colored the unbound color.
                  (write-back #'(list x y v ...))]
                 [(= (length l) 0) (write-back #'(null? l))]
                 ;[(= (length l) 1) (write-back #'(singleton? l))] this does not exist?
-                [(cons x (list y ... v)) (write-back #'(list x y ... v))]
-                [(map (lambda (lst) (function lst)) arg) (write-back #'(map function arg))])) ;;lst is a datum-literals?
+                ;[(cons x (list y ... v)) (write-back #'(list x y ... v))]
+                [(ft (lambda (arg-aux) (ftn arg-aux2)) arg)  #:when (eq? (syntax-e #'arg-aux) (syntax-e #'arg-aux2)) (write-back #'(ft ftn arg))]
+                [((lambda (arg-aux) (function arg-aux2)) arg)  #:when (eq? (syntax-e #'arg-aux) (syntax-e #'arg-aux2)) (write-back #'(function art))])) ;;lst is a datum-literals?
             
             
             
