@@ -1503,7 +1503,7 @@ If the namespace does not, they are colored the unbound color.
                   
                   
                   ;(examine-identifiers make-identifiers-aux binding-aux)
-                  (define refactoring-string "")
+                  (define refactoring-string "Not stuff")
                   (define (get-refactoring-string)
                     (define arg null)
                     (set! arg (code-walker-non-expanded not-expanded-program (+ 1 start-line) (+ 1 end-line)))
@@ -1515,7 +1515,7 @@ If the namespace does not, they are colored the unbound color.
                     ;;Used format "~.a" to transform into a string, find a better way
                     (unless (null? arg)
                       (syntax-parse arg
-                        #:datum-literals (cons if not > <= >= < and lambda length list) ;; is lst a datum literal??
+                        #:literals (cons if not > <= >= < and lambda length list) ;; is lst a datum literal??
                         [(not (> a b))
                          (write-back #'(<= a b))]
                         [(not (<= a b))
@@ -1558,7 +1558,8 @@ If the namespace does not, they are colored the unbound color.
                           (extract-function make-identifiers-hash binding-identifiers
                                             frame-parent text start-selection end-selection binding-aux))))
                   (make-object menu-item%
-                    (get-refactoring-string)
+                    ;(get-refactoring-string)
+                    "For-now-String"
                     refactoring-menu
                     (λ (item evt)
                       (let ([frame-parent (find-menu-parent menu)])
@@ -2136,6 +2137,7 @@ If the namespace does not, they are colored the unbound color.
               ;;Used format "~.a" to transform into a string, find a better way
               (syntax-parse arg
                 #:datum-literals (cons if not > <= >= < and lambda map length list) ;; is lst a datum literal??
+                ;#:literals ((~literal >= #:phase 0 not #:phase 0iteral > #:phase 0) (~literal < #:phase 0) (~literal <= #:phase 0)  )
                 [(not (> a b))
                  (write-back #'(<= a b))]
                 [(not (<= a b))
@@ -2144,25 +2146,25 @@ If the namespace does not, they are colored the unbound color.
                  (write-back #'(>= a b))]
                 [(not (>= a b))
                  (write-back #'(< a b))]
-                [(if test-expr then-expr else-expr)
+                #;[(if test-expr then-expr else-expr)
                  (begin
                    (when (and #t (not (syntax->datum #'then-expr)) (syntax->datum #'else-expr))
                      (write-back #'(not test-expr)))
                    (when (and #t (syntax->datum #'then-expr) (not (syntax->datum #'else-expr)))
                      (write-back #'test-expr)))]
-                [(and (< x y) (< v z))
+                #;[(and (< x y) (< v z))
                  (when (equal? (syntax->datum #'y) (syntax->datum #'v))
                    (write-back #'(< x y z)))]
-                [(and (> x y) (> v z))
+                #;[(and (> x y) (> v z))
                  (when (equal? (syntax->datum #'y) (syntax->datum #'v))
                    (write-back #'(> x y z)))]
-                [(cons x (list y v ...))
+                #;[(cons x (list y v ...))
                  (write-back #'(list x y v ...))]
-                [(= (length l) 0) (write-back #'(null? l))]
+                #;[(= (length l) 0) (write-back #'(null? l))]
                 ;[(= (length l) 1) (write-back #'(singleton? l))] this does not exist?
                 ;[(cons x (list y ... v)) (write-back #'(list x y ... v))]
-                [(ft (lambda (arg-aux) (ftn arg-aux2)) arg)  #:when (eq? (syntax-e #'arg-aux) (syntax-e #'arg-aux2)) (write-back #'(ft ftn arg))]
-                [((lambda (arg-aux) (function arg-aux2)) arg)  #:when (eq? (syntax-e #'arg-aux) (syntax-e #'arg-aux2)) (write-back #'(function art))])) ;;lst is a datum-literals?
+                #;[(ft (lambda (arg-aux) (ftn arg-aux2)) arg)  #:when (eq? (syntax-e #'arg-aux) (syntax-e #'arg-aux2)) (write-back #'(ft ftn arg))]
+                #;[((lambda (arg-aux) (function arg-aux2)) arg)  #:when (eq? (syntax-e #'arg-aux) (syntax-e #'arg-aux2)) (write-back #'(function art))])) ;;lst is a datum-literals?
             
             
             

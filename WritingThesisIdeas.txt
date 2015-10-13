@@ -1,30 +1,49 @@
 Refactoring Tool work flow: (add a brief explanation of what does )
+The tool uses two pieces of information, def-use-relations and the AST.
+It gets the def-use-relations directly from DrRacket, which is visually
+represented in a form of Arrows, and are used in refactorings such as Extract-
+Method, Add-Prefix, Organize-Imports, etc.
+
+The AST is aquired after using the check-syntax button. It was intended to be
+aquired automatically, because DrRacket has an online check syntax, but it was
+not possible. After that it cleans the AST removing information that is not
+necessary, at least for now, for the refactorings. When the AST is cleaned it
+passes the exact part of the AST that was selected. And tries to match rules,
+using syntax-parse against that syntax.
 
 Syntax-Parse Utility
+Racket gives a function that parses syntax. The Syntax-Parse provided by Racket
+is rather useful. because besides having a wide range of auxiliary functions that
+helps matching the syntax it also has backtracking. With Backtracking it is
+possible to have several rules to be match in the same syntax parser which
+helps to create more sophisticated rules.
 
-
-Online comp Vs Check Syntax Hello
-we do not know what calls the online sytax expander, and for
-now we can not find a way of passing the information back to the gui.rkt from
-the online-comp.rkt / code-walker.rkt. This happens because a new instance is
-created of the online-comp.rkt / code-walker.rkt which does not "share" the
-values of other instances *duhh*. Having an instance of gui.rkt in
+Online comp Vs Check Syntax button
+Online-comp is the racket's online check syntax. Besides being online we do not
+know what calls the online syntax expander. Because of that we can not find a
+way of storing the AST information that we need to do the refactoring operations.
+Not knowing what calls the online syntax expander makes it impossible to store
+the information because the instance that receives the AST information is not
+accessible, it dissapears.
+Having an instance of gui.rkt in
 online-comp.rkt / code-walker.rkt does not work either because we can not have 2
 instances of the same thing running at the same time.
+Therefore there are three posible solutions:
 
-Possible solutions:
 Write to a file
-Find out what is calling/starting the handler and get the results from there (??)
+Find out what is calling/starting the handler and get the results from there
  => Use Check Syntax Button
-
-
- The last one was chosen because the others failed, either because we wasn't able
+The last one was chosen because the others failed, either because we wasn't able
  to store syntax objects in a file (in a "small" number of time) or because we
  could not find what is calling that (in a "small" number of time).
 
- We want to put that working *automatically*, we Have two options:
- Fix the problem
- Automate the "call" to the check syntax button
+The solution choosed can be improved by working *automatically*.
+To do that we Have two options:
+ Use the Online check syntax
+ Automate the "call" to the check syntax button.
+ Possibilly the automate the call to the check syntax button will be choosen.
+ This simplifies the process, however it increases the time that the user has to
+ wait, and can make it unusable.
 
 Expanded Program Vs Not expanded Program
 #Talk about difficulty, durability, Python (other languages)
@@ -48,4 +67,4 @@ Refactoring Let to Defines Usefulness Vs implementation difficulty
 
 Refactoring Define to Let Usefulness Vs Implementation difficulty
 
-Case Study: (find one)
+Case Study: (find one) FP Project, Architecture Project.
