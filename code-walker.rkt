@@ -458,7 +458,12 @@
   ; (save-expanded-program)
   ;(save-expanded-program)
   (displayln "END FILE")
-  result
+  ;result
+  (syntax-parse (car result)
+    #:literals(if)
+    [(call-with-values (lambda () (if test-expr then-expr else-expr)) print-values) 
+     (when #t (equal? (syntax->datum #'(then-expr)) (not (syntax->datum #'else-expr)))
+       (displayln (format "~.a" (syntax->datum #'(not test-expr)))))])
   )
 
 
@@ -490,9 +495,17 @@
   (displayln result)
   (displayln "$$$$$$$$$$$$$$$ BUG Literals TEST $$$$$$$$$$$$$$$$$$")
   #;(syntax-parse (car test)
-    #:literals ((not not #:phase -2)) ;; is lst a datum literal??
-    [(not (> a b))
-     (displayln #'(<= a b))])
+      #:literals ((not not #:phase -2)) ;; is lst a datum literal??
+      [(not (> a b))
+       (displayln #'(<= a b))])
+  (displayln (syntax-property-symbol-keys result))
+  (displayln (syntax-original? result))
+  (displayln (syntax-source result))
+ #| (displayln (syntax-source-module result))
+  (displayln (syntax-tainted? result))
+  (displayln (syntax-tainted? (syntax-protect result)))
+  (syntax-disarm result #f)
+  (displayln (syntax-tainted? result))|#
   result
   )
 
