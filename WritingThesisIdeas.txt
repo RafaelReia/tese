@@ -68,3 +68,5 @@ Refactoring Let to Defines Usefulness Vs implementation difficulty
 Refactoring Define to Let Usefulness Vs Implementation difficulty
 
 Case Study: (find one) FP Project, Architecture Project.
+
+Future work: Automated refactoring, after finishing a project to make it more beatufiful.
