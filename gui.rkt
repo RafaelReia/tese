@@ -1559,7 +1559,7 @@ If the namespace does not, they are colored the unbound color.
                                             frame-parent text start-selection end-selection binding-aux))))
                   (make-object menu-item%
                     ;(get-refactoring-string)
-                    "For-now-String"
+                    "Change-this-String"
                     refactoring-menu
                     (λ (item evt)
                       (let ([frame-parent (find-menu-parent menu)])
@@ -1570,6 +1570,12 @@ If the namespace does not, they are colored the unbound color.
                     (λ (item evt)
                       (let ([frame-parent (find-menu-parent menu)])
                         (if-to-cond frame-parent text start-selection end-selection start-line end-line binding-aux))))
+                  (make-object menu-item%
+                    "Cond-to-If Refactoring"
+                    refactoring-menu
+                    (λ (item evt)
+                      (let ([frame-parent (find-menu-parent menu)])
+                        (cond-to-if frame-parent text start-selection end-selection start-line end-line binding-aux))))
                   (unless (null? binding-aux)
                     (make-object menu-item%
                       "Remove Not"
@@ -2021,6 +2027,50 @@ If the namespace does not, they are colored the unbound color.
               (for ([txt (in-list edit-sequence-txts)])
                 (send txt end-edit-sequence)) 
               )
+            (define/private (cond-to-if parent text start-selection end-selection start-line end-line binding-aux)
+              (define arg null)
+              (set! arg (code-walker-non-expanded not-expanded-program (+ 1 start-line) (+ 1 end-line)))
+              (define (write-back aux-stx)
+                (displayln "WRINTING")
+                (let ([edit-sequence-txts (list this)])
+                  (begin-edit-sequence)
+                  ;(displayln "begin")
+                  (send text begin-edit-sequence)
+                  (set! edit-sequence-txts (cons text edit-sequence-txts))
+                  ;;Delete the text
+                  (send text delete start-selection end-selection)
+                  ;;write call
+                  (send text insert (format "~.a" (syntax->datum aux-stx)) start-selection 'same)
+                  ;; end Editing
+                  (for ([txt (in-list edit-sequence-txts)])
+                    (send txt end-edit-sequence))))
+              (define (write-if conds thens last-else)
+                (define aux-result null)
+                (define result null)
+                (define (write-aux conds thens)
+                  (unless (null? conds)
+                    (begin
+                      ;(displayln (syntax? conds))
+                      (set! aux-result (cons #`(#,(car conds) #,(car thens)) aux-result))
+                      (write-aux (cdr conds) (cdr thens))))) 
+                (define (write-to-if aux-result last-else)
+                  (define (create-if conds)
+                    (if (null? conds)
+                        last-else
+                        #`(if (#,@(car (syntax-e (car conds))))
+                              #,@(cdr (syntax-e (car conds)))
+                              #,(create-if (cdr conds)))))
+                  (create-if aux-result))
+                (write-aux (syntax-e conds) (syntax-e thens))
+                (set! result #`(#,@(write-to-if (reverse aux-result) last-else)))
+                #;(displayln (syntax->datum result))
+                result)
+              
+              (syntax-parse arg
+                [(cond (~seq (e:expr then-stuff) ... [else stuff]))
+                 (begin 
+                   #'(e ...)
+                   (write-back (write-if #'(e ...) #'(then-stuff ...) #'stuff)))]))
             
             (define/private (if-to-cond parent text start-selection end-selection start-line end-line binding-aux)
               (define (write-back aux-stx)
@@ -2084,10 +2134,9 @@ If the namespace does not, they are colored the unbound color.
                 ;;#`(+ 1 #,test)
                 (parse-if stx)
                 (write-back #`(cond 
-                    #,@(create-conds list-tests)
-                    [else #, else-aux])))
-                (parser1 arg)
-              )
+                                #,@(create-conds list-tests)
+                                [else #, else-aux])))
+              (parser1 arg))
             ;; callback for the Added-menu Syntax Refactoring
             (define/private (syntax-refactoring parent text start-selection end-selection start-line end-line binding-aux)
               (define arg null)

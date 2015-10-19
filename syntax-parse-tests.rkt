@@ -1,7 +1,8 @@
 #lang racket/base
-(if (= (+ a b) a) 
-    #f 
-    #t)
+(cond [(< 1 2) 1]
+       [(< 2 3) 2]
+       [(< 4 5) 3]
+       [else 4])
 (not (> 1 2))
 (define a 1)
 (define b 2)
@@ -15,6 +16,9 @@
             (if (< c a)
                 3
                 4))))
+(if (= (+ a b) a) 
+    #f 
+    #t)
 ;;;Not
 (not (> a b))
 (not (>= a b))
