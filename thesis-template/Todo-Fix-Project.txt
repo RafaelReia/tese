@@ -1,0 +1,71 @@
+[FIXME]Should inexperienced programmers do refactoring at all?
+
+Abstract:
+[FIXME]Relationship not clear between inexperienced programmers and dynamic languages.
+
+[FIXME]How much refactoring is indeed done in those contexts?
+(dynamic languages in learning courses)
+
+[FIXME]How much refactoring is done in industrial contexts for dynamic languages?
+
+Introduction:
+[TODO]Define basic block
+
+[FIXME]: E.g. PHP is object oriented and there is no refactoring tools.
+
+[FIXME] common tool.
+
+[FIXME] The importance of refactoring is not clear when the context is teaching.
+(is this the starting point?) [TODO] EXPLAIN this very clearly!
+
+[Scietific community, explain] -> not true in general!!
+[FIXME] What is a pedagogic environmnet.
+
+OBjectives:
+[FIXME] What is a pedagogic environment??? [not sure]
+[FIXME] in what way is eclipse not pedagogic
+in addition to the users what is the level of complexity associated with
+the code being refactored.
+
+3.1 [Already discussed, maybe explain better]
+'If software [missing word ]is not being [missing word] how
+are you going to evaluate your results'
+
+3.4 [FIXME] How experienced were the people doing the refactoring
+[FIXME] Relevance about finding out more aobut the program. regarting refactoring
+[FIXME] what does mean a lot of work keeping the initial representation
+[FIXME] Yet this documentation [missing word] be [missing word] for the
+ refactoring process itself
+
+ 3.5.2 [FIXME] unreadable figure (fig 1)
+ [FIXME] references and "..."
+3.5.4
+[FIXME] Ate porque uma ferramenta automatica ao e' nada de [missing words]
+ os outros 2 tipos
+[FIXME] 'Semi-automatica may be the best to teach'
+ [FIXME] change order of tables.
+ 4.1 [FIXME] criteria for better uses refactoring tools.
+
+
+ 4.2 [FIXME] table should mark most used ones
+ [FIXME] Comparassion between languages
+ 4.4 [FIXME] Problems
+ 4.4.2 [FIXME] Does not explain how it works.
+
+ 4.5 [FIXME] a lot of stuff
+ [FIXME] Scope of automated refactoring
+ [FIXME] remove randoop
+
+
+ 4.6
+ [FIXME] Remove repeated information/rewrite
+ [FIXME] rewrite to explain better.
+
+
+ 4.7
+ [FIXME] rewrite intro
+
+4.7.1
+[FIXME] [important? argument?] [missing word] [missing word] operation?
+4.7.2
+[FIXME] criteriam? of complexity
