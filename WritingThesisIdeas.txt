@@ -54,19 +54,63 @@ Testando:
 (if (= (+ 1 2) 1) #f #t) to (not (= (+ 1 2) 1))
 
 #add an example of both to compare
+#difficulty
+Racket uses s-expressions to represent the program, basically it represents the
+abstract syntax tree (AST) of the program.
+Racket has two "trees" the fully expanded program, that has all the macros
+expanded and the non expanded program, that is more like the code the user programed.
+The fully expanded program loses some information about the program, for example
+And. Or, When, Unless are transformed into if forms.
+It also adds racket internal representation of the program into the AST.
+All these combine make it harder to create refactoring operations to the program,
+because it loses information and because it adds unnecessary syntax to the program.
+It is necessary to take into consideration that the internal representation of
+the program may change in the future and that could make the refactoring tool
+useless.
 
- Sub Cap Code with Macros The Problem
+
+#Sub Cap Code with Macros The Problem
+However, if the program contains macros using the non expanded program may
+result in semantic incorrect refactoring operations. This is not considered a
+problem because this refactoring tool is aimed at unexperienced programmers (that
+had one semester of programming classes) and those type of programmers do not use
+macros. If we inteneded to create a tool for more experienced programmers the non
+expanded program is insufficient and the expanded program must be used.
+
+#python
+Using the expanded program might simplify the refactoring for other languages,
+for example it has a literal that says when the program returns in python, and
+racket does not have it. In the expanded form there is syntax that explicitly says
+where the program returns.
+
+In the future it is possible to create a tool that uses both program expansions,
+making it possible to have macros and the relation with other languages for the
+more difficult problems and using the non expanded program for the simple cases.
 
 Semantic problem (E.g. (and (< 1 (foo 2)) (< (foo 2) 3)) )
+The refactoring operation that merges two ands into one, can change the semantic
+form of the program. because if foo has collateral effects (changing the value of
+a variable, printing some stuff, etc) it will only do that once, instead of twice.
+changing the semantic of the program.
 
 Pretty Printing (E.g. Cond lets etc)
+The racket makes it easy to create syntax using the syntax-parse to transform the
+AST into another AST. however the syntax elements (s-expressions) lose some information
+about parentisis. For example it is a convention that cond clauses should be 
+surronded by [] parentisis but the syntax element does not store that information
+ among others. One possible solution to this problem is by using a pretty-printer.
+ There are several pretty-printers developed for Racket and even the Racket language
+ has one incorporated.
 
-Implemented Refactoring Operations
+
+
 
 Refactoring Let to Defines Usefulness Vs implementation difficulty
 
 Refactoring Define to Let Usefulness Vs Implementation difficulty
 
-Case Study: (find one) FP Project, Architecture Project.
+Implemented Refactoring Operations
 
+Case Study: (find one) FP Project, Architecture Project.
 Future work: Automated refactoring, after finishing a project to make it more beatufiful.
+Sugesting refactoring opportunities.
