@@ -2043,7 +2043,9 @@ If the namespace does not, they are colored the unbound color.
                   ;;Delete the text
                   (send text delete start-selection end-selection)
                   ;;write call
-                  (send text insert (format "~.a" (syntax->datum aux-stx)) start-selection 'same)
+                  (parameterize ((print-as-expression #f)
+                                 (pretty-print-columns 80))
+                    (send text insert (pretty-format (syntax->datum aux-stx)) start-selection 'same))
                   ;; end Editing
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))))
@@ -2088,14 +2090,14 @@ If the namespace does not, they are colored the unbound color.
                   ;;Delete the text
                   (send text delete start-selection end-selection)
                   ;;write call
-(print-syntax-width 9999999999)
-                  (displayln aux-stx)
-                  (pretty-print-depth 9999999999999)
-(pretty-print-columns 80)
-                  (displayln (pretty-format (syntax->string aux-stx) 80))
-                  ;(displayln (format "~.a" (syntax->datum aux-stx)))
-                  ;(send text insert (~.a (syntax->datum aux-stx) #:max-width 9999999999999) start-selection 'same)
-                  (send text insert (~.s (pretty-format (syntax->datum aux-stx))) start-selection 'same)
+                  ;(print-syntax-width 9999999999)
+                  ;(displayln aux-stx)
+                  ;(pretty-print-depth 9999999999999)
+                  
+                  ;(displayln (pretty-format (syntax->string aux-stx) 80))
+                  (parameterize ((print-as-expression #f)
+                                 (pretty-print-columns 80))
+                    (send text insert (pretty-format (syntax->datum aux-stx)) start-selection 'same))
                   ;; end Editing
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))))
@@ -2168,7 +2170,9 @@ If the namespace does not, they are colored the unbound color.
                   ;;Delete the text
                   (send text delete start-selection end-selection)
                   ;;write call
-                  (send text insert (format "~.a" (syntax->datum aux-stx)) start-selection 'same)
+                 (parameterize ((print-as-expression #f)
+                                 (pretty-print-columns 80))
+                    (send text insert (pretty-format (syntax->datum aux-stx)) start-selection 'same))
                   ;; end Editing
                   (for ([txt (in-list edit-sequence-txts)])
                     (send txt end-edit-sequence))))
