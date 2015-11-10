@@ -2,6 +2,15 @@
 
 (require syntax/parse)
 
+;;;;; named-let to define (create a function)
+;;; (let proc-id ?x ?y)
+(syntax-parse #'(let* teste ((a 1 ) (b 2)) (begin (+ a b) (+ b a)))
+  #:literals(let*)
+  [(let* name ((i e:expr) ...) ?y) #'(define (name i ...) ?y)])
+
+;;;;; let* to defines (use with caution!!)
+
+
 ;;;;;;;;;;;; If to When
 (syntax-parse #'(if (< a b) #t (void))
   #:literals (if)
@@ -16,7 +25,7 @@
    (when (equal? '(void) (syntax->datum #'then-expr)) 
      (syntax->datum #'(unless test-expr else-expr)))])
 
-;;;;;;;;; (if (cond) #t (cond))
+;;;;;;;;; (if (cond) #t (cond)) to OR
 (syntax-parse #'(if (< 1 2) #t (< 1 3))
   #:literals(if)
   [(if test-expr #t else-expr)
@@ -25,13 +34,34 @@
 
 
 
-;;;;;;;;; (if (cond) (cond) #f)
+;;;;;;;;; (if (cond) (cond) #f) to AND
 (syntax-parse #'(if (< 1 2) (< 1 3) #f)
   #:literals(if)
   [(if test-expr then-expr #f)
    (when (and (boolean? (eval-syntax #'test-expr)) (boolean? (eval-syntax #'then-expr)))
      (syntax->datum #'(and test-expr then-expr)))])
 
+;;;;;;;; (and (and ?x ... ) ?y...) -> (and ?x ... ?y...)
+(syntax-parse #'(and (and (< 1 2) (< 2 3)) (< 3 4) (< 4 5))
+  #:literals(and)
+  [(and (and ?x ...) ?y ...) #'(and ?x ... ?y ...)])
+
+;;;;;;;; (if ?x ?y #f) -> (when ?x ?y)
+(syntax-parse #'(if (< 1 2) (< 2 3) #f)
+  #:literals(if)
+  [(if ?x ?y #f) #'(when ?x ?y)])
+
+;;;;;;; (when ?x (begin ?y ...)) -> (when ?x ?y ...)
+(syntax-parse #'(when (< 1 2) (begin (< 3 2) (< 3 4)))
+  #:literals(when begin)
+  [(when ?x (begin ?y ...)) #'(when ?x (?y ...))])
+
+;;;;; (let ?x (begin ?y...)) -> (let ?x ?y ...)
+
+(syntax-parse #'(let ((a 1 ) (b 2)) (begin (+ a b) (+ b a)))
+  #:literals(let begin)
+  [(let ?x (begin ?y ...)) #'(let ?x ?y ...)])
+  
 
 
 ;;;;;;;; (and (= stuff 1) (= another-stuff 1))

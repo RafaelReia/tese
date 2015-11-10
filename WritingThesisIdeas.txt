@@ -96,21 +96,59 @@ changing the semantic of the program.
 Pretty Printing (E.g. Cond lets etc)
 The racket makes it easy to create syntax using the syntax-parse to transform the
 AST into another AST. however the syntax elements (s-expressions) lose some information
-about parentisis. For example it is a convention that cond clauses should be 
+about parentisis. For example it is a convention that cond clauses should be
 surronded by [] parentisis but the syntax element does not store that information
  among others. One possible solution to this problem is by using a pretty-printer.
  There are several pretty-printers developed for Racket and even the Racket language
  has one incorporated.
+ The one already incorporated does not use the [ ] parentisis, however racket
+ supports both representations.
 
 
 
 
 Refactoring Let to Defines Usefulness Vs implementation difficulty
+let* vs let
+There is a sublte difference between this two keywords that influences directly the simplicity of the solution.
+the let defines variables independently, while let* can use the value of the variable defined before.
+e.g.
+There is a global variable a defined with value 10.
+in the let we define variable a with 1 and variable b = a + 1
+(let ([a 1]
+[b (+ a 1)]))
+This let, becauses it defines the variables independently the value of b is 11.
+However if it was used let* the value of b would be 2.
+let* simplifies the creation of defines and removes the necessity of using the keyword local to ensure semantic preservation.
+
+While the keyword local helps semantic preservation, that is not used very often and can make confusion to the programmer.
+
+Therefore only let* would be considered because it is a more directly representation of a function.
+
+named let.
+Named let is a let that has a name and can be called, like a function.
+It is directly mapped as a function and therefore might be useful to transform to a function.
+The same applies from a function to a named let.
 
 Refactoring Define to Let Usefulness Vs Implementation difficulty
 
-Implemented Refactoring Operations
+Refactoring (if ?x (begin ?y ...) #f) could go either way:
+(when ?x ?y ...)
+or
+(and ?x (begin ?y ...))
+
+This example shows how hard it is to have an semi-automated refactoring tool
+that gives suggestions. It could displays both possibilities, but that will
+create an precedent meaning that if a refactoring has several possibilities the
+tool has to display every one. Or it could only display that there is a
+refactoring opportunity. This requires further reflection to choose the best
+approach to the problem.
+
+Implemented Refactoring Operations:
+
 
 Case Study: (find one) FP Project, Architecture Project.
-Future work: Automated refactoring, after finishing a project to make it more beatufiful.
-Sugesting refactoring opportunities.
+
+Future work:
+Automated refactoring, after finishing a project to make it more beatufiful.
+Automatic Sugesting refactoring opportunities.
+Add Python
