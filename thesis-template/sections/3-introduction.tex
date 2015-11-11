@@ -1,8 +1,8 @@
 %!TEX root = ../report.tex
 
-% 
+%
 % Introduction
-% 
+%
 
 
 % section section_name (end)
@@ -10,28 +10,28 @@
 \label{sec:Introduction}
 
 %Introduce the Refactoring Tools
-Over time, software tends to change, for instance when existing requirements are changed or new requirements are adopted. 
+Over time, software tends to change, for instance, when existing requirements are changed or new requirements are adopted.
 Even after development, bugs are found or some critical new features are added.
 %A piece of software that is used never stops changing and evolving.
 These changes make the software drift apart from its original design.
-Typically these changes increase the complexity of the software, making it less readable and harder to change \cite{mens2003refactoring}. 
+Typically these changes increase the complexity of the software, making it less readable and harder to change \cite{mens2003refactoring}.
 Consequently, it lowers the quality and increases maintenance costs.
 Continuous changes create the need for continuously improving the software structure.
 
 Refactoring is a meaning-preserving transformation or a set of meaning-preserving transformations that are meant to improve the program structure and therefore the software quality \cite{bourquin2007high}.
 %However, because refactoring is a tedious and error prone activity, for example renaming one variable if the user forgets one it generates and error, it is preferable to use a too that provides automated support.
-Refactoring is a very desirable activity to maintain the software quality, but because it is tedious and error prone, it is preferable to use a tool that provides automated support for it, saving time and preventing the addition of errors to a previously correct program.
+Refactoring is a very desirable activity to maintain software quality, but because it is tedious and error prone, it is preferable to use a tool that provides automated support for it, saving time and preventing the addition of errors to a previously correct program.
 
 %
 %talk about the lack of refactoring tools for inexperienced users and maybe the importance of using refactoring tools while learning how to program.
 There are many refactoring tools available but, unfortunately, they require considerable programing experience, making them unsuitable for inexperienced programmers.
 
 However, these are the programmers that would definitely benefit from these tools.
-Indeed, when an inexperienced programmer implements a solution to a given problem, it tends to write large fragments of code, lacking the modularity that an experienced programmer would do.
+Indeed, when an inexperienced programmer implements a solution to a given problem, he/she tends to write large fragments of code, lacking the modularity that an experienced programmer would do.
 For example, see Listing~\ref{lst:Fibonacci} which is an implementation in Python of a algorithm to print the first N Fibonacci numbers.
 This implementation can be improved if, instead of having one big function, we subdivide it in smaller functions that do the same job.
-To do that the user needs to extract functions, which is a refactoring operation.
-By having a refactoring tool that allows the user to extract functions the inexperienced users would improve the quality of the program in a safe way, as is visible in Listing~\ref{lst:FibonacciRefactored}
+To do that, the user needs to extract functions, which is a refactoring operation.
+By having a refactoring tool that allows the user to extract functions, the inexperienced users would improve the quality of the program in a safe way, as is visible in Listing~\ref{lst:FibonacciRefactored}
 
 
 
@@ -82,7 +82,8 @@ def fibonacci(number=1):
 \end{lstlisting}
 
 
-In the extract function refactoring operation, the user starts by choosing a set of expressions to extract and transform into a function, usually it is a  basic block or a set of basic blocks, where a basic block is a portion of code that only has one entry point and one exit point.
+In the extract function refactoring operation, the user starts by choosing a set of expressions to extract and transform into a function.
+Usually, it is a  basic block or a set of basic blocks, where a basic block is a portion of code that only has one entry point and one exit point.
 In the algorithm that prints the first N Fibonacci numbers example in Listing~\ref{lst:FibonacciRefactored}, the two functions extracted are the ``print\_fibonacci'' and ``'fibonacci\_seq''.
 %talk about refactoring for static languages and dynamic languages
 
@@ -90,9 +91,9 @@ The use of refactoring tools is fully adopted by the object oriented and statica
 For example, languages such as Java have IDEs such as, Eclipse \cite{carlson2005eclipse}, IntelliJ \cite{bock2011intellij} or NetBeans \cite{boudreau2002netbeans}, while C\# has Visual Studio \cite{guckenheimer2006software}.
 %When compared to the dynamic languages there is a lack of refactoring tools and refactoring operations.
 %talk about the lack of refactoring tools for dynamic languages
-Unfortunately that is not the case for the refactoring tools for dynamic languages. 
+Unfortunately, that is not the case for the refactoring tools for dynamic languages.
 The lack of information available during the refactoring is the biggest difference between refactoring tools for static languages and refactoring tools for dynamic languages.
-This difference is the main difficulty that made the refactoring tools for dynamic languages not evolve as the ones made for static languages, therefore making the refactoring tools for static languages largely used and considered a common tool in contrast with the refactoring tools for dynamic languages.   
+This difference is the main difficulty that made the refactoring tools for dynamic languages not evolve as the ones made for static languages, therefore making the refactoring tools for static languages largely used and considered a common tool in contrast with the refactoring tools for dynamic languages.
 
 Nonetheless, the importance of dynamic languages is growing. Dynamic languages are becoming popular among the scientific community.
 In addition, dynamic languages are often used in introductory courses around the world, for example, Scheme, Racket and Python.
@@ -102,11 +103,11 @@ A refactoring tool for a dynamic language adequate for inexperienced users would
 
 
 
-Section 2 addresses the objectives for this thesis work. 
+Section 2 addresses the objectives for this thesis work.
 Section 3 describes some definitions related to refactoring tools.
-Section 4 describes how the users refactor, it compares refactoring tools for static languages, it describes refactoring tools for dynamic languages, and language-independent refactoring tools.
-Section 5 describes the architecture of the proposed solution. 
-Section 6 explains how the tool will be evaluated and finally section 7 sums up the work.
+Section 4 describes how the users refactor, it compares refactoring tools for static languages, it describes refactoring tools for dynamic languages and language-independent refactoring tools.
+Section 5 describes the architecture of the proposed solution.
+Section 6 explains how the tool will be evaluated and, finally, section 7 sums up the work.
 
 
 
@@ -124,8 +125,8 @@ Section 6 explains how the tool will be evaluated and finally section 7 sums up 
 
 %Preserving the meaning is important because if the meaning changes, it transforms the program in a different program.
 
-%[REF] FIND IT 
-%The difference between Refactoring and restructuring is that Refactoring is used in literature to define the transformations that improve the program preserving the behavior in Object Oriented paradigm \cite{opdyke1992refactoring} \cite{fowlerrefactoring1999} whereas Restructuring is used for the rest. \cite{griswold1993automated} \cite{softrest1986} %[REF] 
+%[REF] FIND IT
+%The difference between Refactoring and restructuring is that Refactoring is used in literature to define the transformations that improve the program preserving the behavior in Object Oriented paradigm \cite{opdyke1992refactoring} \cite{fowlerrefactoring1999} whereas Restructuring is used for the rest. \cite{griswold1993automated} \cite{softrest1986} %[REF]
 
 
 %why we need refactoring tools[ref JunGL]
@@ -141,6 +142,3 @@ Section 6 explains how the tool will be evaluated and finally section 7 sums up 
 
 
 %The Section 2 addresses the objectives for this thesis work. Section 3 explore related work in refactoring and restructuring programs, some implemented restructuring tools and some implementations of language independent refactoring tools. Section 4 describes the architecture of the proposed solution. Section 5 explains how the tool will be evaluated and we conclude on section 6.
-
-
-

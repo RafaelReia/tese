@@ -21,41 +21,52 @@ Introduction:
 [Scietific community, explain] -> not true in general!!
 [FIXME] What is a pedagogic environmnet.
 
+[TODO] EXPLAIN clearly the starting point.
+
 OBjectives:
 [FIXME] What is a pedagogic environment??? [not sure]
 [FIXME] in what way is eclipse not pedagogic
 in addition to the users what is the level of complexity associated with
 the code being refactored.
 
-3.1 [Already discussed, maybe explain better]
+3.1
+[FIXME] exists combination refactoring
+[Already discussed, maybe explain better]
 'If software [missing word ]is not being [missing word] how
 are you going to evaluate your results'
+
+3.3.
+[FIXME] (!!!) There is no consensual definition for what bheavior preservation
 
 3.4 [FIXME] How experienced were the people doing the refactoring
 [FIXME] Relevance about finding out more aobut the program. regarting refactoring
 [FIXME] what does mean a lot of work keeping the initial representation
-[FIXME] Yet this documentation [missing word] be [missing word] for the
+[FIXME] Yet this documentation may be crucial for the
  refactoring process itself
 
  3.5.2 [FIXME] unreadable figure (fig 1)
  [FIXME] references and "..."
 3.5.4
-[FIXME] Ate porque uma ferramenta automatica ao e' nada de [missing words]
+[FIXME] Ate porque uma ferramenta automatica nao e' usada da mesma forma para
  os outros 2 tipos
 [FIXME] 'Semi-automatica may be the best to teach'
  [FIXME] change order of tables.
  4.1 [FIXME] criteria for better uses refactoring tools.
-
+[FIXME] propostion of non-Java developers
+[TODO] Explain why the usage of the refactorings is different
 
  4.2 [FIXME] table should mark most used ones
  [FIXME] Comparassion between languages
  4.4 [FIXME] Problems
+ 4.4.1 undo
+ [FIXME] isto parecem conclusoes gerais sobre refactorizacao (remove?)
  4.4.2 [FIXME] Does not explain how it works.
-
+ [FIXME] What is "right semantic"
  4.5 [FIXME] a lot of stuff
  [FIXME] Scope of automated refactoring
  [FIXME] remove randoop
-
+ [TODO] Who does usually benefit from automated refactoring?
+[FIXME] Scope of automated refactoring??
 
  4.6
  [FIXME] Remove repeated information/rewrite
@@ -69,3 +80,31 @@ are you going to evaluate your results'
 [FIXME] [important? argument?] [missing word] [missing word] operation?
 4.7.2
 [FIXME] criteriam? of complexity
+[FIXME] So, it represents [missing word] the program
+
+
+4.9.1
+[FIXME] What languages
+[FIXME] You end up not describing anything relevant about FAMIX
+
+4.9.2
+[FIXME] Requirements
+results
+more info??
+
+4.10
+[FIXME] are any at all? (refactoring tools for dynamic languages adequeate for inexperienced users)
+[FIXME] connection (with the previous sentense) is not [missing word] (basically it does not make any sense)
+
+5
+[FIXME] (again) how does eclipse fail at being a pedagogic environment (it may not be, but you have to be precise)
+[FIXME] Explain better why not python (it's much more useful)
+
+5.1.2
+[FIXME] A well known problem with refactoring and inexperienced users: they will trought(?? nao confirmam??) wrong results
+5.2.
+[FIXME] simpli statetement add details more details, details for everyone!!
+
+6
+[FIXME] not good [misisng word]
+[FIXME] explain better what does "theoretical languages and nor for languages actually used" mean
