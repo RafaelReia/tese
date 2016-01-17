@@ -1,0 +1,52 @@
+Python expanded:
+#<syntax:1:0 (module anonymous-module python/lang/python
+(#%module-begin (module configure-runtime (quote #%kernel)
+(#%module-begin (#%require racket/runtime-config) (#%app configure (quote #f))))
+(#%provide) (define-values (tmp) (quote #f))
+(define-values (anchor) (#%app make-namespace-anchor (#%variable-reference tmp)))
+(#%app call-with-values (lambda () (#%app namespace-for-eval
+(#%app namespace-anchor->namespace anchor))) print-values)
+(#%app call-with-values (lambda () (#%app set-name-of-module!)) print-values)))>
+
+
+Python non expanded:
+
+#<syntax:1:6 python/lang/python>
+
+
+Racket expanded:
+
+#<syntax:1:0 (module anonymous-module racket
+(#%module-begin (module configure-runtime (quote #%kernel)
+(#%module-begin (#%require racket/runtime-config) (#%app configure (quote #f))))))>
+
+#<syntax:1:0 (#%module-begin (module configure-runtime (quote #%kernel)
+(#%module-begin (#%require racket/runtime-config)
+(#%app configure (quote #f)))))>
+
+
+Racket non expanded:
+#<syntax:1:6 racket>
+
+Racket base expanded:
+#<syntax:1:0 (module anonymous-module racket/base (#%module-begin (module configure-runtime (quote #%kernel) (#%module-begin (#%require racket/runtime-config) (#%app configure (quote #f))))))>
+
+Racket base non expanded:
+#<syntax:1:6 racket/base>
+
+Imports:
+
+
+Racket
+
+Expanded:
+#<syntax:1:0 (module anonymous-module racket (#%module-begin (module configure-runtime (quote #%kernel) (#%module-begin (#%require racket/runtime-config) (#%app configure (quote #f)))) (#%require framework)))>
+
+Non Expanded:
+#<syntax:4:0 (require framework)>
+
+Python
+Expanded:
+
+Non Expanded:
+#<syntax:5:0 (py-from-mangle racket import ((time as :time)))>
