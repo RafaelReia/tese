@@ -71,7 +71,7 @@ are you going to evaluate your results'
  4.6
  [FIXME] Remove repeated information/rewrite
  [FIXME] rewrite to explain better.
-
+[FIXME] They may  not exist: dynamic bindings 
 
  4.7
  [FIXME] rewrite intro
@@ -79,8 +79,8 @@ are you going to evaluate your results'
 4.7.1
 [FIXME] [important? argument?] [missing word] [missing word] operation?
 4.7.2
-[FIXME] criteriam? of complexity
-[FIXME] So, it represents [missing word] the program
+[FIXME] limitation of complexity
+[FIXME] So, it represents requires running the program  (Yes it requires)
 
 
 4.9.1
